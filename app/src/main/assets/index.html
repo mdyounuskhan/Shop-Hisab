@@ -138,15 +138,38 @@ details.help p, details.help li{font-size:14px; color:var(--muted)}
     </div>
 
     <h2 class="sec">Balance right now</h2>
-    <div class="grid2">
-      <div class="stat"><div class="lbl"><span class="dot c"></span>Cash in hand</div><div class="val" id="balCash">Tk 0</div></div>
-      <div class="stat"><div class="lbl"><span class="dot b"></span>bKash</div><div class="val" id="balBkash">Tk 0</div></div>
-      <div class="stat"><div class="lbl"><span class="dot n"></span>Nagad</div><div class="val" id="balNagad">Tk 0</div></div>
-      <div class="stat"><div class="lbl"><span class="dot r"></span>Rocket</div><div class="val" id="balRocket">Tk 0</div></div>
+    <div class="stat hero" style="background:var(--green-soft); border-color:#CDE4D7">
+      <div class="lbl"><span class="dot c"></span>Cash in hand</div>
+      <div class="val" id="balCash" style="color:#2F7A54">Tk 0</div>
     </div>
+
     <div class="card" style="margin-top:12px">
       <div class="item" style="padding-top:0">
-        <div class="main"><div class="t">Total value (cash + all wallets)</div><div class="s">Live, all dates included</div></div>
+        <div class="main"><div class="t"><span class="dot b"></span> bKash — all SIM</div><div class="s">Agent + Personal + Merchant</div></div>
+        <div class="amt" id="balBkashTotal">Tk 0</div>
+      </div>
+      <div class="item"><div class="main"><div class="t">Agent SIM</div></div><div class="amt" id="bal_bKash_Agent">Tk 0</div></div>
+      <div class="item"><div class="main"><div class="t">Personal SIM</div></div><div class="amt" id="bal_bKash_Personal">Tk 0</div></div>
+      <div class="item"><div class="main"><div class="t">Merchant SIM</div></div><div class="amt" id="bal_bKash_Merchant">Tk 0</div></div>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <div class="item" style="padding-top:0">
+        <div class="main"><div class="t"><span class="dot n"></span> Nagad — all SIM</div><div class="s">Agent + Personal + Merchant</div></div>
+        <div class="amt" id="balNagadTotal">Tk 0</div>
+      </div>
+      <div class="item"><div class="main"><div class="t">Agent SIM</div></div><div class="amt" id="bal_Nagad_Agent">Tk 0</div></div>
+      <div class="item"><div class="main"><div class="t">Personal SIM</div></div><div class="amt" id="bal_Nagad_Personal">Tk 0</div></div>
+      <div class="item"><div class="main"><div class="t">Merchant SIM</div></div><div class="amt" id="bal_Nagad_Merchant">Tk 0</div></div>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <div class="item" style="padding-top:0">
+        <div class="main"><div class="t"><span class="dot r"></span> Rocket</div></div>
+        <div class="amt" id="bal_Rocket">Tk 0</div>
+      </div>
+      <div class="item" style="padding-bottom:0">
+        <div class="main"><div class="t">Total value (cash + all SIM)</div><div class="s">Live, all dates included</div></div>
         <div class="amt" id="balTotal">Tk 0</div>
       </div>
     </div>
@@ -170,7 +193,7 @@ details.help p, details.help li{font-size:14px; color:var(--muted)}
       <div class="row">
         <div><label for="sSell">Sell price / unit</label><input type="number" id="sSell" placeholder="0" inputmode="decimal"></div>
         <div><label for="sPay">Payment received in</label>
-          <select id="sPay"><option value="Cash">Cash</option><option value="bKash">bKash</option><option value="Nagad">Nagad</option><option value="Rocket">Rocket</option><option value="Due">Due (not paid)</option></select>
+          <select id="sPay"><option value="Cash">Cash</option><option value="bKash Agent">bKash Agent SIM</option><option value="bKash Personal">bKash Personal SIM</option><option value="bKash Merchant">bKash Merchant SIM</option><option value="Nagad Agent">Nagad Agent SIM</option><option value="Nagad Personal">Nagad Personal SIM</option><option value="Nagad Merchant">Nagad Merchant SIM</option><option value="Rocket">Rocket</option><option value="Due">Due (not paid)</option></select>
         </div>
       </div>
       <label for="sNote">Note (optional)</label>
@@ -198,23 +221,28 @@ details.help p, details.help li{font-size:14px; color:var(--muted)}
     <div class="card">
       <label for="bDate">Date</label>
       <input type="date" id="bDate">
-      <div class="row">
-        <div><label for="bService">Service</label>
-          <select id="bService"><option>bKash</option><option>Nagad</option><option>Rocket</option></select>
-        </div>
-        <div><label for="bType">Type</label>
-          <select id="bType">
-            <option value="cashin">Cash In / Send (customer gives cash)</option>
-            <option value="cashout">Cash Out (customer takes cash)</option>
-          </select>
-        </div>
-      </div>
+      <label for="bService">Which SIM / account</label>
+      <select id="bService">
+        <option value="bKash Agent">bKash Agent SIM</option>
+        <option value="bKash Personal">bKash Personal SIM</option>
+        <option value="bKash Merchant">bKash Merchant SIM</option>
+        <option value="Nagad Agent">Nagad Agent SIM</option>
+        <option value="Nagad Personal">Nagad Personal SIM</option>
+        <option value="Nagad Merchant">Nagad Merchant SIM</option>
+        <option value="Rocket">Rocket</option>
+      </select>
+      <label for="bType">What happened</label>
+      <select id="bType">
+        <option value="cashin">Cash In — I sent money to customer, I took cash</option>
+        <option value="cashout">Cash Out — customer took cash, money came into SIM</option>
+      </select>
       <div class="row">
         <div><label for="bAmount">Amount</label><input type="number" id="bAmount" placeholder="0" inputmode="decimal"></div>
-        <div><label for="bComm">Commission / charge earned</label><input type="number" id="bComm" placeholder="0" inputmode="decimal"></div>
+        <div><label for="bComm">Commission (auto)</label><input type="number" id="bComm" placeholder="0" inputmode="decimal"></div>
       </div>
-      <label for="bCommIn">Commission received in</label>
-      <select id="bCommIn"><option value="Cash">Cash</option><option value="Wallet">Wallet balance</option></select>
+      <div class="hint" id="bRateHint">Rate will show here.</div>
+      <label for="bCommIn">Commission goes to</label>
+      <select id="bCommIn"><option value="Wallet">SIM / wallet balance</option><option value="Cash">Cash in hand</option></select>
       <label for="bNote">Note (optional)</label>
       <input type="text" id="bNote" placeholder="Customer number / name">
       <div class="card" style="background:var(--soft); margin-top:14px">
@@ -244,7 +272,7 @@ details.help p, details.help li{font-size:14px; color:var(--muted)}
         <div><label for="eAmount">Amount</label><input type="number" id="eAmount" placeholder="0" inputmode="decimal"></div>
       </div>
       <label for="ePaidFrom">Paid from</label>
-      <select id="ePaidFrom"><option value="Cash">Cash</option><option value="bKash">bKash</option><option value="Nagad">Nagad</option><option value="Rocket">Rocket</option></select>
+      <select id="ePaidFrom"><option value="Cash">Cash</option><option value="bKash Agent">bKash Agent SIM</option><option value="bKash Personal">bKash Personal SIM</option><option value="bKash Merchant">bKash Merchant SIM</option><option value="Nagad Agent">Nagad Agent SIM</option><option value="Nagad Personal">Nagad Personal SIM</option><option value="Nagad Merchant">Nagad Merchant SIM</option><option value="Rocket">Rocket</option></select>
       <label for="eNote">Note (optional)</label>
       <input type="text" id="eNote" placeholder="Details">
       <div class="btn-row">
@@ -268,7 +296,7 @@ details.help p, details.help li{font-size:14px; color:var(--muted)}
       <div class="row">
         <div><label for="aAmount">Amount</label><input type="number" id="aAmount" placeholder="0" inputmode="decimal"></div>
         <div><label for="aWallet">Wallet</label>
-          <select id="aWallet"><option>bKash</option><option>Nagad</option><option>Rocket</option></select>
+          <select id="aWallet"><option value="bKash Agent">bKash Agent SIM</option><option value="bKash Personal">bKash Personal SIM</option><option value="bKash Merchant">bKash Merchant SIM</option><option value="Nagad Agent">Nagad Agent SIM</option><option value="Nagad Personal">Nagad Personal SIM</option><option value="Nagad Merchant">Nagad Merchant SIM</option><option value="Rocket">Rocket</option></select>
         </div>
       </div>
       <label for="aNote">Note (optional)</label>
@@ -324,11 +352,30 @@ details.help p, details.help li{font-size:14px; color:var(--muted)}
       <label for="setOpenCash">Opening cash in hand</label>
       <input type="number" id="setOpenCash" placeholder="0" inputmode="decimal">
       <div class="row">
-        <div><label for="setOpenBkash">Opening bKash</label><input type="number" id="setOpenBkash" placeholder="0" inputmode="decimal"></div>
-        <div><label for="setOpenNagad">Opening Nagad</label><input type="number" id="setOpenNagad" placeholder="0" inputmode="decimal"></div>
+        <div><label for="setOpen_bKash_Agent">bKash Agent SIM</label><input type="number" id="setOpen_bKash_Agent" placeholder="0" inputmode="decimal"></div>
+        <div><label for="setOpen_Nagad_Agent">Nagad Agent SIM</label><input type="number" id="setOpen_Nagad_Agent" placeholder="0" inputmode="decimal"></div>
       </div>
-      <label for="setOpenRocket">Opening Rocket</label>
-      <input type="number" id="setOpenRocket" placeholder="0" inputmode="decimal">
+      <div class="row">
+        <div><label for="setOpen_bKash_Personal">bKash Personal SIM</label><input type="number" id="setOpen_bKash_Personal" placeholder="0" inputmode="decimal"></div>
+        <div><label for="setOpen_Nagad_Personal">Nagad Personal SIM</label><input type="number" id="setOpen_Nagad_Personal" placeholder="0" inputmode="decimal"></div>
+      </div>
+      <div class="row">
+        <div><label for="setOpen_bKash_Merchant">bKash Merchant SIM</label><input type="number" id="setOpen_bKash_Merchant" placeholder="0" inputmode="decimal"></div>
+        <div><label for="setOpen_Nagad_Merchant">Nagad Merchant SIM</label><input type="number" id="setOpen_Nagad_Merchant" placeholder="0" inputmode="decimal"></div>
+      </div>
+      <label for="setOpen_Rocket">Opening Rocket</label>
+      <input type="number" id="setOpen_Rocket" placeholder="0" inputmode="decimal">
+
+      <h2 class="sec" style="margin-bottom:0">Commission rate (Tk per 1000)</h2>
+      <div class="hint">Any amount is calculated with this rate. Example: 4 per 1000 means Tk 2,500 gives Tk 10.</div>
+      <div class="row">
+        <div><label for="rate_bKash_Agent_in">bKash Agent — Cash In</label><input type="number" id="rate_bKash_Agent_in" placeholder="4" inputmode="decimal"></div>
+        <div><label for="rate_bKash_Agent_out">bKash Agent — Cash Out</label><input type="number" id="rate_bKash_Agent_out" placeholder="3.75" inputmode="decimal"></div>
+      </div>
+      <div class="row">
+        <div><label for="rate_Nagad_Agent_in">Nagad Agent — Cash In</label><input type="number" id="rate_Nagad_Agent_in" placeholder="4.10" inputmode="decimal"></div>
+        <div><label for="rate_Nagad_Agent_out">Nagad Agent — Cash Out</label><input type="number" id="rate_Nagad_Agent_out" placeholder="4.10" inputmode="decimal"></div>
+      </div>
       <div class="btn-row">
         <button class="btn secondary" type="button" id="setReset">Reset fields</button>
         <button class="btn" type="button" id="setSave">Save settings</button>
@@ -350,8 +397,9 @@ details.help p, details.help li{font-size:14px; color:var(--muted)}
     <details class="help">
       <summary>How the numbers work</summary>
       <ul>
-        <li><b>Cash In / Send:</b> cash in hand goes up, wallet balance goes down.</li>
-        <li><b>Cash Out:</b> cash in hand goes down, wallet balance goes up.</li>
+        <li><b>Cash In (I send money to customer):</b> cash in hand goes up, that SIM balance goes down.</li>
+        <li><b>Cash Out (customer takes cash):</b> cash in hand goes down, that SIM balance goes up.</li>
+        <li><b>Commission</b> is filled automatically from the rate per 1000 (bKash Agent 4 in / 3.75 out, Nagad Agent 4.10 both). You can type your own number any time. By default it is added to that SIM balance.</li>
         <li><b>Profit</b> = sales profit + commission − expense. Buying float or adding cash never counts as profit.</li>
         <li><b>Due sale:</b> profit is counted, but no cash is added until you record the payment as a new cash sale.</li>
       </ul>
@@ -373,20 +421,50 @@ details.help p, details.help li{font-size:14px; color:var(--muted)}
 (function(){
 "use strict";
 var KEY = "shopHisab.v1";
-var WALLETS = ["bKash","Nagad","Rocket"];
+var ACCOUNTS = ["bKash Agent","bKash Personal","bKash Merchant","Nagad Agent","Nagad Personal","Nagad Merchant","Rocket"];
+var DEFAULT_RATES = {
+  "bKash Agent":{ cin:4, cout:3.75 },
+  "bKash Personal":{ cin:0, cout:0 },
+  "bKash Merchant":{ cin:0, cout:0 },
+  "Nagad Agent":{ cin:4.10, cout:4.10 },
+  "Nagad Personal":{ cin:0, cout:0 },
+  "Nagad Merchant":{ cin:0, cout:0 },
+  "Rocket":{ cin:0, cout:0 }
+};
+var OLD_MAP = { "bKash":"bKash Agent", "Nagad":"Nagad Agent", "Rocket":"Rocket" };
+function idOf(acc){ return acc.replace(/ /g, "_"); }
 
 var db = load();
 function blank(){
-  return { settings:{ openCash:0, openBkash:0, openNagad:0, openRocket:0 }, sales:[], bank:[], expenses:[], adjust:[] };
+  var opening = { Cash:0 }, rates = {};
+  ACCOUNTS.forEach(function(a){
+    opening[a] = 0;
+    rates[a] = { cin:DEFAULT_RATES[a].cin, cout:DEFAULT_RATES[a].cout };
+  });
+  return { settings:{ opening:opening, rates:rates }, sales:[], bank:[], expenses:[], adjust:[] };
 }
+function mapAcc(v){ return (v && OLD_MAP[v]) ? OLD_MAP[v] : v; }
 function load(){
   try{
-    var raw = localStorage.getItem(KEY);
-    if(!raw) return blank();
-    var d = JSON.parse(raw);
     var b = blank();
-    b.settings = Object.assign(b.settings, d.settings||{});
-    b.sales = d.sales||[]; b.bank = d.bank||[]; b.expenses = d.expenses||[]; b.adjust = d.adjust||[];
+    var raw = localStorage.getItem(KEY);
+    if(!raw) return b;
+    var d = JSON.parse(raw);
+    var s = d.settings || {};
+    if(s.opening){ b.settings.opening = Object.assign(b.settings.opening, s.opening); }
+    else{
+      b.settings.opening.Cash = +s.openCash || 0;
+      b.settings.opening["bKash Agent"] = +s.openBkash || 0;
+      b.settings.opening["Nagad Agent"] = +s.openNagad || 0;
+      b.settings.opening["Rocket"] = +s.openRocket || 0;
+    }
+    if(s.rates){
+      ACCOUNTS.forEach(function(a){ if(s.rates[a]) b.settings.rates[a] = Object.assign(b.settings.rates[a], s.rates[a]); });
+    }
+    b.sales = (d.sales||[]).map(function(x){ if(x.pay && x.pay !== "Due" && x.pay !== "Cash") x.pay = mapAcc(x.pay); return x; });
+    b.bank = (d.bank||[]).map(function(x){ x.service = mapAcc(x.service); return x; });
+    b.expenses = (d.expenses||[]).map(function(x){ if(x.from && x.from !== "Cash") x.from = mapAcc(x.from); return x; });
+    b.adjust = (d.adjust||[]).map(function(x){ x.wallet = mapAcc(x.wallet); return x; });
     return b;
   }catch(e){ return blank(); }
 }
@@ -420,8 +498,8 @@ function toast(msg){
 
 /* ---------- money math ---------- */
 function balances(){
-  var s = db.settings;
-  var b = { Cash:num(s.openCash), bKash:num(s.openBkash), Nagad:num(s.openNagad), Rocket:num(s.openRocket) };
+  var b = { Cash:num(db.settings.opening.Cash) };
+  ACCOUNTS.forEach(function(a){ b[a] = num(db.settings.opening[a]); });
   db.sales.forEach(function(x){
     var total = num(x.sell) * num(x.qty);
     if(x.pay && x.pay !== "Due" && b.hasOwnProperty(x.pay)) b[x.pay] += total;
@@ -431,7 +509,7 @@ function balances(){
     if(!b.hasOwnProperty(w)) return;
     if(x.type === "cashin"){ b.Cash += amt; b[w] -= amt; }
     else { b.Cash -= amt; b[w] += amt; }
-    if(x.commIn === "Wallet") b[w] += com; else b.Cash += com;
+    if(x.commIn === "Cash") b.Cash += com; else b[w] += com;
   });
   db.expenses.forEach(function(x){
     var from = x.from || "Cash";
@@ -445,6 +523,16 @@ function balances(){
     else if(x.type === "sell_float"){ b.Cash += amt; if(b.hasOwnProperty(w)) b[w] -= amt; }
   });
   return b;
+}
+function groupTotal(b, prefix){
+  var t = 0;
+  ACCOUNTS.forEach(function(a){ if(a.indexOf(prefix) === 0) t += b[a]; });
+  return t;
+}
+function grandTotal(b){
+  var t = b.Cash;
+  ACCOUNTS.forEach(function(a){ t += b[a]; });
+  return t;
 }
 function inRange(ds, from, to){
   if(from && ds < from) return false;
@@ -548,10 +636,13 @@ function removeById(arr, id){
 function render(){
   var b = balances();
   $("balCash").textContent = money(b.Cash);
-  $("balBkash").textContent = money(b.bKash);
-  $("balNagad").textContent = money(b.Nagad);
-  $("balRocket").textContent = money(b.Rocket);
-  $("balTotal").textContent = money(b.Cash + b.bKash + b.Nagad + b.Rocket);
+  ACCOUNTS.forEach(function(a){
+    var el = $("bal_" + idOf(a));
+    if(el) el.textContent = money(b[a]);
+  });
+  $("balBkashTotal").textContent = money(groupTotal(b, "bKash"));
+  $("balNagadTotal").textContent = money(groupTotal(b, "Nagad"));
+  $("balTotal").textContent = money(grandTotal(b));
 
   var hd = $("homeDate").value || todayStr();
   var t = totals(hd, hd);
@@ -713,19 +804,38 @@ function clearSale(){
 $("sClear").addEventListener("click", clearSale);
 
 /* ---------- bank form ---------- */
+var commEdited = false;
+function currentRate(){
+  var r = db.settings.rates[$("bService").value] || { cin:0, cout:0 };
+  return $("bType").value === "cashin" ? num(r.cin) : num(r.cout);
+}
+function autoComm(){
+  return Math.round((num($("bAmount").value) / 1000) * currentRate() * 100) / 100;
+}
+function refreshComm(){
+  if(!commEdited){
+    var v = autoComm();
+    $("bComm").value = v ? v : "";
+  }
+  bankPreview();
+}
 function bankPreview(){
   var amt = num($("bAmount").value), com = num($("bComm").value);
   var w = $("bService").value, isIn = $("bType").value === "cashin";
   var cashDelta = isIn ? amt : -amt;
   var walletDelta = isIn ? -amt : amt;
-  if($("bCommIn").value === "Wallet") walletDelta += com; else cashDelta += com;
+  if($("bCommIn").value === "Cash") cashDelta += com; else walletDelta += com;
+  $("bRateHint").textContent = w + " · " + (isIn ? "Cash In" : "Cash Out") + " rate " + currentRate() +
+    " Tk per 1000 · auto commission " + money(autoComm()) + (commEdited ? " (you typed your own)" : "");
   $("bEffect").textContent = "Cash " + (cashDelta>=0?"+":"−") + money(Math.abs(cashDelta)) +
     "  ·  " + w + " " + (walletDelta>=0?"+":"−") + money(Math.abs(walletDelta)) +
     "  ·  profit +" + money(com);
 }
-["bAmount","bComm","bService","bType","bCommIn"].forEach(function(id){
-  $(id).addEventListener("input", bankPreview); $(id).addEventListener("change", bankPreview);
+["bAmount","bService","bType"].forEach(function(id){
+  $(id).addEventListener("input", refreshComm); $(id).addEventListener("change", refreshComm);
 });
+$("bCommIn").addEventListener("change", bankPreview);
+$("bComm").addEventListener("input", function(){ commEdited = true; bankPreview(); });
 $("bSave").addEventListener("click", function(){
   if(num($("bAmount").value) <= 0){ toast("Write the amount"); $("bAmount").focus(); return; }
   db.bank.push({
@@ -734,7 +844,7 @@ $("bSave").addEventListener("click", function(){
   });
   save(); clearBank(); render(); toast("Transaction saved");
 });
-function clearBank(){ $("bAmount").value = ""; $("bComm").value = ""; $("bNote").value = ""; bankPreview(); }
+function clearBank(){ $("bAmount").value = ""; $("bComm").value = ""; $("bNote").value = ""; commEdited = false; refreshComm(); }
 $("bClear").addEventListener("click", clearBank);
 
 /* ---------- expense + adjust ---------- */
@@ -758,18 +868,32 @@ $("aSave").addEventListener("click", function(){
 $("aClear").addEventListener("click", function(){ $("aAmount").value=""; $("aNote").value=""; });
 
 /* ---------- settings + backup ---------- */
+var RATE_FIELDS = ["bKash Agent","Nagad Agent"];
 function fillSettings(){
-  $("setOpenCash").value = db.settings.openCash || "";
-  $("setOpenBkash").value = db.settings.openBkash || "";
-  $("setOpenNagad").value = db.settings.openNagad || "";
-  $("setOpenRocket").value = db.settings.openRocket || "";
+  $("setOpenCash").value = db.settings.opening.Cash || "";
+  ACCOUNTS.forEach(function(a){
+    var el = $("setOpen_" + idOf(a));
+    if(el) el.value = db.settings.opening[a] || "";
+  });
+  RATE_FIELDS.forEach(function(a){
+    var r = db.settings.rates[a] || { cin:0, cout:0 };
+    var i = $("rate_" + idOf(a) + "_in"), o = $("rate_" + idOf(a) + "_out");
+    if(i) i.value = r.cin;
+    if(o) o.value = r.cout;
+  });
 }
 $("setSave").addEventListener("click", function(){
-  db.settings.openCash = num($("setOpenCash").value);
-  db.settings.openBkash = num($("setOpenBkash").value);
-  db.settings.openNagad = num($("setOpenNagad").value);
-  db.settings.openRocket = num($("setOpenRocket").value);
-  save(); render(); toast("Settings saved");
+  db.settings.opening.Cash = num($("setOpenCash").value);
+  ACCOUNTS.forEach(function(a){
+    var el = $("setOpen_" + idOf(a));
+    if(el) db.settings.opening[a] = num(el.value);
+  });
+  RATE_FIELDS.forEach(function(a){
+    var i = $("rate_" + idOf(a) + "_in"), o = $("rate_" + idOf(a) + "_out");
+    if(i) db.settings.rates[a].cin = num(i.value);
+    if(o) db.settings.rates[a].cout = num(o.value);
+  });
+  save(); refreshComm(); render(); toast("Settings saved");
 });
 $("setReset").addEventListener("click", fillSettings);
 function download(name, text, mime){
@@ -805,8 +929,8 @@ $("fileImport").addEventListener("change", function(e){
       var d = JSON.parse(r.result);
       if(!d || typeof d !== "object") throw new Error("bad");
       if(!confirm("Replace all current data with this backup?")) return;
-      db = { settings:Object.assign(blank().settings, d.settings||{}), sales:d.sales||[], bank:d.bank||[], expenses:d.expenses||[], adjust:d.adjust||[] };
-      save(); fillSettings(); render(); toast("Backup restored");
+      localStorage.setItem(KEY, JSON.stringify(d));
+      db = load(); save(); fillSettings(); refreshComm(); render(); toast("Backup restored");
     }catch(err){ toast("That file could not be read"); }
   };
   r.readAsText(f);
@@ -828,7 +952,7 @@ buildChips("bankRange","bank");
 buildChips("expRange","exp");
 buildChips("repRange","rep");
 var r0 = rangeDates("rep"); $("repFrom").value = r0.from; $("repTo").value = r0.to;
-fillSettings(); salePreview(); bankPreview(); render();
+fillSettings(); salePreview(); refreshComm(); render();
 
 /* offline service worker (only works when opened from http/https, not file://) */
 if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
