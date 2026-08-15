@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#2783DE">
+<meta name="theme-color" content="#5B4BF5">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -111,6 +111,48 @@ details.help{background:var(--canvas); border:1px solid var(--border); border-ra
 details.help summary{cursor:pointer; font-weight:600; font-size:15px}
 details.help p, details.help li{font-size:14px; color:var(--muted)}
 @media (max-width:400px){ .grid2{gap:10px} .stat .val{font-size:20px} .stat.hero .val{font-size:26px} }
+/* ================= colourful theme ================= */
+:root{
+  --text:#1F2136; --muted:#6E7392; --canvas:#FFFFFF; --soft:#F2F4FD; --surface2:#EBEEFB;
+  --border:#E3E7F6; --blue:#5B4BF5; --blue-soft:#EAE7FF;
+  --green:#0EA06A; --green-soft:#E2F7EF; --orange:#F0821E; --orange-soft:#FFF0DF;
+  --red:#EF4B5C; --red-soft:#FFE9EB; --pink:#E2136E; --violet:#8B5CF6; --amber:#F59E0B;
+  --radius:16px;
+}
+body{background:var(--soft)}
+header.app{background:linear-gradient(120deg,#5B4BF5 0%,#8B5CF6 48%,#E2136E 100%); border-bottom:0; padding:16px}
+.app-title{font-size:19px; font-weight:750; color:#fff}
+.app-sub{color:rgba(255,255,255,.88)}
+h2.sec{display:flex; align-items:center; gap:8px; font-size:15px}
+h2.sec:before{content:""; width:4px; height:16px; border-radius:3px; background:linear-gradient(#5B4BF5,#E2136E)}
+.card{border:0; border-radius:var(--radius); box-shadow:0 4px 16px rgba(31,33,54,.07)}
+.stat{border:0; border-radius:var(--radius); box-shadow:0 4px 16px rgba(31,33,54,.07)}
+.stat.hero{background:linear-gradient(120deg,#5B4BF5,#8B5CF6); border:0}
+.stat.hero .lbl{color:rgba(255,255,255,.9)}
+.stat.hero .val{color:#fff; font-size:30px}
+.stat.cash{background:linear-gradient(120deg,#0E9F6E,#34D399)}
+.stat.due{background:linear-gradient(120deg,#F59E0B,#FBBF24)}
+.card.bk{background:linear-gradient(135deg,#FFF1F7,#FFFFFF 62%); border-left:5px solid #E2136E}
+.card.ng{background:linear-gradient(135deg,#FFF4E9,#FFFFFF 62%); border-left:5px solid #F0821E}
+.card.rk{background:linear-gradient(135deg,#F7EEFD,#FFFFFF 62%); border-left:5px solid #8C3494}
+.btn{background:linear-gradient(120deg,#5B4BF5,#8B5CF6); border:0; border-radius:13px; box-shadow:0 6px 16px rgba(91,75,245,.26)}
+.btn.secondary{background:#fff; color:var(--text); border:1px solid var(--border); box-shadow:none}
+.btn.danger{background:#fff; color:var(--red); border:1px solid #FBC7CD; box-shadow:none}
+input,select,textarea{border-radius:12px; border-color:var(--border)}
+.chip{border-radius:999px}
+.chip.on{background:linear-gradient(120deg,#5B4BF5,#8B5CF6); border-color:transparent; color:#fff}
+.tag{background:var(--blue-soft); color:#4B3BD8}
+.tag.in{background:var(--green-soft); color:#0B7A52}
+.tag.out{background:var(--orange-soft); color:#B4600F}
+.dot.b{background:#E2136E} .dot.n{background:#F0821E} .dot.c{background:#0EA06A} .dot.r{background:#8C3494} .dot.d{background:#F59E0B}
+nav.tabs{grid-template-columns:repeat(6,1fr); border-top:0; box-shadow:0 -4px 18px rgba(31,33,54,.09)}
+nav.tabs button{font-size:10px}
+nav.tabs button.on{color:var(--blue)}
+details.help{border:0; box-shadow:0 4px 16px rgba(31,33,54,.07)}
+.toast{background:#1F2136; border-radius:12px}
+.item{border-bottom:1px solid var(--border)}
+@media (max-width:360px){ nav.tabs button{font-size:9px} nav.tabs button svg{width:20px;height:20px} }
+
 .modal{position:fixed; inset:0; background:rgba(20,20,19,.45); display:none; align-items:center; justify-content:center; padding:24px; z-index:120}
 .modal.show{display:flex}
 .modal .box{background:#fff; border-radius:18px; padding:20px; width:100%; max-width:340px; box-shadow:0 16px 48px rgba(0,0,0,.22)}
@@ -142,12 +184,12 @@ details.help p, details.help li{font-size:14px; color:var(--muted)}
     </div>
 
     <h2 class="sec">Balance right now</h2>
-    <div class="stat hero" style="background:var(--green-soft); border-color:#CDE4D7">
-      <div class="lbl"><span class="dot c"></span>Cash in hand</div>
-      <div class="val" id="balCash" style="color:#2F7A54">Tk 0</div>
+    <div class="stat hero cash">
+      <div class="lbl">Cash in hand</div>
+      <div class="val" id="balCash">Tk 0</div>
     </div>
 
-    <div class="card" style="margin-top:12px">
+    <div class="card bk" style="margin-top:12px">
       <div class="item" style="padding-top:0">
         <div class="main"><div class="t"><span class="dot b"></span> bKash — all SIM</div><div class="s">Agent + Personal + Merchant</div></div>
         <div class="amt" id="balBkashTotal">Tk 0</div>
@@ -157,7 +199,7 @@ details.help p, details.help li{font-size:14px; color:var(--muted)}
       <div class="item"><div class="main"><div class="t">Merchant SIM</div></div><div class="amt" id="bal_bKash_Merchant">Tk 0</div></div>
     </div>
 
-    <div class="card" style="margin-top:12px">
+    <div class="card ng" style="margin-top:12px">
       <div class="item" style="padding-top:0">
         <div class="main"><div class="t"><span class="dot n"></span> Nagad — all SIM</div><div class="s">Agent + Personal + Merchant</div></div>
         <div class="amt" id="balNagadTotal">Tk 0</div>
@@ -167,7 +209,7 @@ details.help p, details.help li{font-size:14px; color:var(--muted)}
       <div class="item"><div class="main"><div class="t">Merchant SIM</div></div><div class="amt" id="bal_Nagad_Merchant">Tk 0</div></div>
     </div>
 
-    <div class="card" style="margin-top:12px">
+    <div class="card rk" style="margin-top:12px">
       <div class="item" style="padding-top:0">
         <div class="main"><div class="t"><span class="dot r"></span> Rocket</div></div>
         <div class="amt" id="bal_Rocket">Tk 0</div>
@@ -176,6 +218,11 @@ details.help p, details.help li{font-size:14px; color:var(--muted)}
         <div class="main"><div class="t">Total value (cash + all SIM)</div><div class="s">Live, all dates included</div></div>
         <div class="amt" id="balTotal">Tk 0</div>
       </div>
+    </div>
+
+    <div class="stat hero due" style="margin-top:12px">
+      <div class="lbl">Baki — customers owe me</div>
+      <div class="val" id="balDue">Tk 0</div>
     </div>
 
     <h2 class="sec">Today's entries</h2>
@@ -200,8 +247,10 @@ details.help p, details.help li{font-size:14px; color:var(--muted)}
           <select id="sPay"><option value="Cash">Cash</option><option value="bKash Agent">bKash Agent SIM</option><option value="bKash Personal">bKash Personal SIM</option><option value="bKash Merchant">bKash Merchant SIM</option><option value="Nagad Agent">Nagad Agent SIM</option><option value="Nagad Personal">Nagad Personal SIM</option><option value="Nagad Merchant">Nagad Merchant SIM</option><option value="Rocket">Rocket</option><option value="Due">Due (not paid)</option></select>
         </div>
       </div>
+      <label for="sCustomer">Customer name (needed for a Due sale)</label>
+      <input type="text" id="sCustomer" placeholder="e.g. Rahim bhai" list="partyList">
       <label for="sNote">Note (optional)</label>
-      <input type="text" id="sNote" placeholder="Customer name / IMEI / warranty">
+      <input type="text" id="sNote" placeholder="IMEI / warranty / details">
       <div class="card" style="background:var(--soft); margin-top:14px">
         <div class="item" style="padding:0;border:0">
           <div class="main"><div class="t" id="sPreviewTotal">Total Tk 0</div><div class="s">Profit on this sale</div></div>
@@ -407,16 +456,82 @@ details.help p, details.help li{font-size:14px; color:var(--muted)}
         <li><b>Personal / Merchant SIM — Cash Out:</b> money leaves that SIM, so cash in hand goes up and the SIM balance goes down.</li>
         <li><b>Commission</b> is filled automatically from the rate per 1000 (bKash Agent 4 in / 3.75 out, Nagad Agent 4.10 both). You can type your own number any time. By default it is added to that SIM balance.</li>
         <li><b>Profit</b> = sales profit + commission − expense. Buying float or adding cash never counts as profit.</li>
-        <li><b>Due sale:</b> profit is counted, but no cash is added until you record the payment as a new cash sale.</li>
+        <li><b>Due sale:</b> profit is counted, but no cash is added. The amount goes into the <b>Baki</b> tab under that customer's name. When they pay, record it there as "Taka pelam".</li>
       </ul>
     </details>
   </section>
+  <!-- ================= BAKI / DUE ================= -->
+  <section class="view" id="view-due">
+    <h2 class="sec">Baki khata</h2>
+    <div class="stat hero due">
+      <div class="lbl">Total baki — customers owe me</div>
+      <div class="val" id="dueTotalTop">Tk 0</div>
+    </div>
+
+    <h2 class="sec">Add baki entry</h2>
+    <div class="card">
+      <label for="dDate">Date</label>
+      <input type="date" id="dDate">
+      <label for="dParty">Customer name</label>
+      <input type="text" id="dParty" placeholder="e.g. Rahim bhai" list="partyList">
+      <div class="row">
+        <div><label for="dPhone">Phone (optional)</label><input type="tel" id="dPhone" placeholder="01XXXXXXXXX" inputmode="tel"></div>
+        <div><label for="dAmount">Amount</label><input type="number" id="dAmount" placeholder="0" inputmode="decimal"></div>
+      </div>
+      <label for="dType">What happened</label>
+      <select id="dType">
+        <option value="given">Baki dilam — customer owes me more</option>
+        <option value="received">Taka pelam — customer paid me back</option>
+      </select>
+      <label for="dWhere" id="dWhereLabel">What did I give</label>
+      <select id="dWhere">
+        <option value="None">Goods / service (no cash moved)</option>
+        <option value="Cash">Cash</option>
+        <option value="bKash Agent">bKash Agent SIM</option>
+        <option value="bKash Personal">bKash Personal SIM</option>
+        <option value="bKash Merchant">bKash Merchant SIM</option>
+        <option value="Nagad Agent">Nagad Agent SIM</option>
+        <option value="Nagad Personal">Nagad Personal SIM</option>
+        <option value="Nagad Merchant">Nagad Merchant SIM</option>
+        <option value="Rocket">Rocket</option>
+      </select>
+      <label for="dNote">Note (optional)</label>
+      <input type="text" id="dNote" placeholder="What it was for">
+      <div class="card" style="background:var(--soft); margin-top:14px; box-shadow:none">
+        <div class="s" id="dEffect" style="font-size:14px; color:var(--muted)">Effect will show here.</div>
+      </div>
+      <div class="btn-row">
+        <button class="btn secondary" type="button" id="dClear">Clear</button>
+        <button class="btn" type="button" id="dSave">Save baki</button>
+      </div>
+    </div>
+
+    <h2 class="sec">Who owes me</h2>
+    <div class="card"><div class="list" id="duePartyList"></div></div>
+
+    <h2 class="sec">Baki entries</h2>
+    <div class="chipbar" id="dueRange"></div>
+    <div class="card"><div class="list" id="dueList"></div></div>
+
+    <details class="help">
+      <summary>How baki khata works</summary>
+      <ul>
+        <li><b>Sales tab:</b> choose payment <b>Due (not paid)</b> and write the customer name — it comes here automatically.</li>
+        <li><b>Baki dilam:</b> customer owes more. If you gave goods, keep "Goods / service" so no cash moves. If you handed cash, choose Cash.</li>
+        <li><b>Taka pelam:</b> customer paid back — choose where the money came in (Cash, bKash, Nagad…). Baki goes down, that balance goes up.</li>
+        <li>Profit is already counted on the day of the sale, so a payback is not counted as profit again.</li>
+      </ul>
+    </details>
+  </section>
+
+  <datalist id="partyList"></datalist>
 </main>
 
 <nav class="tabs" id="tabs">
   <button data-view="home" class="on"><svg viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg>Home</button>
   <button data-view="sales"><svg viewBox="0 0 24 24"><path d="M4 7h16l-1.5 12H5.5z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>Sales</button>
   <button data-view="bank"><svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></svg>Banking</button>
+  <button data-view="due"><svg viewBox="0 0 24 24"><path d="M5 4h11l3 3v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M8 10h8M8 14h5"/></svg>Baki</button>
   <button data-view="expense"><svg viewBox="0 0 24 24"><path d="M3 8h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M3 8l3-4h12l3 4"/><path d="M9 13h6"/></svg>Expense</button>
   <button data-view="report"><svg viewBox="0 0 24 24"><path d="M4 20V6"/><path d="M4 20h16"/><path d="M8 20v-6M13 20V9M18 20v-9"/></svg>Report</button>
 </nav>
@@ -458,7 +573,7 @@ function blank(){
     opening[a] = 0;
     rates[a] = { cin:DEFAULT_RATES[a].cin, cout:DEFAULT_RATES[a].cout };
   });
-  return { settings:{ opening:opening, rates:rates }, sales:[], bank:[], expenses:[], adjust:[] };
+  return { settings:{ opening:opening, rates:rates }, sales:[], bank:[], expenses:[], adjust:[], dues:[] };
 }
 function mapAcc(v){ return (v && OLD_MAP[v]) ? OLD_MAP[v] : v; }
 function load(){
@@ -482,6 +597,7 @@ function load(){
     b.bank = (d.bank||[]).map(function(x){ x.service = mapAcc(x.service); return x; });
     b.expenses = (d.expenses||[]).map(function(x){ if(x.from && x.from !== "Cash") x.from = mapAcc(x.from); return x; });
     b.adjust = (d.adjust||[]).map(function(x){ x.wallet = mapAcc(x.wallet); return x; });
+    b.dues = (d.dues||[]).map(function(x){ if(x.where && x.where !== "None" && x.where !== "Cash") x.where = mapAcc(x.where); return x; });
     return b;
   }catch(e){ return blank(); }
 }
@@ -555,6 +671,11 @@ function balances(){
     else if(x.type === "buy_float"){ b.Cash -= amt; if(b.hasOwnProperty(w)) b[w] += amt; }
     else if(x.type === "sell_float"){ b.Cash += amt; if(b.hasOwnProperty(w)) b[w] -= amt; }
   });
+  db.dues.forEach(function(x){
+    var amt = num(x.amount), w = x.where;
+    if(!w || w === "None" || !b.hasOwnProperty(w)) return;
+    if(x.type === "received") b[w] += amt; else b[w] -= amt;
+  });
   return b;
 }
 function groupTotal(b, prefix){
@@ -571,6 +692,22 @@ function inRange(ds, from, to){
   if(from && ds < from) return false;
   if(to && ds > to) return false;
   return true;
+}
+/* ---------- baki / due helpers ---------- */
+function dueByParty(){
+  var map = {}, order = [];
+  db.dues.forEach(function(x){
+    var p = ((x.party || "Unknown").trim()) || "Unknown";
+    if(!map[p]){ map[p] = { party:p, phone:"", amount:0 }; order.push(p); }
+    if(x.phone) map[p].phone = x.phone;
+    map[p].amount += (x.type === "received" ? -num(x.amount) : num(x.amount));
+  });
+  return order.map(function(p){ return map[p]; });
+}
+function dueTotalAll(){
+  var t = 0;
+  db.dues.forEach(function(x){ t += (x.type === "received" ? -num(x.amount) : num(x.amount)); });
+  return t;
 }
 function totals(from, to){
   var t = { saleAmt:0, saleProfit:0, comm:0, exp:0, cashIn:0, cashOut:0, net:0, items:0 };
@@ -592,7 +729,7 @@ function totals(from, to){
 }
 
 /* ---------- navigation ---------- */
-var views = ["home","sales","bank","expense","report"];
+var views = ["home","sales","bank","due","expense","report"];
 function go(v){
   views.forEach(function(name){ $("view-"+name).classList.toggle("active", name===v); });
   Array.prototype.forEach.call($("tabs").children, function(btn){ btn.classList.toggle("on", btn.dataset.view===v); });
@@ -604,7 +741,7 @@ Array.prototype.forEach.call($("tabs").children, function(btn){
 });
 
 /* ---------- range chips ---------- */
-var ranges = { sales:"today", bank:"today", exp:"today", rep:"month" };
+var ranges = { sales:"today", bank:"today", exp:"today", rep:"month", due:"all" };
 function buildChips(holderId, key){
   var holder = $(holderId);
   var opts = [["today","Today"],["7","Last 7 days"],["month","This month"],["all","All"]];
@@ -676,6 +813,32 @@ function render(){
   $("balBkashTotal").textContent = money(groupTotal(b, "bKash"));
   $("balNagadTotal").textContent = money(groupTotal(b, "Nagad"));
   $("balTotal").textContent = money(grandTotal(b));
+  $("balDue").textContent = money(dueTotalAll());
+  $("dueTotalTop").textContent = money(dueTotalAll());
+
+  /* baki khata */
+  var parties = dueByParty();
+  var pl = $("partyList"); pl.innerHTML = "";
+  parties.forEach(function(p){ var o = document.createElement("option"); o.value = p.party; pl.appendChild(o); });
+  var pw = $("duePartyList"); pw.innerHTML = "";
+  var owing = parties.filter(function(p){ return Math.round(p.amount*100) !== 0; })
+                     .sort(function(a,z){ return z.amount - a.amount; });
+  if(!owing.length) pw.innerHTML = emptyRow("Nobody owes anything right now.");
+  owing.forEach(function(p){
+    pw.appendChild(rowEl(p.party, p.phone ? escapeHtml(p.phone) : "no phone saved",
+      money(Math.abs(p.amount)), p.amount < 0 ? "advance with me" : "baki", p.amount < 0 ? "pos" : "", null));
+  });
+  var dr = rangeDates("due");
+  var dl = $("dueList"); dl.innerHTML = "";
+  var drows = db.dues.filter(function(x){ return inRange(x.date, dr.from, dr.to); }).slice().reverse();
+  if(!drows.length) dl.innerHTML = emptyRow("No baki entry in this period.");
+  drows.forEach(function(x){
+    var given = x.type === "given";
+    var sub = pretty(x.date) + ' · <span class="tag ' + (given ? "out" : "in") + '">' + (given ? "Baki" : "Paid") + "</span>" +
+      (x.where && x.where !== "None" ? x.where : "goods") + (x.note ? " · " + escapeHtml(x.note) : "");
+    dl.appendChild(rowEl(x.party || "Customer", sub, (given ? "+" : "−") + money(num(x.amount)), null,
+      given ? "" : "pos", function(){ removeById(db.dues, x.id); }));
+  });
 
   var hd = $("homeDate").value || todayStr();
   var t = totals(hd, hd);
@@ -693,6 +856,7 @@ function render(){
   db.bank.forEach(function(x){ if(x.date===hd) events.push({ k:"bank", x:x }); });
   db.expenses.forEach(function(x){ if(x.date===hd) events.push({ k:"exp", x:x }); });
   db.adjust.forEach(function(x){ if(x.date===hd) events.push({ k:"adj", x:x }); });
+  db.dues.forEach(function(x){ if(x.date===hd) events.push({ k:"due", x:x }); });
   if(!events.length){ feed.innerHTML = emptyRow("No entry for this day yet."); }
   else{
     events.reverse().forEach(function(e){
@@ -705,6 +869,9 @@ function render(){
         feed.appendChild(rowEl(x.service+" "+lbl, '<span class="tag '+(x.type==="cashin"?"in":"out")+'">'+lbl+"</span>comm "+money(num(x.comm)), money(num(x.amount)), null, "", null));
       } else if(e.k==="exp"){
         feed.appendChild(rowEl(x.cat||"Expense", '<span class="tag">Expense</span>'+(x.from||"Cash"), "−"+money(num(x.amount)), null, "neg", null));
+      } else if(e.k==="due"){
+        var dgiven = x.type === "given";
+        feed.appendChild(rowEl(x.party||"Customer", '<span class="tag '+(dgiven?"out":"in")+'">'+(dgiven?"Baki":"Paid")+"</span>"+(x.where && x.where!=="None" ? x.where : "goods"), (dgiven?"+":"−")+money(num(x.amount)), null, dgiven ? "" : "pos", null));
       } else {
         feed.appendChild(rowEl(adjLabel(x), '<span class="tag">Adjust</span>'+(x.wallet||""), money(num(x.amount)), null, "", null));
       }
@@ -719,7 +886,10 @@ function render(){
   rows.forEach(function(x){
     var profit = (num(x.sell)-num(x.buy))*num(x.qty);
     var sub = pretty(x.date)+" · "+x.qty+" × "+money(num(x.sell))+" · "+x.pay + (x.note ? " · "+escapeHtml(x.note) : "");
-    list.appendChild(rowEl(x.item||"Sale", sub, money(num(x.sell)*num(x.qty)), "profit "+money(profit), "", function(){ removeById(db.sales, x.id); }));
+    list.appendChild(rowEl(x.item||"Sale", sub, money(num(x.sell)*num(x.qty)), "profit "+money(profit), "", function(){
+      removeById(db.sales, x.id);
+      db.dues = db.dues.filter(function(d){ return d.saleId !== x.id; });
+    }));
   });
 
   /* bank list */
@@ -826,13 +996,21 @@ $("sSave").addEventListener("click", function(){
   db.sales.push({
     id:uid(), date:$("sDate").value || todayStr(), item:item,
     qty:Math.max(1, num($("sQty").value)||1), buy:num($("sBuy").value), sell:num($("sSell").value),
-    pay:$("sPay").value, note:$("sNote").value.trim()
+    pay:$("sPay").value, note:$("sNote").value.trim(), customer:$("sCustomer").value.trim()
   });
-  save(); clearSale(); render(); toast("Sale saved");
+  var ns = db.sales[db.sales.length-1];
+  if(ns.pay === "Due"){
+    db.dues.push({
+      id:uid(), date:ns.date, party:ns.customer || "Unknown", phone:"", type:"given",
+      amount:num(ns.sell)*num(ns.qty), where:"None",
+      note:"Due sale: " + (ns.item || "item"), saleId:ns.id
+    });
+  }
+  save(); clearSale(); render(); toast(ns.pay === "Due" ? "Sale saved in baki khata" : "Sale saved");
 });
 function clearSale(){
   $("sItem").value = ""; $("sQty").value = "1"; $("sBuy").value = ""; $("sSell").value = "";
-  $("sNote").value = ""; salePreview();
+  $("sNote").value = ""; $("sCustomer").value = ""; salePreview();
 }
 $("sClear").addEventListener("click", clearSale);
 
@@ -891,6 +1069,34 @@ $("bSave").addEventListener("click", function(){
 });
 function clearBank(){ $("bAmount").value = ""; $("bComm").value = ""; $("bNote").value = ""; commEdited = false; refreshComm(); }
 $("bClear").addEventListener("click", clearBank);
+
+/* ---------- baki / due form ---------- */
+function duePreview(){
+  var amt = num($("dAmount").value), given = $("dType").value === "given", w = $("dWhere").value;
+  $("dWhereLabel").textContent = given ? "What did I give" : "Money came into";
+  var txt = given ? "Baki +" + money(amt) : "Baki −" + money(amt);
+  txt += (w && w !== "None") ? "  ·  " + w + " " + (given ? "−" : "+") + money(amt) : "  ·  no cash movement";
+  $("dEffect").textContent = txt;
+}
+["dAmount","dWhere"].forEach(function(id){
+  $(id).addEventListener("input", duePreview); $(id).addEventListener("change", duePreview);
+});
+$("dType").addEventListener("change", function(){
+  $("dWhere").value = $("dType").value === "given" ? "None" : "Cash";
+  duePreview();
+});
+$("dSave").addEventListener("click", function(){
+  if(!$("dParty").value.trim()){ toast("Write the customer name"); $("dParty").focus(); return; }
+  if(num($("dAmount").value) <= 0){ toast("Write the amount"); $("dAmount").focus(); return; }
+  db.dues.push({
+    id:uid(), date:$("dDate").value || todayStr(), party:$("dParty").value.trim(),
+    phone:$("dPhone").value.trim(), type:$("dType").value, amount:num($("dAmount").value),
+    where:$("dWhere").value, note:$("dNote").value.trim()
+  });
+  save(); clearDue(); render(); toast("Baki entry saved");
+});
+function clearDue(){ $("dAmount").value = ""; $("dNote").value = ""; duePreview(); }
+$("dClear").addEventListener("click", clearDue);
 
 /* ---------- expense + adjust ---------- */
 $("eSave").addEventListener("click", function(){
@@ -958,6 +1164,7 @@ $("btnExportCsv").addEventListener("click", function(){
   db.bank.forEach(function(x){ rows.push([x.type==="cashin"?"cash-in":"cash-out",x.date,x.service,"","","",x.amount,x.comm,x.commIn,x.note||""]); });
   db.expenses.forEach(function(x){ rows.push(["expense",x.date,x.cat,"","","",x.amount,"",x.from,x.note||""]); });
   db.adjust.forEach(function(x){ rows.push(["adjust",x.date,adjLabel(x),"","","",x.amount,"",x.wallet||"",x.note||""]); });
+  db.dues.forEach(function(x){ rows.push([x.type==="given"?"baki-given":"baki-paid",x.date,x.party,"","","",x.amount,"",x.where||"",x.note||""]); });
   var csv = rows.map(function(r){
     return r.map(function(c){ c = c===undefined||c===null ? "" : String(c); return /[",\n]/.test(c) ? '"'+c.replace(/"/g,'""')+'"' : c; }).join(",");
   }).join("\n");
@@ -986,13 +1193,13 @@ function wipeAll(){
   try{ localStorage.removeItem(KEY); }catch(e){}
   db = blank();
   save();
-  ["sItem","sBuy","sSell","sNote","bAmount","bComm","bNote","eAmount","eNote","aAmount","aNote"].forEach(function(id){
+  ["sItem","sBuy","sSell","sNote","sCustomer","bAmount","bComm","bNote","eAmount","eNote","aAmount","aNote","dParty","dPhone","dAmount","dNote"].forEach(function(id){
     var el = $(id); if(el) el.value = "";
   });
   var q = $("sQty"); if(q) q.value = "1";
-  ["homeDate","sDate","bDate","eDate","aDate"].forEach(function(id){ var el = $(id); if(el) el.value = todayStr(); });
+  ["homeDate","sDate","bDate","eDate","aDate","dDate"].forEach(function(id){ var el = $(id); if(el) el.value = todayStr(); });
   commEdited = false;
-  fillSettings(); salePreview(); refreshComm(); render();
+  fillSettings(); salePreview(); refreshComm(); duePreview(); render();
   toast("App is fresh again");
 }
 $("btnWipe").addEventListener("click", function(){
@@ -1002,16 +1209,17 @@ $("btnWipe").addEventListener("click", function(){
 });
 
 /* ---------- init ---------- */
-["homeDate","sDate","bDate","eDate","aDate"].forEach(function(id){ $(id).value = todayStr(); });
+["homeDate","sDate","bDate","eDate","aDate","dDate"].forEach(function(id){ $(id).value = todayStr(); });
 $("homeDate").addEventListener("change", render);
 $("repFrom").addEventListener("change", render);
 $("repTo").addEventListener("change", render);
 buildChips("salesRange","sales");
 buildChips("bankRange","bank");
 buildChips("expRange","exp");
+buildChips("dueRange","due");
 buildChips("repRange","rep");
 var r0 = rangeDates("rep"); $("repFrom").value = r0.from; $("repTo").value = r0.to;
-fillSettings(); salePreview(); refreshComm(); render();
+fillSettings(); salePreview(); refreshComm(); duePreview(); render();
 
 /* offline service worker (only works when opened from http/https, not file://) */
 if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
