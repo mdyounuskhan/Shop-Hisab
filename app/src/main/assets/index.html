@@ -111,6 +111,10 @@ details.help{background:var(--canvas); border:1px solid var(--border); border-ra
 details.help summary{cursor:pointer; font-weight:600; font-size:15px}
 details.help p, details.help li{font-size:14px; color:var(--muted)}
 @media (max-width:400px){ .grid2{gap:10px} .stat .val{font-size:20px} .stat.hero .val{font-size:26px} }
+.modal{position:fixed; inset:0; background:rgba(20,20,19,.45); display:none; align-items:center; justify-content:center; padding:24px; z-index:120}
+.modal.show{display:flex}
+.modal .box{background:#fff; border-radius:18px; padding:20px; width:100%; max-width:340px; box-shadow:0 16px 48px rgba(0,0,0,.22)}
+.modal .box p{margin:0 0 16px; font-size:15px; line-height:1.5; color:#2C2C2B}
 </style>
 </head>
 <body>
@@ -233,8 +237,8 @@ details.help p, details.help li{font-size:14px; color:var(--muted)}
       </select>
       <label for="bType">What happened</label>
       <select id="bType">
-        <option value="cashin">Cash In — I sent money to customer, I took cash</option>
-        <option value="cashout">Cash Out — customer took cash, money came into SIM</option>
+        <option value="cashin">Cash In</option>
+        <option value="cashout">Cash Out</option>
       </select>
       <div class="row">
         <div><label for="bAmount">Amount</label><input type="number" id="bAmount" placeholder="0" inputmode="decimal"></div>
@@ -397,8 +401,10 @@ details.help p, details.help li{font-size:14px; color:var(--muted)}
     <details class="help">
       <summary>How the numbers work</summary>
       <ul>
-        <li><b>Cash In (I send money to customer):</b> cash in hand goes up, that SIM balance goes down.</li>
-        <li><b>Cash Out (customer takes cash):</b> cash in hand goes down, that SIM balance goes up.</li>
+        <li><b>Agent SIM — Cash In:</b> cash in hand goes up, that Agent SIM balance goes down.</li>
+        <li><b>Agent SIM — Cash Out:</b> cash in hand goes down, that Agent SIM balance goes up.</li>
+        <li><b>Personal / Merchant SIM — Cash In:</b> money comes into that SIM, so cash in hand goes down and the SIM balance goes up.</li>
+        <li><b>Personal / Merchant SIM — Cash Out:</b> money leaves that SIM, so cash in hand goes up and the SIM balance goes down.</li>
         <li><b>Commission</b> is filled automatically from the rate per 1000 (bKash Agent 4 in / 3.75 out, Nagad Agent 4.10 both). You can type your own number any time. By default it is added to that SIM balance.</li>
         <li><b>Profit</b> = sales profit + commission − expense. Buying float or adding cash never counts as profit.</li>
         <li><b>Due sale:</b> profit is counted, but no cash is added until you record the payment as a new cash sale.</li>
@@ -417,6 +423,16 @@ details.help p, details.help li{font-size:14px; color:var(--muted)}
 
 <div class="toast" id="toast"></div>
 
+<div class="modal" id="confirmModal">
+  <div class="box">
+    <p id="confirmText"></p>
+    <div class="btn-row">
+      <button class="btn secondary" type="button" id="confirmNo">Cancel</button>
+      <button class="btn danger" type="button" id="confirmYes">Yes</button>
+    </div>
+  </div>
+</div>
+
 <script>
 (function(){
 "use strict";
@@ -433,6 +449,7 @@ var DEFAULT_RATES = {
 };
 var OLD_MAP = { "bKash":"bKash Agent", "Nagad":"Nagad Agent", "Rocket":"Rocket" };
 function idOf(acc){ return acc.replace(/ /g, "_"); }
+function isAgent(acc){ return /Agent$/.test(acc || ""); }
 
 var db = load();
 function blank(){
@@ -496,6 +513,21 @@ function toast(msg){
   clearTimeout(toastTimer); toastTimer = setTimeout(function(){ t.classList.remove("show"); }, 2200);
 }
 
+/* ---------- in-app confirm (native confirm() does not work inside the app shell) ---------- */
+var confirmCb = null;
+function askConfirm(msg, cb){
+  confirmCb = cb;
+  $("confirmText").textContent = msg;
+  $("confirmModal").classList.add("show");
+}
+function closeConfirm(){ $("confirmModal").classList.remove("show"); confirmCb = null; }
+$("confirmYes").addEventListener("click", function(){
+  var cb = confirmCb; $("confirmModal").classList.remove("show"); confirmCb = null;
+  if(cb) cb();
+});
+$("confirmNo").addEventListener("click", closeConfirm);
+$("confirmModal").addEventListener("click", function(e){ if(e.target === this) closeConfirm(); });
+
 /* ---------- money math ---------- */
 function balances(){
   var b = { Cash:num(db.settings.opening.Cash) };
@@ -507,7 +539,8 @@ function balances(){
   db.bank.forEach(function(x){
     var amt = num(x.amount), com = num(x.comm), w = x.service;
     if(!b.hasOwnProperty(w)) return;
-    if(x.type === "cashin"){ b.Cash += amt; b[w] -= amt; }
+    var cashUp = isAgent(w) ? (x.type === "cashin") : (x.type !== "cashin");
+    if(cashUp){ b.Cash += amt; b[w] -= amt; }
     else { b.Cash -= amt; b[w] += amt; }
     if(x.commIn === "Cash") b.Cash += com; else b[w] += com;
   });
@@ -622,7 +655,7 @@ function rowEl(title, sub, amount, amountSub, cls, onDelete){
     del.className = "del"; del.type = "button"; del.textContent = "×";
     del.setAttribute("aria-label", "Delete entry");
     del.addEventListener("click", function(){
-      if(confirm("Delete this entry?")){ onDelete(); save(); render(); toast("Deleted"); }
+      askConfirm("Delete this entry?", function(){ onDelete(); save(); render(); toast("Deleted"); });
     });
     el.appendChild(del);
   }
@@ -812,7 +845,18 @@ function currentRate(){
 function autoComm(){
   return Math.round((num($("bAmount").value) / 1000) * currentRate() * 100) / 100;
 }
+function labelTypes(){
+  var w = $("bService").value, o = $("bType").options;
+  if(isAgent(w)){
+    o[0].textContent = "Cash In — I took cash, money left the SIM";
+    o[1].textContent = "Cash Out — I gave cash, money came into the SIM";
+  }else{
+    o[0].textContent = "Cash In — money came into this SIM (cash goes out)";
+    o[1].textContent = "Cash Out — money left this SIM (cash comes in)";
+  }
+}
 function refreshComm(){
+  labelTypes();
   if(!commEdited){
     var v = autoComm();
     $("bComm").value = v ? v : "";
@@ -822,8 +866,9 @@ function refreshComm(){
 function bankPreview(){
   var amt = num($("bAmount").value), com = num($("bComm").value);
   var w = $("bService").value, isIn = $("bType").value === "cashin";
-  var cashDelta = isIn ? amt : -amt;
-  var walletDelta = isIn ? -amt : amt;
+  var cashUp = isAgent(w) ? isIn : !isIn;
+  var cashDelta = cashUp ? amt : -amt;
+  var walletDelta = cashUp ? -amt : amt;
   if($("bCommIn").value === "Cash") cashDelta += com; else walletDelta += com;
   $("bRateHint").textContent = w + " · " + (isIn ? "Cash In" : "Cash Out") + " rate " + currentRate() +
     " Tk per 1000 · auto commission " + money(autoComm()) + (commEdited ? " (you typed your own)" : "");
@@ -928,18 +973,32 @@ $("fileImport").addEventListener("change", function(e){
     try{
       var d = JSON.parse(r.result);
       if(!d || typeof d !== "object") throw new Error("bad");
-      if(!confirm("Replace all current data with this backup?")) return;
-      localStorage.setItem(KEY, JSON.stringify(d));
-      db = load(); save(); fillSettings(); refreshComm(); render(); toast("Backup restored");
+      askConfirm("Replace all current data with this backup?", function(){
+        localStorage.setItem(KEY, JSON.stringify(d));
+        db = load(); save(); fillSettings(); refreshComm(); render(); toast("Backup restored");
+      });
     }catch(err){ toast("That file could not be read"); }
   };
   r.readAsText(f);
   e.target.value = "";
 });
+function wipeAll(){
+  try{ localStorage.removeItem(KEY); }catch(e){}
+  db = blank();
+  save();
+  ["sItem","sBuy","sSell","sNote","bAmount","bComm","bNote","eAmount","eNote","aAmount","aNote"].forEach(function(id){
+    var el = $(id); if(el) el.value = "";
+  });
+  var q = $("sQty"); if(q) q.value = "1";
+  ["homeDate","sDate","bDate","eDate","aDate"].forEach(function(id){ var el = $(id); if(el) el.value = todayStr(); });
+  commEdited = false;
+  fillSettings(); salePreview(); refreshComm(); render();
+  toast("App is fresh again");
+}
 $("btnWipe").addEventListener("click", function(){
-  if(!confirm("Delete every sale, transaction and expense? This cannot be undone.")) return;
-  if(!confirm("Are you really sure?")) return;
-  db = blank(); save(); fillSettings(); render(); toast("All data deleted");
+  askConfirm("Delete EVERYTHING — sales, transactions, expenses and opening balances? This cannot be undone.", function(){
+    askConfirm("Last check: make the app completely fresh?", wipeAll);
+  });
 });
 
 /* ---------- init ---------- */
