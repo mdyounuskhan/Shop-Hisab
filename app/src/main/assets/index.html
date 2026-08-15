@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2783DE">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Shop Hisab">
+<title>Shop Hisab — Mobile Shop Accounts</title>
+<style>
+:root{
+  --text:#2C2C2B; --muted:#7D7A75; --canvas:#FFFFFF; --soft:#F9F8F7; --surface2:#F0EFED;
+  --border:#E6E5E3; --blue:#2783DE; --blue-soft:#E5F2FC; --green:#46A171; --green-soft:#E8F1EC;
+  --orange:#D5803B; --orange-soft:#FBEBDE; --red:#E56458; --red-soft:#FCE9E7;
+  --radius:12px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:16px; line-height:1.5; color:var(--text); background:var(--soft);
+  padding-bottom:86px;
+}
+header.app{
+  position:sticky; top:0; z-index:20; background:var(--canvas);
+  border-bottom:1px solid var(--border); padding:14px 16px 12px;
+}
+.app-title{font-size:17px; font-weight:650; letter-spacing:-.2px}
+.app-sub{font-size:14px; color:var(--muted)}
+main{max-width:760px; margin:0 auto; padding:16px}
+section.view{display:none}
+section.view.active{display:block}
+h2.sec{font-size:15px; font-weight:650; margin:24px 0 12px; letter-spacing:-.1px}
+h2.sec:first-child{margin-top:4px}
+.card{background:var(--canvas); border:1px solid var(--border); border-radius:var(--radius); padding:16px}
+.card + .card{margin-top:12px}
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+.stat{background:var(--canvas); border:1px solid var(--border); border-radius:var(--radius); padding:14px}
+.stat .lbl{font-size:13px; color:var(--muted); display:flex; align-items:center; gap:6px}
+.stat .val{font-size:22px; font-weight:680; margin-top:6px; letter-spacing:-.4px}
+.stat.hero{background:var(--blue-soft); border-color:#CFE6F8}
+.stat.hero .val{color:#1B5FA3; font-size:28px}
+.pos{color:var(--green)} .neg{color:var(--red)}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.dot.b{background:var(--orange)} .dot.n{background:var(--red)} .dot.c{background:var(--green)} .dot.r{background:var(--blue)}
+label{display:block; font-size:13px; color:var(--muted); margin:12px 0 6px}
+input,select,textarea,button{font-family:inherit; font-size:16px}
+input,select,textarea{
+  width:100%; padding:12px; min-height:46px; border:1px solid var(--border);
+  border-radius:8px; background:var(--canvas); color:var(--text);
+}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--blue); outline-offset:1px; border-color:var(--blue)}
+.row{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  min-height:48px; padding:12px 18px; border-radius:8px; border:1px solid var(--blue);
+  background:var(--blue); color:#fff; font-weight:600; cursor:pointer; width:100%;
+}
+.btn.secondary{background:var(--canvas); color:var(--text); border-color:var(--border)}
+.btn.danger{background:var(--canvas); color:var(--red); border-color:#F3C8C3}
+.btn:active{transform:translateY(1px)}
+.btn-row{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px}
+.hint{font-size:13px; color:var(--muted); margin-top:8px}
+.chipbar{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px}
+.chip{
+  border:1px solid var(--border); background:var(--canvas); color:var(--muted);
+  border-radius:999px; padding:9px 14px; font-size:14px; min-height:40px; cursor:pointer;
+}
+.chip.on{background:var(--blue-soft); border-color:#CFE6F8; color:#1B5FA3; font-weight:600}
+.list{margin-top:4px}
+.item{
+  display:flex; gap:12px; align-items:flex-start; padding:12px 0; border-bottom:1px solid var(--border);
+}
+.item:last-child{border-bottom:0}
+.item .main{flex:1; min-width:0}
+.item .t{font-weight:600; font-size:15px; overflow-wrap:anywhere}
+.item .s{font-size:13px; color:var(--muted); margin-top:2px}
+.item .amt{text-align:right; font-weight:650; white-space:nowrap}
+.item .amt small{display:block; font-weight:500; color:var(--muted); font-size:12px; margin-top:2px}
+.del{border:0; background:none; color:var(--muted); font-size:20px; line-height:1; padding:6px 2px 6px 8px; min-width:32px; min-height:32px; cursor:pointer}
+.empty{color:var(--muted); font-size:14px; padding:18px 0; text-align:center}
+.tag{display:inline-block; font-size:12px; padding:2px 8px; border-radius:999px; background:var(--surface2); color:var(--muted); margin-right:6px}
+.tag.in{background:var(--green-soft); color:#2F7A54}
+.tag.out{background:var(--orange-soft); color:#A65E22}
+table{width:100%; border-collapse:collapse; font-size:14px}
+th,td{text-align:left; padding:10px 8px; border-bottom:1px solid var(--border)}
+th{font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); font-weight:600}
+td.num,th.num{text-align:right; white-space:nowrap}
+nav.tabs{
+  position:fixed; left:0; right:0; bottom:0; z-index:30; display:grid;
+  grid-template-columns:repeat(5,1fr); background:var(--canvas);
+  border-top:1px solid var(--border); padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+}
+nav.tabs button{
+  border:0; background:none; padding:8px 2px; min-height:52px; color:var(--muted);
+  font-size:11px; font-weight:600; display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer;
+}
+nav.tabs button svg{width:22px; height:22px; stroke:currentColor; fill:none; stroke-width:1.8}
+nav.tabs button.on{color:var(--blue)}
+.toast{
+  position:fixed; left:50%; transform:translateX(-50%); bottom:96px; z-index:60;
+  background:#2C2C2B; color:#fff; padding:12px 18px; border-radius:8px; font-size:14px;
+  opacity:0; pointer-events:none; transition:opacity .2s;
+}
+.toast.show{opacity:1}
+details.help{background:var(--canvas); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; margin-top:12px}
+details.help summary{cursor:pointer; font-weight:600; font-size:15px}
+details.help p, details.help li{font-size:14px; color:var(--muted)}
+@media (max-width:400px){ .grid2{gap:10px} .stat .val{font-size:20px} .stat.hero .val{font-size:26px} }
+</style>
+</head>
+<body>
+<header class="app">
+  <div class="app-title">Shop Hisab</div>
+  <div class="app-sub" id="headerSub">Mobile shop daily accounts</div>
+</header>
+
+<main>
+  <!-- ================= HOME ================= -->
+  <section class="view active" id="view-home">
+    <label for="homeDate">Date</label>
+    <input type="date" id="homeDate">
+
+    <h2 class="sec">Profit this day</h2>
+    <div class="stat hero">
+      <div class="lbl">Net profit (sales + commission − expense)</div>
+      <div class="val" id="kpiNet">Tk 0</div>
+    </div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="stat"><div class="lbl">Sales profit</div><div class="val pos" id="kpiSaleProfit">Tk 0</div></div>
+      <div class="stat"><div class="lbl">Commission</div><div class="val pos" id="kpiComm">Tk 0</div></div>
+      <div class="stat"><div class="lbl">Sales amount</div><div class="val" id="kpiSaleAmt">Tk 0</div></div>
+      <div class="stat"><div class="lbl">Expense</div><div class="val neg" id="kpiExp">Tk 0</div></div>
+    </div>
+
+    <h2 class="sec">Balance right now</h2>
+    <div class="grid2">
+      <div class="stat"><div class="lbl"><span class="dot c"></span>Cash in hand</div><div class="val" id="balCash">Tk 0</div></div>
+      <div class="stat"><div class="lbl"><span class="dot b"></span>bKash</div><div class="val" id="balBkash">Tk 0</div></div>
+      <div class="stat"><div class="lbl"><span class="dot n"></span>Nagad</div><div class="val" id="balNagad">Tk 0</div></div>
+      <div class="stat"><div class="lbl"><span class="dot r"></span>Rocket</div><div class="val" id="balRocket">Tk 0</div></div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <div class="item" style="padding-top:0">
+        <div class="main"><div class="t">Total value (cash + all wallets)</div><div class="s">Live, all dates included</div></div>
+        <div class="amt" id="balTotal">Tk 0</div>
+      </div>
+    </div>
+
+    <h2 class="sec">Today's entries</h2>
+    <div class="card"><div class="list" id="homeFeed"></div></div>
+  </section>
+
+  <!-- ================= SALES ================= -->
+  <section class="view" id="view-sales">
+    <h2 class="sec">Add a sale</h2>
+    <div class="card">
+      <label for="sDate">Date</label>
+      <input type="date" id="sDate">
+      <label for="sItem">Item (phone, cover, charger, SIM…)</label>
+      <input type="text" id="sItem" placeholder="e.g. Redmi 13C cover">
+      <div class="row">
+        <div><label for="sQty">Quantity</label><input type="number" id="sQty" value="1" min="1" step="1" inputmode="numeric"></div>
+        <div><label for="sBuy">Buy price / unit</label><input type="number" id="sBuy" placeholder="0" inputmode="decimal"></div>
+      </div>
+      <div class="row">
+        <div><label for="sSell">Sell price / unit</label><input type="number" id="sSell" placeholder="0" inputmode="decimal"></div>
+        <div><label for="sPay">Payment received in</label>
+          <select id="sPay"><option value="Cash">Cash</option><option value="bKash">bKash</option><option value="Nagad">Nagad</option><option value="Rocket">Rocket</option><option value="Due">Due (not paid)</option></select>
+        </div>
+      </div>
+      <label for="sNote">Note (optional)</label>
+      <input type="text" id="sNote" placeholder="Customer name / IMEI / warranty">
+      <div class="card" style="background:var(--soft); margin-top:14px">
+        <div class="item" style="padding:0;border:0">
+          <div class="main"><div class="t" id="sPreviewTotal">Total Tk 0</div><div class="s">Profit on this sale</div></div>
+          <div class="amt pos" id="sPreviewProfit">Tk 0</div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn secondary" type="button" id="sClear">Clear</button>
+        <button class="btn" type="button" id="sSave">Save sale</button>
+      </div>
+    </div>
+
+    <h2 class="sec">Sales list</h2>
+    <div class="chipbar" id="salesRange"></div>
+    <div class="card"><div class="list" id="salesList"></div></div>
+  </section>
+
+  <!-- ================= BANKING ================= -->
+  <section class="view" id="view-bank">
+    <h2 class="sec">Mobile banking entry</h2>
+    <div class="card">
+      <label for="bDate">Date</label>
+      <input type="date" id="bDate">
+      <div class="row">
+        <div><label for="bService">Service</label>
+          <select id="bService"><option>bKash</option><option>Nagad</option><option>Rocket</option></select>
+        </div>
+        <div><label for="bType">Type</label>
+          <select id="bType">
+            <option value="cashin">Cash In / Send (customer gives cash)</option>
+            <option value="cashout">Cash Out (customer takes cash)</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div><label for="bAmount">Amount</label><input type="number" id="bAmount" placeholder="0" inputmode="decimal"></div>
+        <div><label for="bComm">Commission / charge earned</label><input type="number" id="bComm" placeholder="0" inputmode="decimal"></div>
+      </div>
+      <label for="bCommIn">Commission received in</label>
+      <select id="bCommIn"><option value="Cash">Cash</option><option value="Wallet">Wallet balance</option></select>
+      <label for="bNote">Note (optional)</label>
+      <input type="text" id="bNote" placeholder="Customer number / name">
+      <div class="card" style="background:var(--soft); margin-top:14px">
+        <div class="s" id="bEffect" style="font-size:14px; color:var(--muted)">Effect will show here.</div>
+      </div>
+      <div class="btn-row">
+        <button class="btn secondary" type="button" id="bClear">Clear</button>
+        <button class="btn" type="button" id="bSave">Save entry</button>
+      </div>
+    </div>
+
+    <h2 class="sec">Transactions</h2>
+    <div class="chipbar" id="bankRange"></div>
+    <div class="card"><div class="list" id="bankList"></div></div>
+  </section>
+
+  <!-- ================= EXPENSE + BALANCE ================= -->
+  <section class="view" id="view-expense">
+    <h2 class="sec">Add expense</h2>
+    <div class="card">
+      <label for="eDate">Date</label>
+      <input type="date" id="eDate">
+      <div class="row">
+        <div><label for="eCat">Category</label>
+          <select id="eCat"><option>Shop rent</option><option>Bill / Electricity</option><option>Tea &amp; food</option><option>Transport</option><option>Salary</option><option>Recharge / Internet</option><option>Purchase (stock)</option><option>Personal</option><option>Other</option></select>
+        </div>
+        <div><label for="eAmount">Amount</label><input type="number" id="eAmount" placeholder="0" inputmode="decimal"></div>
+      </div>
+      <label for="ePaidFrom">Paid from</label>
+      <select id="ePaidFrom"><option value="Cash">Cash</option><option value="bKash">bKash</option><option value="Nagad">Nagad</option><option value="Rocket">Rocket</option></select>
+      <label for="eNote">Note (optional)</label>
+      <input type="text" id="eNote" placeholder="Details">
+      <div class="btn-row">
+        <button class="btn secondary" type="button" id="eClear">Clear</button>
+        <button class="btn" type="button" id="eSave">Save expense</button>
+      </div>
+    </div>
+
+    <h2 class="sec">Move / adjust money</h2>
+    <div class="card">
+      <div class="hint" style="margin-top:0">Use this when you buy float, add your own cash, or take cash out. It changes balance only — not profit.</div>
+      <label for="aDate">Date</label>
+      <input type="date" id="aDate">
+      <label for="aType">Action</label>
+      <select id="aType">
+        <option value="cash_add">Add my own cash to shop</option>
+        <option value="cash_take">Take cash out of shop</option>
+        <option value="buy_float">Buy wallet balance with cash</option>
+        <option value="sell_float">Send wallet balance, get cash</option>
+      </select>
+      <div class="row">
+        <div><label for="aAmount">Amount</label><input type="number" id="aAmount" placeholder="0" inputmode="decimal"></div>
+        <div><label for="aWallet">Wallet</label>
+          <select id="aWallet"><option>bKash</option><option>Nagad</option><option>Rocket</option></select>
+        </div>
+      </div>
+      <label for="aNote">Note (optional)</label>
+      <input type="text" id="aNote" placeholder="Distributor / reason">
+      <div class="btn-row">
+        <button class="btn secondary" type="button" id="aClear">Clear</button>
+        <button class="btn" type="button" id="aSave">Save adjustment</button>
+      </div>
+    </div>
+
+    <h2 class="sec">Expenses &amp; adjustments</h2>
+    <div class="chipbar" id="expRange"></div>
+    <div class="card"><div class="list" id="expList"></div></div>
+  </section>
+
+  <!-- ================= REPORT ================= -->
+  <section class="view" id="view-report">
+    <h2 class="sec">Report</h2>
+    <div class="chipbar" id="repRange"></div>
+    <div class="card">
+      <div class="row">
+        <div><label for="repFrom">From</label><input type="date" id="repFrom"></div>
+        <div><label for="repTo">To</label><input type="date" id="repTo"></div>
+      </div>
+    </div>
+
+    <div class="stat hero" style="margin-top:12px">
+      <div class="lbl">Net profit for selected period</div>
+      <div class="val" id="repNet">Tk 0</div>
+    </div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="stat"><div class="lbl">Sales amount</div><div class="val" id="repSaleAmt">Tk 0</div></div>
+      <div class="stat"><div class="lbl">Sales profit</div><div class="val pos" id="repSaleProfit">Tk 0</div></div>
+      <div class="stat"><div class="lbl">Commission</div><div class="val pos" id="repComm">Tk 0</div></div>
+      <div class="stat"><div class="lbl">Expense</div><div class="val neg" id="repExp">Tk 0</div></div>
+      <div class="stat"><div class="lbl">Cash In volume</div><div class="val" id="repIn">Tk 0</div></div>
+      <div class="stat"><div class="lbl">Cash Out volume</div><div class="val" id="repOut">Tk 0</div></div>
+    </div>
+
+    <h2 class="sec">Day by day</h2>
+    <div class="card" style="overflow-x:auto">
+      <table id="repTable">
+        <thead><tr><th>Date</th><th class="num">Sale profit</th><th class="num">Comm.</th><th class="num">Expense</th><th class="num">Net</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <h2 class="sec">Top selling items</h2>
+    <div class="card"><div class="list" id="repTop"></div></div>
+
+    <h2 class="sec">Data &amp; settings</h2>
+    <div class="card">
+      <label for="setOpenCash">Opening cash in hand</label>
+      <input type="number" id="setOpenCash" placeholder="0" inputmode="decimal">
+      <div class="row">
+        <div><label for="setOpenBkash">Opening bKash</label><input type="number" id="setOpenBkash" placeholder="0" inputmode="decimal"></div>
+        <div><label for="setOpenNagad">Opening Nagad</label><input type="number" id="setOpenNagad" placeholder="0" inputmode="decimal"></div>
+      </div>
+      <label for="setOpenRocket">Opening Rocket</label>
+      <input type="number" id="setOpenRocket" placeholder="0" inputmode="decimal">
+      <div class="btn-row">
+        <button class="btn secondary" type="button" id="setReset">Reset fields</button>
+        <button class="btn" type="button" id="setSave">Save settings</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="t" style="font-weight:600">Backup</div>
+      <div class="hint">Everything is stored inside this phone only. Export a backup file sometimes so nothing is lost.</div>
+      <div class="btn-row">
+        <button class="btn secondary" type="button" id="btnExportJson">Export backup</button>
+        <button class="btn secondary" type="button" id="btnImport">Import backup</button>
+      </div>
+      <div class="btn-row">
+        <button class="btn secondary" type="button" id="btnExportCsv">Export CSV</button>
+        <button class="btn danger" type="button" id="btnWipe">Delete all data</button>
+      </div>
+      <input type="file" id="fileImport" accept="application/json" style="display:none">
+    </div>
+    <details class="help">
+      <summary>How the numbers work</summary>
+      <ul>
+        <li><b>Cash In / Send:</b> cash in hand goes up, wallet balance goes down.</li>
+        <li><b>Cash Out:</b> cash in hand goes down, wallet balance goes up.</li>
+        <li><b>Profit</b> = sales profit + commission − expense. Buying float or adding cash never counts as profit.</li>
+        <li><b>Due sale:</b> profit is counted, but no cash is added until you record the payment as a new cash sale.</li>
+      </ul>
+    </details>
+  </section>
+</main>
+
+<nav class="tabs" id="tabs">
+  <button data-view="home" class="on"><svg viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg>Home</button>
+  <button data-view="sales"><svg viewBox="0 0 24 24"><path d="M4 7h16l-1.5 12H5.5z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>Sales</button>
+  <button data-view="bank"><svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></svg>Banking</button>
+  <button data-view="expense"><svg viewBox="0 0 24 24"><path d="M3 8h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M3 8l3-4h12l3 4"/><path d="M9 13h6"/></svg>Expense</button>
+  <button data-view="report"><svg viewBox="0 0 24 24"><path d="M4 20V6"/><path d="M4 20h16"/><path d="M8 20v-6M13 20V9M18 20v-9"/></svg>Report</button>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+var KEY = "shopHisab.v1";
+var WALLETS = ["bKash","Nagad","Rocket"];
+
+var db = load();
+function blank(){
+  return { settings:{ openCash:0, openBkash:0, openNagad:0, openRocket:0 }, sales:[], bank:[], expenses:[], adjust:[] };
+}
+function load(){
+  try{
+    var raw = localStorage.getItem(KEY);
+    if(!raw) return blank();
+    var d = JSON.parse(raw);
+    var b = blank();
+    b.settings = Object.assign(b.settings, d.settings||{});
+    b.sales = d.sales||[]; b.bank = d.bank||[]; b.expenses = d.expenses||[]; b.adjust = d.adjust||[];
+    return b;
+  }catch(e){ return blank(); }
+}
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(db)); }
+  catch(e){ toast("Could not save on this device"); }
+}
+function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+function num(v){ var n = parseFloat(v); return isFinite(n) ? n : 0; }
+function $(id){ return document.getElementById(id); }
+function todayStr(){
+  var d = new Date(), m = d.getMonth()+1, day = d.getDate();
+  return d.getFullYear() + "-" + (m<10?"0":"") + m + "-" + (day<10?"0":"") + day;
+}
+function money(n){
+  var neg = n < 0; n = Math.abs(Math.round(n*100)/100);
+  var s = n.toLocaleString("en-US", { maximumFractionDigits:2 });
+  return (neg?"−Tk ":"Tk ") + s;
+}
+function pretty(ds){
+  if(!ds) return "";
+  var p = ds.split("-");
+  var d = new Date(+p[0], +p[1]-1, +p[2]);
+  return d.toLocaleDateString("en-GB", { day:"numeric", month:"short", year:"numeric" });
+}
+var toastTimer;
+function toast(msg){
+  var t = $("toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toastTimer); toastTimer = setTimeout(function(){ t.classList.remove("show"); }, 2200);
+}
+
+/* ---------- money math ---------- */
+function balances(){
+  var s = db.settings;
+  var b = { Cash:num(s.openCash), bKash:num(s.openBkash), Nagad:num(s.openNagad), Rocket:num(s.openRocket) };
+  db.sales.forEach(function(x){
+    var total = num(x.sell) * num(x.qty);
+    if(x.pay && x.pay !== "Due" && b.hasOwnProperty(x.pay)) b[x.pay] += total;
+  });
+  db.bank.forEach(function(x){
+    var amt = num(x.amount), com = num(x.comm), w = x.service;
+    if(!b.hasOwnProperty(w)) return;
+    if(x.type === "cashin"){ b.Cash += amt; b[w] -= amt; }
+    else { b.Cash -= amt; b[w] += amt; }
+    if(x.commIn === "Wallet") b[w] += com; else b.Cash += com;
+  });
+  db.expenses.forEach(function(x){
+    var from = x.from || "Cash";
+    if(b.hasOwnProperty(from)) b[from] -= num(x.amount);
+  });
+  db.adjust.forEach(function(x){
+    var amt = num(x.amount), w = x.wallet;
+    if(x.type === "cash_add") b.Cash += amt;
+    else if(x.type === "cash_take") b.Cash -= amt;
+    else if(x.type === "buy_float"){ b.Cash -= amt; if(b.hasOwnProperty(w)) b[w] += amt; }
+    else if(x.type === "sell_float"){ b.Cash += amt; if(b.hasOwnProperty(w)) b[w] -= amt; }
+  });
+  return b;
+}
+function inRange(ds, from, to){
+  if(from && ds < from) return false;
+  if(to && ds > to) return false;
+  return true;
+}
+function totals(from, to){
+  var t = { saleAmt:0, saleProfit:0, comm:0, exp:0, cashIn:0, cashOut:0, net:0, items:0 };
+  db.sales.forEach(function(x){
+    if(!inRange(x.date, from, to)) return;
+    var q = num(x.qty);
+    t.saleAmt += num(x.sell) * q;
+    t.saleProfit += (num(x.sell) - num(x.buy)) * q;
+    t.items += q;
+  });
+  db.bank.forEach(function(x){
+    if(!inRange(x.date, from, to)) return;
+    t.comm += num(x.comm);
+    if(x.type === "cashin") t.cashIn += num(x.amount); else t.cashOut += num(x.amount);
+  });
+  db.expenses.forEach(function(x){ if(inRange(x.date, from, to)) t.exp += num(x.amount); });
+  t.net = t.saleProfit + t.comm - t.exp;
+  return t;
+}
+
+/* ---------- navigation ---------- */
+var views = ["home","sales","bank","expense","report"];
+function go(v){
+  views.forEach(function(name){ $("view-"+name).classList.toggle("active", name===v); });
+  Array.prototype.forEach.call($("tabs").children, function(btn){ btn.classList.toggle("on", btn.dataset.view===v); });
+  window.scrollTo(0,0);
+  render();
+}
+Array.prototype.forEach.call($("tabs").children, function(btn){
+  btn.addEventListener("click", function(){ go(btn.dataset.view); });
+});
+
+/* ---------- range chips ---------- */
+var ranges = { sales:"today", bank:"today", exp:"today", rep:"month" };
+function buildChips(holderId, key){
+  var holder = $(holderId);
+  var opts = [["today","Today"],["7","Last 7 days"],["month","This month"],["all","All"]];
+  holder.innerHTML = "";
+  opts.forEach(function(o){
+    var b = document.createElement("button");
+    b.className = "chip" + (ranges[key]===o[0] ? " on" : "");
+    b.type = "button"; b.textContent = o[1];
+    b.addEventListener("click", function(){
+      ranges[key] = o[0];
+      if(key==="rep"){ var r = rangeDates("rep"); $("repFrom").value = r.from||""; $("repTo").value = r.to||""; }
+      buildChips(holderId, key); render();
+    });
+    holder.appendChild(b);
+  });
+}
+function shift(days){
+  var d = new Date(); d.setDate(d.getDate()-days);
+  var m = d.getMonth()+1, day = d.getDate();
+  return d.getFullYear()+"-"+(m<10?"0":"")+m+"-"+(day<10?"0":"")+day;
+}
+function rangeDates(key){
+  var r = ranges[key];
+  if(r==="today") return { from:todayStr(), to:todayStr() };
+  if(r==="7") return { from:shift(6), to:todayStr() };
+  if(r==="month") return { from:todayStr().slice(0,7)+"-01", to:todayStr() };
+  return { from:"", to:"" };
+}
+
+/* ---------- list rendering ---------- */
+function emptyRow(text){ return '<div class="empty">'+text+'</div>'; }
+function rowEl(title, sub, amount, amountSub, cls, onDelete){
+  var el = document.createElement("div");
+  el.className = "item";
+  var main = document.createElement("div");
+  main.className = "main";
+  main.innerHTML = '<div class="t"></div><div class="s"></div>';
+  main.querySelector(".t").textContent = title;
+  main.querySelector(".s").innerHTML = sub;
+  var amt = document.createElement("div");
+  amt.className = "amt " + (cls||"");
+  amt.innerHTML = '<span></span>' + (amountSub ? '<small></small>' : '');
+  amt.querySelector("span").textContent = amount;
+  if(amountSub) amt.querySelector("small").textContent = amountSub;
+  el.appendChild(main); el.appendChild(amt);
+  if(onDelete){
+    var del = document.createElement("button");
+    del.className = "del"; del.type = "button"; del.textContent = "×";
+    del.setAttribute("aria-label", "Delete entry");
+    del.addEventListener("click", function(){
+      if(confirm("Delete this entry?")){ onDelete(); save(); render(); toast("Deleted"); }
+    });
+    el.appendChild(del);
+  }
+  return el;
+}
+function removeById(arr, id){
+  for(var i=0;i<arr.length;i++){ if(arr[i].id===id){ arr.splice(i,1); return; } }
+}
+
+/* ---------- render ---------- */
+function render(){
+  var b = balances();
+  $("balCash").textContent = money(b.Cash);
+  $("balBkash").textContent = money(b.bKash);
+  $("balNagad").textContent = money(b.Nagad);
+  $("balRocket").textContent = money(b.Rocket);
+  $("balTotal").textContent = money(b.Cash + b.bKash + b.Nagad + b.Rocket);
+
+  var hd = $("homeDate").value || todayStr();
+  var t = totals(hd, hd);
+  $("kpiNet").textContent = money(t.net);
+  $("kpiSaleProfit").textContent = money(t.saleProfit);
+  $("kpiComm").textContent = money(t.comm);
+  $("kpiSaleAmt").textContent = money(t.saleAmt);
+  $("kpiExp").textContent = money(t.exp);
+  $("headerSub").textContent = (hd===todayStr() ? "Today" : pretty(hd)) + " · net " + money(t.net);
+
+  /* home feed */
+  var feed = $("homeFeed"); feed.innerHTML = "";
+  var events = [];
+  db.sales.forEach(function(x){ if(x.date===hd) events.push({ k:"sale", x:x }); });
+  db.bank.forEach(function(x){ if(x.date===hd) events.push({ k:"bank", x:x }); });
+  db.expenses.forEach(function(x){ if(x.date===hd) events.push({ k:"exp", x:x }); });
+  db.adjust.forEach(function(x){ if(x.date===hd) events.push({ k:"adj", x:x }); });
+  if(!events.length){ feed.innerHTML = emptyRow("No entry for this day yet."); }
+  else{
+    events.reverse().forEach(function(e){
+      var x = e.x;
+      if(e.k==="sale"){
+        var profit = (num(x.sell)-num(x.buy))*num(x.qty);
+        feed.appendChild(rowEl(x.item||"Sale", '<span class="tag">Sale</span>'+x.qty+" pcs · "+x.pay, money(num(x.sell)*num(x.qty)), "profit "+money(profit), "", null));
+      } else if(e.k==="bank"){
+        var lbl = x.type==="cashin" ? "Cash In" : "Cash Out";
+        feed.appendChild(rowEl(x.service+" "+lbl, '<span class="tag '+(x.type==="cashin"?"in":"out")+'">'+lbl+"</span>comm "+money(num(x.comm)), money(num(x.amount)), null, "", null));
+      } else if(e.k==="exp"){
+        feed.appendChild(rowEl(x.cat||"Expense", '<span class="tag">Expense</span>'+(x.from||"Cash"), "−"+money(num(x.amount)), null, "neg", null));
+      } else {
+        feed.appendChild(rowEl(adjLabel(x), '<span class="tag">Adjust</span>'+(x.wallet||""), money(num(x.amount)), null, "", null));
+      }
+    });
+  }
+
+  /* sales list */
+  var sr = rangeDates("sales");
+  var list = $("salesList"); list.innerHTML = "";
+  var rows = db.sales.filter(function(x){ return inRange(x.date, sr.from, sr.to); }).slice().reverse();
+  if(!rows.length) list.innerHTML = emptyRow("No sales in this period.");
+  rows.forEach(function(x){
+    var profit = (num(x.sell)-num(x.buy))*num(x.qty);
+    var sub = pretty(x.date)+" · "+x.qty+" × "+money(num(x.sell))+" · "+x.pay + (x.note ? " · "+escapeHtml(x.note) : "");
+    list.appendChild(rowEl(x.item||"Sale", sub, money(num(x.sell)*num(x.qty)), "profit "+money(profit), "", function(){ removeById(db.sales, x.id); }));
+  });
+
+  /* bank list */
+  var br = rangeDates("bank");
+  var bl = $("bankList"); bl.innerHTML = "";
+  var brows = db.bank.filter(function(x){ return inRange(x.date, br.from, br.to); }).slice().reverse();
+  if(!brows.length) bl.innerHTML = emptyRow("No transactions in this period.");
+  brows.forEach(function(x){
+    var lbl = x.type==="cashin" ? "Cash In" : "Cash Out";
+    var sub = pretty(x.date)+" · commission in "+(x.commIn||"Cash") + (x.note ? " · "+escapeHtml(x.note) : "");
+    bl.appendChild(rowEl(x.service+" · "+lbl, sub, money(num(x.amount)), "comm "+money(num(x.comm)), "", function(){ removeById(db.bank, x.id); }));
+  });
+
+  /* expenses + adjustments */
+  var er = rangeDates("exp");
+  var el = $("expList"); el.innerHTML = "";
+  var erows = [];
+  db.expenses.forEach(function(x){ if(inRange(x.date, er.from, er.to)) erows.push({ k:"exp", x:x }); });
+  db.adjust.forEach(function(x){ if(inRange(x.date, er.from, er.to)) erows.push({ k:"adj", x:x }); });
+  erows.sort(function(a,c){ return a.x.date < c.x.date ? 1 : -1; });
+  if(!erows.length) el.innerHTML = emptyRow("Nothing recorded in this period.");
+  erows.forEach(function(e){
+    var x = e.x;
+    if(e.k==="exp"){
+      el.appendChild(rowEl(x.cat||"Expense", pretty(x.date)+" · from "+(x.from||"Cash")+(x.note?" · "+escapeHtml(x.note):""), "−"+money(num(x.amount)), null, "neg", function(){ removeById(db.expenses, x.id); }));
+    } else {
+      el.appendChild(rowEl(adjLabel(x), pretty(x.date)+(x.wallet?" · "+x.wallet:"")+(x.note?" · "+escapeHtml(x.note):""), money(num(x.amount)), "balance only", "", function(){ removeById(db.adjust, x.id); }));
+    }
+  });
+
+  /* report */
+  var rf = $("repFrom").value, rt = $("repTo").value;
+  var rtot = totals(rf, rt);
+  $("repNet").textContent = money(rtot.net);
+  $("repSaleAmt").textContent = money(rtot.saleAmt);
+  $("repSaleProfit").textContent = money(rtot.saleProfit);
+  $("repComm").textContent = money(rtot.comm);
+  $("repExp").textContent = money(rtot.exp);
+  $("repIn").textContent = money(rtot.cashIn);
+  $("repOut").textContent = money(rtot.cashOut);
+
+  var byDay = {};
+  function bump(date, field, v){
+    if(!byDay[date]) byDay[date] = { sp:0, cm:0, ex:0 };
+    byDay[date][field] += v;
+  }
+  db.sales.forEach(function(x){ if(inRange(x.date, rf, rt)) bump(x.date, "sp", (num(x.sell)-num(x.buy))*num(x.qty)); });
+  db.bank.forEach(function(x){ if(inRange(x.date, rf, rt)) bump(x.date, "cm", num(x.comm)); });
+  db.expenses.forEach(function(x){ if(inRange(x.date, rf, rt)) bump(x.date, "ex", num(x.amount)); });
+  var tb = $("repTable").querySelector("tbody");
+  tb.innerHTML = "";
+  var days = Object.keys(byDay).sort().reverse();
+  if(!days.length){
+    tb.innerHTML = '<tr><td colspan="5" style="color:#7D7A75">No data in this period.</td></tr>';
+  }
+  days.forEach(function(d){
+    var v = byDay[d], net = v.sp + v.cm - v.ex;
+    var tr = document.createElement("tr");
+    tr.innerHTML = "<td>"+pretty(d)+'</td><td class="num">'+money(v.sp)+'</td><td class="num">'+money(v.cm)+'</td><td class="num">'+money(v.ex)+'</td><td class="num" style="font-weight:650">'+money(net)+"</td>";
+    tb.appendChild(tr);
+  });
+
+  var top = {};
+  db.sales.forEach(function(x){
+    if(!inRange(x.date, rf, rt)) return;
+    var k = (x.item||"Unnamed").trim();
+    if(!top[k]) top[k] = { qty:0, profit:0 };
+    top[k].qty += num(x.qty);
+    top[k].profit += (num(x.sell)-num(x.buy))*num(x.qty);
+  });
+  var tl = $("repTop"); tl.innerHTML = "";
+  var keys = Object.keys(top).sort(function(a,c){ return top[c].profit - top[a].profit; }).slice(0,8);
+  if(!keys.length) tl.innerHTML = emptyRow("No sales in this period.");
+  keys.forEach(function(k){
+    tl.appendChild(rowEl(k, top[k].qty + " pcs sold", money(top[k].profit), "profit", "pos", null));
+  });
+}
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, function(c){
+    return ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" })[c];
+  });
+}
+function adjLabel(x){
+  if(x.type==="cash_add") return "Cash added to shop";
+  if(x.type==="cash_take") return "Cash taken out";
+  if(x.type==="buy_float") return "Bought "+(x.wallet||"wallet")+" balance";
+  return "Sold "+(x.wallet||"wallet")+" balance";
+}
+
+/* ---------- sales form ---------- */
+function salePreview(){
+  var q = num($("sQty").value), sell = num($("sSell").value), buy = num($("sBuy").value);
+  $("sPreviewTotal").textContent = "Total " + money(sell*q);
+  var p = (sell-buy)*q;
+  var el = $("sPreviewProfit");
+  el.textContent = money(p);
+  el.className = "amt " + (p < 0 ? "neg" : "pos");
+}
+["sQty","sSell","sBuy"].forEach(function(id){ $(id).addEventListener("input", salePreview); });
+$("sSave").addEventListener("click", function(){
+  var item = $("sItem").value.trim();
+  if(!item){ toast("Write the item name"); $("sItem").focus(); return; }
+  if(num($("sSell").value) <= 0){ toast("Write the sell price"); $("sSell").focus(); return; }
+  db.sales.push({
+    id:uid(), date:$("sDate").value || todayStr(), item:item,
+    qty:Math.max(1, num($("sQty").value)||1), buy:num($("sBuy").value), sell:num($("sSell").value),
+    pay:$("sPay").value, note:$("sNote").value.trim()
+  });
+  save(); clearSale(); render(); toast("Sale saved");
+});
+function clearSale(){
+  $("sItem").value = ""; $("sQty").value = "1"; $("sBuy").value = ""; $("sSell").value = "";
+  $("sNote").value = ""; salePreview();
+}
+$("sClear").addEventListener("click", clearSale);
+
+/* ---------- bank form ---------- */
+function bankPreview(){
+  var amt = num($("bAmount").value), com = num($("bComm").value);
+  var w = $("bService").value, isIn = $("bType").value === "cashin";
+  var cashDelta = isIn ? amt : -amt;
+  var walletDelta = isIn ? -amt : amt;
+  if($("bCommIn").value === "Wallet") walletDelta += com; else cashDelta += com;
+  $("bEffect").textContent = "Cash " + (cashDelta>=0?"+":"−") + money(Math.abs(cashDelta)) +
+    "  ·  " + w + " " + (walletDelta>=0?"+":"−") + money(Math.abs(walletDelta)) +
+    "  ·  profit +" + money(com);
+}
+["bAmount","bComm","bService","bType","bCommIn"].forEach(function(id){
+  $(id).addEventListener("input", bankPreview); $(id).addEventListener("change", bankPreview);
+});
+$("bSave").addEventListener("click", function(){
+  if(num($("bAmount").value) <= 0){ toast("Write the amount"); $("bAmount").focus(); return; }
+  db.bank.push({
+    id:uid(), date:$("bDate").value || todayStr(), service:$("bService").value, type:$("bType").value,
+    amount:num($("bAmount").value), comm:num($("bComm").value), commIn:$("bCommIn").value, note:$("bNote").value.trim()
+  });
+  save(); clearBank(); render(); toast("Transaction saved");
+});
+function clearBank(){ $("bAmount").value = ""; $("bComm").value = ""; $("bNote").value = ""; bankPreview(); }
+$("bClear").addEventListener("click", clearBank);
+
+/* ---------- expense + adjust ---------- */
+$("eSave").addEventListener("click", function(){
+  if(num($("eAmount").value) <= 0){ toast("Write the amount"); $("eAmount").focus(); return; }
+  db.expenses.push({
+    id:uid(), date:$("eDate").value || todayStr(), cat:$("eCat").value,
+    amount:num($("eAmount").value), from:$("ePaidFrom").value, note:$("eNote").value.trim()
+  });
+  save(); $("eAmount").value=""; $("eNote").value=""; render(); toast("Expense saved");
+});
+$("eClear").addEventListener("click", function(){ $("eAmount").value=""; $("eNote").value=""; });
+$("aSave").addEventListener("click", function(){
+  if(num($("aAmount").value) <= 0){ toast("Write the amount"); $("aAmount").focus(); return; }
+  db.adjust.push({
+    id:uid(), date:$("aDate").value || todayStr(), type:$("aType").value,
+    amount:num($("aAmount").value), wallet:$("aWallet").value, note:$("aNote").value.trim()
+  });
+  save(); $("aAmount").value=""; $("aNote").value=""; render(); toast("Adjustment saved");
+});
+$("aClear").addEventListener("click", function(){ $("aAmount").value=""; $("aNote").value=""; });
+
+/* ---------- settings + backup ---------- */
+function fillSettings(){
+  $("setOpenCash").value = db.settings.openCash || "";
+  $("setOpenBkash").value = db.settings.openBkash || "";
+  $("setOpenNagad").value = db.settings.openNagad || "";
+  $("setOpenRocket").value = db.settings.openRocket || "";
+}
+$("setSave").addEventListener("click", function(){
+  db.settings.openCash = num($("setOpenCash").value);
+  db.settings.openBkash = num($("setOpenBkash").value);
+  db.settings.openNagad = num($("setOpenNagad").value);
+  db.settings.openRocket = num($("setOpenRocket").value);
+  save(); render(); toast("Settings saved");
+});
+$("setReset").addEventListener("click", fillSettings);
+function download(name, text, mime){
+  var blob = new Blob([text], { type: mime });
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+}
+$("btnExportJson").addEventListener("click", function(){
+  download("shop-hisab-backup-"+todayStr()+".json", JSON.stringify(db, null, 2), "application/json");
+  toast("Backup file created");
+});
+$("btnExportCsv").addEventListener("click", function(){
+  var rows = [["type","date","detail","qty","buy","sell","amount","commission","account","note"]];
+  db.sales.forEach(function(x){ rows.push(["sale",x.date,x.item,x.qty,x.buy,x.sell,num(x.sell)*num(x.qty),"",x.pay,x.note||""]); });
+  db.bank.forEach(function(x){ rows.push([x.type==="cashin"?"cash-in":"cash-out",x.date,x.service,"","","",x.amount,x.comm,x.commIn,x.note||""]); });
+  db.expenses.forEach(function(x){ rows.push(["expense",x.date,x.cat,"","","",x.amount,"",x.from,x.note||""]); });
+  db.adjust.forEach(function(x){ rows.push(["adjust",x.date,adjLabel(x),"","","",x.amount,"",x.wallet||"",x.note||""]); });
+  var csv = rows.map(function(r){
+    return r.map(function(c){ c = c===undefined||c===null ? "" : String(c); return /[",\n]/.test(c) ? '"'+c.replace(/"/g,'""')+'"' : c; }).join(",");
+  }).join("\n");
+  download("shop-hisab-"+todayStr()+".csv", csv, "text/csv");
+  toast("CSV file created");
+});
+$("btnImport").addEventListener("click", function(){ $("fileImport").click(); });
+$("fileImport").addEventListener("change", function(e){
+  var f = e.target.files && e.target.files[0];
+  if(!f) return;
+  var r = new FileReader();
+  r.onload = function(){
+    try{
+      var d = JSON.parse(r.result);
+      if(!d || typeof d !== "object") throw new Error("bad");
+      if(!confirm("Replace all current data with this backup?")) return;
+      db = { settings:Object.assign(blank().settings, d.settings||{}), sales:d.sales||[], bank:d.bank||[], expenses:d.expenses||[], adjust:d.adjust||[] };
+      save(); fillSettings(); render(); toast("Backup restored");
+    }catch(err){ toast("That file could not be read"); }
+  };
+  r.readAsText(f);
+  e.target.value = "";
+});
+$("btnWipe").addEventListener("click", function(){
+  if(!confirm("Delete every sale, transaction and expense? This cannot be undone.")) return;
+  if(!confirm("Are you really sure?")) return;
+  db = blank(); save(); fillSettings(); render(); toast("All data deleted");
+});
+
+/* ---------- init ---------- */
+["homeDate","sDate","bDate","eDate","aDate"].forEach(function(id){ $(id).value = todayStr(); });
+$("homeDate").addEventListener("change", render);
+$("repFrom").addEventListener("change", render);
+$("repTo").addEventListener("change", render);
+buildChips("salesRange","sales");
+buildChips("bankRange","bank");
+buildChips("expRange","exp");
+buildChips("repRange","rep");
+var r0 = rangeDates("rep"); $("repFrom").value = r0.from; $("repTo").value = r0.to;
+fillSettings(); salePreview(); bankPreview(); render();
+
+/* offline service worker (only works when opened from http/https, not file://) */
+if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
+  window.addEventListener("load", function(){
+    navigator.serviceWorker.register("sw.js").catch(function(){});
+  });
+}
+})();
+</script>
+</body>
+</html>
