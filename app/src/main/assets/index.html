@@ -152,6 +152,19 @@ details.help{border:0; box-shadow:0 4px 16px rgba(31,33,54,.07)}
 .toast{background:#1F2136; border-radius:12px}
 .item{border-bottom:1px solid var(--border)}
 @media (max-width:360px){ nav.tabs button{font-size:9px} nav.tabs button svg{width:20px;height:20px} }
+/* khata / party list */
+.avatar{width:42px; height:42px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; flex:none}
+.party-head{display:flex; align-items:center; gap:10px}
+.party-head .main{flex:1; min-width:0}
+.party-head .t{font-weight:700; font-size:18px; overflow-wrap:anywhere}
+.party-head .s{font-size:13px; color:var(--muted)}
+.iconbtn{border:0; background:#fff; box-shadow:0 2px 8px rgba(31,33,54,.10); width:40px; height:40px; border-radius:50%; font-size:18px; line-height:1; cursor:pointer; color:var(--text); flex:none}
+.item.tap{cursor:pointer}
+.item.tap:active{background:var(--soft)}
+.get{color:#E5384F} .pay{color:#0EA06A}
+.subtle{font-size:13px; color:var(--muted); margin-top:8px}
+#entryModal, #partyModal{z-index:110}
+#entryModal .box, #partyModal .box{max-width:390px; max-height:88vh; overflow:auto}
 
 .modal{position:fixed; inset:0; background:rgba(20,20,19,.45); display:none; align-items:center; justify-content:center; padding:24px; z-index:120}
 .modal.show{display:flex}
@@ -220,9 +233,9 @@ details.help{border:0; box-shadow:0 4px 16px rgba(31,33,54,.07)}
       </div>
     </div>
 
-    <div class="stat hero due" style="margin-top:12px">
-      <div class="lbl">Baki — customers owe me</div>
-      <div class="val" id="balDue">Tk 0</div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="stat"><div class="lbl">Baki — I will get</div><div class="val get" id="balDue">Tk 0</div></div>
+      <div class="stat"><div class="lbl">Baki — I will pay</div><div class="val pay" id="balDuePay">Tk 0</div></div>
     </div>
 
     <h2 class="sec">Today's entries</h2>
@@ -460,72 +473,116 @@ details.help{border:0; box-shadow:0 4px 16px rgba(31,33,54,.07)}
       </ul>
     </details>
   </section>
-  <!-- ================= BAKI / DUE ================= -->
+  <!-- ================= BAKI KHATA ================= -->
   <section class="view" id="view-due">
-    <h2 class="sec">Baki khata</h2>
-    <div class="stat hero due">
-      <div class="lbl">Total baki — customers owe me</div>
-      <div class="val" id="dueTotalTop">Tk 0</div>
+
+    <!-- screen A: all khatas -->
+    <div id="dueHome">
+      <div class="grid2">
+        <div class="stat"><div class="lbl">Total I will get</div><div class="val get" id="dueGetTotal">Tk 0</div></div>
+        <div class="stat"><div class="lbl">Total I will pay</div><div class="val pay" id="duePayTotal">Tk 0</div></div>
+      </div>
+
+      <label for="dSearch">Search</label>
+      <input type="search" id="dSearch" placeholder="Name or phone number">
+      <div class="subtle" id="dueCounts">Customers 0 · Suppliers 0</div>
+
+      <div class="card" style="margin-top:12px"><div class="list" id="duePartyList"></div></div>
+
+      <button class="btn" type="button" id="dAddParty" style="margin-top:14px">+ Add customer / supplier</button>
+
+      <details class="help">
+        <summary>How baki khata works</summary>
+        <ul>
+          <li>Every customer or supplier gets their own khata page. Tap a name to open it.</li>
+          <li><b>Dilam / Becha</b> — I gave goods, service or cash. Their baki goes up, so I will get more.</li>
+          <li><b>Pelam</b> — I got money back. Their baki goes down.</li>
+          <li>If the balance turns the other way the app shows <b>I will pay</b>, so a supplier khata works with the same two buttons.</li>
+          <li>Tap any old line to <b>edit or delete</b> it — the balance fixes itself right away.</li>
+          <li>Pick "Goods / service" when no cash moved, or Cash / bKash / Nagad when real money moved, so cash in hand and SIM balances stay correct.</li>
+          <li><b>Sales tab:</b> payment <b>Due (not paid)</b> + customer name → the entry lands here by itself.</li>
+        </ul>
+      </details>
     </div>
 
-    <h2 class="sec">Add baki entry</h2>
-    <div class="card">
-      <label for="dDate">Date</label>
-      <input type="date" id="dDate">
-      <label for="dParty">Customer name</label>
-      <input type="text" id="dParty" placeholder="e.g. Rahim bhai" list="partyList">
-      <div class="row">
-        <div><label for="dPhone">Phone (optional)</label><input type="tel" id="dPhone" placeholder="01XXXXXXXXX" inputmode="tel"></div>
-        <div><label for="dAmount">Amount</label><input type="number" id="dAmount" placeholder="0" inputmode="decimal"></div>
+    <!-- screen B: one khata -->
+    <div id="duePartyView" style="display:none">
+      <div class="party-head">
+        <button class="iconbtn" type="button" id="dBack" aria-label="Back">←</button>
+        <div class="avatar" id="dpAvatar">?</div>
+        <div class="main"><div class="t" id="dpName">Name</div><div class="s" id="dpPhone"></div></div>
+        <button class="iconbtn" type="button" id="dpEdit" aria-label="Edit name">✎</button>
       </div>
-      <label for="dType">What happened</label>
-      <select id="dType">
-        <option value="given">Baki dilam — customer owes me more</option>
-        <option value="received">Taka pelam — customer paid me back</option>
-      </select>
-      <label for="dWhere" id="dWhereLabel">What did I give</label>
-      <select id="dWhere">
-        <option value="None">Goods / service (no cash moved)</option>
-        <option value="Cash">Cash</option>
-        <option value="bKash Agent">bKash Agent SIM</option>
-        <option value="bKash Personal">bKash Personal SIM</option>
-        <option value="bKash Merchant">bKash Merchant SIM</option>
-        <option value="Nagad Agent">Nagad Agent SIM</option>
-        <option value="Nagad Personal">Nagad Personal SIM</option>
-        <option value="Nagad Merchant">Nagad Merchant SIM</option>
-        <option value="Rocket">Rocket</option>
-      </select>
-      <label for="dNote">Note (optional)</label>
-      <input type="text" id="dNote" placeholder="What it was for">
-      <div class="card" style="background:var(--soft); margin-top:14px; box-shadow:none">
-        <div class="s" id="dEffect" style="font-size:14px; color:var(--muted)">Effect will show here.</div>
+
+      <div class="stat hero due" style="margin-top:14px">
+        <div class="lbl" id="dpStatus">I will get</div>
+        <div class="val" id="dpBalance">Tk 0</div>
       </div>
+
       <div class="btn-row">
-        <button class="btn secondary" type="button" id="dClear">Clear</button>
-        <button class="btn" type="button" id="dSave">Save baki</button>
+        <button class="btn danger" type="button" id="dpGave">Dilam / Becha</button>
+        <button class="btn" type="button" id="dpGot">Pelam</button>
       </div>
+
+      <h2 class="sec">Khata</h2>
+      <div class="card"><div class="list" id="dpEntries"></div></div>
+
+      <button class="btn secondary" type="button" id="dpDelete" style="margin-top:14px">Delete this khata</button>
     </div>
-
-    <h2 class="sec">Who owes me</h2>
-    <div class="card"><div class="list" id="duePartyList"></div></div>
-
-    <h2 class="sec">Baki entries</h2>
-    <div class="chipbar" id="dueRange"></div>
-    <div class="card"><div class="list" id="dueList"></div></div>
-
-    <details class="help">
-      <summary>How baki khata works</summary>
-      <ul>
-        <li><b>Sales tab:</b> choose payment <b>Due (not paid)</b> and write the customer name — it comes here automatically.</li>
-        <li><b>Baki dilam:</b> customer owes more. If you gave goods, keep "Goods / service" so no cash moves. If you handed cash, choose Cash.</li>
-        <li><b>Taka pelam:</b> customer paid back — choose where the money came in (Cash, bKash, Nagad…). Baki goes down, that balance goes up.</li>
-        <li>Profit is already counted on the day of the sale, so a payback is not counted as profit again.</li>
-      </ul>
-    </details>
   </section>
 
   <datalist id="partyList"></datalist>
 </main>
+
+<div class="modal" id="entryModal">
+  <div class="box">
+    <div id="emTitle" style="font-weight:700; font-size:17px">Dilam / Becha</div>
+    <div id="emParty" style="font-size:13px; color:var(--muted); margin-top:2px"></div>
+    <label for="emAmount">Amount</label>
+    <input type="number" id="emAmount" placeholder="0" inputmode="decimal">
+    <label for="emDate">Date</label>
+    <input type="date" id="emDate">
+    <label for="emWhere" id="emWhereLabel">What did I give</label>
+    <select id="emWhere">
+      <option value="None">Goods / service (no cash moved)</option>
+      <option value="Cash">Cash</option>
+      <option value="bKash Agent">bKash Agent SIM</option>
+      <option value="bKash Personal">bKash Personal SIM</option>
+      <option value="bKash Merchant">bKash Merchant SIM</option>
+      <option value="Nagad Agent">Nagad Agent SIM</option>
+      <option value="Nagad Personal">Nagad Personal SIM</option>
+      <option value="Nagad Merchant">Nagad Merchant SIM</option>
+      <option value="Rocket">Rocket</option>
+    </select>
+    <label for="emNote">Details (optional)</label>
+    <input type="text" id="emNote" placeholder="e.g. 1 cover, recharge">
+    <div class="subtle" id="emEffect"></div>
+    <div class="btn-row">
+      <button class="btn secondary" type="button" id="emCancel">Cancel</button>
+      <button class="btn" type="button" id="emSave">Save</button>
+    </div>
+    <button class="btn danger" type="button" id="emDelete" style="margin-top:10px; display:none">Delete this entry</button>
+  </div>
+</div>
+
+<div class="modal" id="partyModal">
+  <div class="box">
+    <div id="pmTitle" style="font-weight:700; font-size:17px">Add customer / supplier</div>
+    <label for="pmName">Name</label>
+    <input type="text" id="pmName" placeholder="e.g. Rahim bhai">
+    <label for="pmPhone">Phone (optional)</label>
+    <input type="tel" id="pmPhone" placeholder="01XXXXXXXXX" inputmode="tel">
+    <label for="pmKind">Type</label>
+    <select id="pmKind">
+      <option value="customer">Customer</option>
+      <option value="supplier">Supplier</option>
+    </select>
+    <div class="btn-row">
+      <button class="btn secondary" type="button" id="pmCancel">Cancel</button>
+      <button class="btn" type="button" id="pmSave">Save</button>
+    </div>
+  </div>
+</div>
 
 <nav class="tabs" id="tabs">
   <button data-view="home" class="on"><svg viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg>Home</button>
@@ -573,7 +630,7 @@ function blank(){
     opening[a] = 0;
     rates[a] = { cin:DEFAULT_RATES[a].cin, cout:DEFAULT_RATES[a].cout };
   });
-  return { settings:{ opening:opening, rates:rates }, sales:[], bank:[], expenses:[], adjust:[], dues:[] };
+  return { settings:{ opening:opening, rates:rates }, sales:[], bank:[], expenses:[], adjust:[], dues:[], parties:[] };
 }
 function mapAcc(v){ return (v && OLD_MAP[v]) ? OLD_MAP[v] : v; }
 function load(){
@@ -597,7 +654,18 @@ function load(){
     b.bank = (d.bank||[]).map(function(x){ x.service = mapAcc(x.service); return x; });
     b.expenses = (d.expenses||[]).map(function(x){ if(x.from && x.from !== "Cash") x.from = mapAcc(x.from); return x; });
     b.adjust = (d.adjust||[]).map(function(x){ x.wallet = mapAcc(x.wallet); return x; });
+    b.parties = (d.parties||[]).slice();
     b.dues = (d.dues||[]).map(function(x){ if(x.where && x.where !== "None" && x.where !== "Cash") x.where = mapAcc(x.where); return x; });
+    /* old name-based baki rows -> party khata */
+    b.dues.forEach(function(x){
+      if(x.partyId) return;
+      var n = ((x.party || "Unknown") + "").trim() || "Unknown", found = null;
+      for(var i=0;i<b.parties.length;i++){ if((b.parties[i].name||"").toLowerCase() === n.toLowerCase()){ found = b.parties[i]; break; } }
+      if(!found){ found = { id:uid(), name:n, phone:x.phone || "", kind:"customer" }; b.parties.push(found); }
+      if(!found.phone && x.phone) found.phone = x.phone;
+      x.partyId = found.id;
+      delete x.party; delete x.phone;
+    });
     return b;
   }catch(e){ return blank(); }
 }
@@ -693,21 +761,45 @@ function inRange(ds, from, to){
   if(to && ds > to) return false;
   return true;
 }
-/* ---------- baki / due helpers ---------- */
-function dueByParty(){
-  var map = {}, order = [];
-  db.dues.forEach(function(x){
-    var p = ((x.party || "Unknown").trim()) || "Unknown";
-    if(!map[p]){ map[p] = { party:p, phone:"", amount:0 }; order.push(p); }
-    if(x.phone) map[p].phone = x.phone;
-    map[p].amount += (x.type === "received" ? -num(x.amount) : num(x.amount));
-  });
-  return order.map(function(p){ return map[p]; });
+/* ---------- baki khata helpers ---------- */
+function partyById(id){
+  for(var i=0;i<db.parties.length;i++){ if(db.parties[i].id === id) return db.parties[i]; }
+  return null;
 }
-function dueTotalAll(){
+function findOrCreateParty(name, phone, kind){
+  var n = ((name || "") + "").trim() || "Unknown";
+  for(var i=0;i<db.parties.length;i++){ if((db.parties[i].name||"").toLowerCase() === n.toLowerCase()) return db.parties[i]; }
+  var p = { id:uid(), name:n, phone:phone || "", kind:kind || "customer" };
+  db.parties.push(p);
+  return p;
+}
+function partyBalance(pid){
   var t = 0;
-  db.dues.forEach(function(x){ t += (x.type === "received" ? -num(x.amount) : num(x.amount)); });
+  db.dues.forEach(function(x){ if(x.partyId === pid) t += (x.type === "received" ? -num(x.amount) : num(x.amount)); });
   return t;
+}
+function partyLast(pid){
+  var d = "";
+  db.dues.forEach(function(x){ if(x.partyId === pid && (x.date||"") > d) d = x.date || ""; });
+  return d;
+}
+function dueTotals(){
+  var g = 0, p = 0;
+  db.parties.forEach(function(pt){
+    var b = partyBalance(pt.id);
+    if(b > 0.004) g += b; else if(b < -0.004) p += -b;
+  });
+  return { get:g, pay:p };
+}
+function initials(name){
+  var parts = ((name || "?") + "").trim().split(/\s+/);
+  return ((parts[0]||"?").charAt(0) + (parts[1] ? parts[1].charAt(0) : "")).toUpperCase();
+}
+var AV_COLORS = [["#FFE1E6","#C2334A"],["#E4F6EA","#1F7A4C"],["#E7ECFF","#3B4FCB"],["#FFF0DC","#A9691A"],["#F4E7FD","#7A2FA8"],["#DEF3F6","#14707A"]];
+function avColor(name){
+  var h = 0, s = (name || "") + "";
+  for(var i=0;i<s.length;i++) h = (h * 31 + s.charCodeAt(i)) % 9973;
+  return AV_COLORS[h % AV_COLORS.length];
 }
 function totals(from, to){
   var t = { saleAmt:0, saleProfit:0, comm:0, exp:0, cashIn:0, cashOut:0, net:0, items:0 };
@@ -813,32 +905,15 @@ function render(){
   $("balBkashTotal").textContent = money(groupTotal(b, "bKash"));
   $("balNagadTotal").textContent = money(groupTotal(b, "Nagad"));
   $("balTotal").textContent = money(grandTotal(b));
-  $("balDue").textContent = money(dueTotalAll());
-  $("dueTotalTop").textContent = money(dueTotalAll());
-
-  /* baki khata */
-  var parties = dueByParty();
+  var dt = dueTotals();
+  $("balDue").textContent = money(dt.get);
+  $("balDuePay").textContent = money(dt.pay);
+  $("dueGetTotal").textContent = money(dt.get);
+  $("duePayTotal").textContent = money(dt.pay);
   var pl = $("partyList"); pl.innerHTML = "";
-  parties.forEach(function(p){ var o = document.createElement("option"); o.value = p.party; pl.appendChild(o); });
-  var pw = $("duePartyList"); pw.innerHTML = "";
-  var owing = parties.filter(function(p){ return Math.round(p.amount*100) !== 0; })
-                     .sort(function(a,z){ return z.amount - a.amount; });
-  if(!owing.length) pw.innerHTML = emptyRow("Nobody owes anything right now.");
-  owing.forEach(function(p){
-    pw.appendChild(rowEl(p.party, p.phone ? escapeHtml(p.phone) : "no phone saved",
-      money(Math.abs(p.amount)), p.amount < 0 ? "advance with me" : "baki", p.amount < 0 ? "pos" : "", null));
-  });
-  var dr = rangeDates("due");
-  var dl = $("dueList"); dl.innerHTML = "";
-  var drows = db.dues.filter(function(x){ return inRange(x.date, dr.from, dr.to); }).slice().reverse();
-  if(!drows.length) dl.innerHTML = emptyRow("No baki entry in this period.");
-  drows.forEach(function(x){
-    var given = x.type === "given";
-    var sub = pretty(x.date) + ' · <span class="tag ' + (given ? "out" : "in") + '">' + (given ? "Baki" : "Paid") + "</span>" +
-      (x.where && x.where !== "None" ? x.where : "goods") + (x.note ? " · " + escapeHtml(x.note) : "");
-    dl.appendChild(rowEl(x.party || "Customer", sub, (given ? "+" : "−") + money(num(x.amount)), null,
-      given ? "" : "pos", function(){ removeById(db.dues, x.id); }));
-  });
+  db.parties.forEach(function(p){ var o = document.createElement("option"); o.value = p.name; pl.appendChild(o); });
+  renderPartyList();
+  if(openParty) renderPartyKhata();
 
   var hd = $("homeDate").value || todayStr();
   var t = totals(hd, hd);
@@ -871,7 +946,8 @@ function render(){
         feed.appendChild(rowEl(x.cat||"Expense", '<span class="tag">Expense</span>'+(x.from||"Cash"), "−"+money(num(x.amount)), null, "neg", null));
       } else if(e.k==="due"){
         var dgiven = x.type === "given";
-        feed.appendChild(rowEl(x.party||"Customer", '<span class="tag '+(dgiven?"out":"in")+'">'+(dgiven?"Baki":"Paid")+"</span>"+(x.where && x.where!=="None" ? x.where : "goods"), (dgiven?"+":"−")+money(num(x.amount)), null, dgiven ? "" : "pos", null));
+        var dpp = partyById(x.partyId);
+        feed.appendChild(rowEl(dpp ? dpp.name : "Customer", '<span class="tag '+(dgiven?"out":"in")+'">'+(dgiven?"Baki":"Paid")+"</span>"+(x.where && x.where!=="None" ? x.where : "goods"), (dgiven?"+":"−")+money(num(x.amount)), null, dgiven ? "" : "pos", null));
       } else {
         feed.appendChild(rowEl(adjLabel(x), '<span class="tag">Adjust</span>'+(x.wallet||""), money(num(x.amount)), null, "", null));
       }
@@ -1000,8 +1076,9 @@ $("sSave").addEventListener("click", function(){
   });
   var ns = db.sales[db.sales.length-1];
   if(ns.pay === "Due"){
+    var sp = findOrCreateParty(ns.customer || "Unknown", "", "customer");
     db.dues.push({
-      id:uid(), date:ns.date, party:ns.customer || "Unknown", phone:"", type:"given",
+      id:uid(), date:ns.date, partyId:sp.id, type:"given",
       amount:num(ns.sell)*num(ns.qty), where:"None",
       note:"Due sale: " + (ns.item || "item"), saleId:ns.id
     });
@@ -1070,33 +1147,196 @@ $("bSave").addEventListener("click", function(){
 function clearBank(){ $("bAmount").value = ""; $("bComm").value = ""; $("bNote").value = ""; commEdited = false; refreshComm(); }
 $("bClear").addEventListener("click", clearBank);
 
-/* ---------- baki / due form ---------- */
-function duePreview(){
-  var amt = num($("dAmount").value), given = $("dType").value === "given", w = $("dWhere").value;
-  $("dWhereLabel").textContent = given ? "What did I give" : "Money came into";
+/* ---------- baki khata screens ---------- */
+var openParty = null, editingEntry = null, entryType = "given", editingParty = null;
+
+function renderPartyList(){
+  var q = (($("dSearch").value || "") + "").toLowerCase().trim();
+  var cust = 0, supp = 0;
+  db.parties.forEach(function(p){ if(p.kind === "supplier") supp++; else cust++; });
+  $("dueCounts").textContent = "Customers " + cust + " · Suppliers " + supp;
+
+  var rows = db.parties.filter(function(p){
+    if(!q) return true;
+    return (p.name||"").toLowerCase().indexOf(q) >= 0 || (p.phone||"").indexOf(q) >= 0;
+  });
+  rows.sort(function(a,z){ return (partyLast(z.id)||"").localeCompare(partyLast(a.id)||""); });
+
+  var holder = $("duePartyList"); holder.innerHTML = "";
+  if(!rows.length){
+    holder.innerHTML = emptyRow(db.parties.length ? "No name matched." : "No khata yet. Add a customer below.");
+    return;
+  }
+  rows.forEach(function(p){
+    var bal = partyBalance(p.id), col = avColor(p.name), last = partyLast(p.id);
+    var el = document.createElement("div");
+    el.className = "item tap";
+    el.innerHTML = '<div class="avatar"></div><div class="main"><div class="t"></div><div class="s"></div></div><div class="amt"><span></span><small></small></div>';
+    var av = el.querySelector(".avatar");
+    av.style.background = col[0]; av.style.color = col[1]; av.textContent = initials(p.name);
+    el.querySelector(".t").textContent = p.name;
+    el.querySelector(".s").textContent = (p.kind === "supplier" ? "Supplier" : "Customer") + (last ? " · " + pretty(last) : " · no entry yet");
+    var sp2 = el.querySelector(".amt span");
+    sp2.textContent = money(Math.abs(bal));
+    sp2.className = bal > 0.004 ? "get" : (bal < -0.004 ? "pay" : "");
+    el.querySelector(".amt small").textContent = bal > 0.004 ? "I will get" : (bal < -0.004 ? "I will pay" : "all clear");
+    el.addEventListener("click", function(){ openPartyView(p.id); });
+    holder.appendChild(el);
+  });
+}
+
+function openPartyView(pid){
+  openParty = pid;
+  $("dueHome").style.display = "none";
+  $("duePartyView").style.display = "block";
+  renderPartyKhata();
+  window.scrollTo(0, 0);
+}
+function closePartyView(){
+  openParty = null;
+  $("duePartyView").style.display = "none";
+  $("dueHome").style.display = "block";
+  window.scrollTo(0, 0);
+}
+
+function renderPartyKhata(){
+  var p = partyById(openParty);
+  if(!p){ closePartyView(); return; }
+  var col = avColor(p.name), av = $("dpAvatar");
+  av.textContent = initials(p.name); av.style.background = col[0]; av.style.color = col[1];
+  $("dpName").textContent = p.name;
+  $("dpPhone").textContent = (p.phone ? p.phone + " · " : "") + (p.kind === "supplier" ? "Supplier" : "Customer");
+
+  var bal = partyBalance(p.id);
+  $("dpStatus").textContent = bal > 0.004 ? "I will get" : (bal < -0.004 ? "I will pay" : "All clear");
+  $("dpBalance").textContent = money(Math.abs(bal));
+
+  var rows = db.dues.filter(function(x){ return x.partyId === p.id; }).sort(function(a,z){
+    return (a.date||"").localeCompare(z.date||"") || ((a.id > z.id) ? 1 : -1);
+  });
+  var holder = $("dpEntries"); holder.innerHTML = "";
+  if(!rows.length){ holder.innerHTML = emptyRow("No entry yet. Use the two buttons above."); return; }
+  var run = 0;
+  rows.forEach(function(x){
+    var given = x.type === "given";
+    run += given ? num(x.amount) : -num(x.amount);
+    var el = document.createElement("div");
+    el.className = "item tap";
+    el.innerHTML = '<div class="main"><div class="t"></div><div class="s"></div></div><div class="amt"><span></span><small></small></div>';
+    el.querySelector(".t").textContent = (given ? "Dilam / Becha " : "Pelam ") + money(num(x.amount));
+    el.querySelector(".s").textContent = pretty(x.date) + " · " + (x.where && x.where !== "None" ? x.where : "goods") + (x.note ? " · " + x.note : "");
+    var sp3 = el.querySelector(".amt span");
+    sp3.textContent = money(Math.abs(run));
+    sp3.className = run > 0.004 ? "get" : (run < -0.004 ? "pay" : "");
+    el.querySelector(".amt small").textContent = run > 0.004 ? "I will get" : (run < -0.004 ? "I will pay" : "clear");
+    el.addEventListener("click", function(){ openEntry(x.type, x); });
+    holder.appendChild(el);
+  });
+}
+
+/* entry sheet */
+function emUpdate(){
+  var amt = num($("emAmount").value), given = entryType === "given", w = $("emWhere").value;
+  $("emWhereLabel").textContent = given ? "What did I give" : "Money came into";
   var txt = given ? "Baki +" + money(amt) : "Baki −" + money(amt);
   txt += (w && w !== "None") ? "  ·  " + w + " " + (given ? "−" : "+") + money(amt) : "  ·  no cash movement";
-  $("dEffect").textContent = txt;
+  $("emEffect").textContent = txt;
 }
-["dAmount","dWhere"].forEach(function(id){
-  $(id).addEventListener("input", duePreview); $(id).addEventListener("change", duePreview);
+function openEntry(type, entry){
+  var p = partyById(openParty);
+  if(!p) return;
+  entryType = type;
+  editingEntry = entry || null;
+  $("emTitle").textContent = (type === "given" ? "Dilam / Becha" : "Pelam") + (entry ? "  (edit)" : "");
+  $("emParty").textContent = p.name;
+  $("emAmount").value = entry ? entry.amount : "";
+  $("emDate").value = (entry && entry.date) ? entry.date : todayStr();
+  $("emWhere").value = entry ? (entry.where || "None") : (type === "given" ? "None" : "Cash");
+  $("emNote").value = entry ? (entry.note || "") : "";
+  $("emDelete").style.display = entry ? "block" : "none";
+  emUpdate();
+  $("entryModal").classList.add("show");
+  setTimeout(function(){ $("emAmount").focus(); }, 60);
+}
+function closeEntry(){ $("entryModal").classList.remove("show"); editingEntry = null; }
+
+["emAmount","emWhere"].forEach(function(id){
+  $(id).addEventListener("input", emUpdate); $(id).addEventListener("change", emUpdate);
 });
-$("dType").addEventListener("change", function(){
-  $("dWhere").value = $("dType").value === "given" ? "None" : "Cash";
-  duePreview();
+$("emCancel").addEventListener("click", closeEntry);
+$("emSave").addEventListener("click", function(){
+  var amt = num($("emAmount").value);
+  if(amt <= 0){ toast("Write the amount"); $("emAmount").focus(); return; }
+  var wasEdit = !!editingEntry;
+  if(editingEntry){
+    editingEntry.amount = amt;
+    editingEntry.date = $("emDate").value || todayStr();
+    editingEntry.where = $("emWhere").value;
+    editingEntry.note = $("emNote").value.trim();
+    editingEntry.type = entryType;
+  } else {
+    db.dues.push({
+      id:uid(), partyId:openParty, date:$("emDate").value || todayStr(), type:entryType,
+      amount:amt, where:$("emWhere").value, note:$("emNote").value.trim()
+    });
+  }
+  save(); closeEntry(); render(); toast(wasEdit ? "Entry updated" : "Saved");
 });
-$("dSave").addEventListener("click", function(){
-  if(!$("dParty").value.trim()){ toast("Write the customer name"); $("dParty").focus(); return; }
-  if(num($("dAmount").value) <= 0){ toast("Write the amount"); $("dAmount").focus(); return; }
-  db.dues.push({
-    id:uid(), date:$("dDate").value || todayStr(), party:$("dParty").value.trim(),
-    phone:$("dPhone").value.trim(), type:$("dType").value, amount:num($("dAmount").value),
-    where:$("dWhere").value, note:$("dNote").value.trim()
+$("emDelete").addEventListener("click", function(){
+  var e = editingEntry;
+  if(!e) return;
+  askConfirm("Delete this entry? The balance will change.", function(){
+    removeById(db.dues, e.id);
+    save(); closeEntry(); render(); toast("Entry deleted");
   });
-  save(); clearDue(); render(); toast("Baki entry saved");
 });
-function clearDue(){ $("dAmount").value = ""; $("dNote").value = ""; duePreview(); }
-$("dClear").addEventListener("click", clearDue);
+$("dpGave").addEventListener("click", function(){ openEntry("given", null); });
+$("dpGot").addEventListener("click", function(){ openEntry("received", null); });
+$("dBack").addEventListener("click", function(){ closePartyView(); render(); });
+
+/* party sheet */
+function openPartyModal(p){
+  editingParty = p || null;
+  $("pmTitle").textContent = p ? "Edit name / phone" : "Add customer / supplier";
+  $("pmName").value = p ? p.name : "";
+  $("pmPhone").value = p ? (p.phone || "") : "";
+  $("pmKind").value = p ? (p.kind || "customer") : "customer";
+  $("partyModal").classList.add("show");
+  setTimeout(function(){ $("pmName").focus(); }, 60);
+}
+function closePartyModal(){ $("partyModal").classList.remove("show"); editingParty = null; }
+$("pmCancel").addEventListener("click", closePartyModal);
+$("dAddParty").addEventListener("click", function(){ openPartyModal(null); });
+$("dpEdit").addEventListener("click", function(){ var p = partyById(openParty); if(p) openPartyModal(p); });
+$("pmSave").addEventListener("click", function(){
+  var name = $("pmName").value.trim();
+  if(!name){ toast("Write the name"); $("pmName").focus(); return; }
+  var dup = null;
+  for(var i=0;i<db.parties.length;i++){
+    if(db.parties[i].name.toLowerCase() === name.toLowerCase() && db.parties[i] !== editingParty){ dup = db.parties[i]; break; }
+  }
+  if(dup){ toast("This name already has a khata"); return; }
+  if(editingParty){
+    editingParty.name = name;
+    editingParty.phone = $("pmPhone").value.trim();
+    editingParty.kind = $("pmKind").value;
+    save(); closePartyModal(); render(); toast("Saved");
+  } else {
+    var np = { id:uid(), name:name, phone:$("pmPhone").value.trim(), kind:$("pmKind").value };
+    db.parties.push(np);
+    save(); closePartyModal(); openPartyView(np.id); render(); toast("Khata opened");
+  }
+});
+$("dpDelete").addEventListener("click", function(){
+  var p = partyById(openParty);
+  if(!p) return;
+  askConfirm("Delete " + p.name + " and all their baki entries?", function(){
+    db.dues = db.dues.filter(function(x){ return x.partyId !== p.id; });
+    db.parties = db.parties.filter(function(x){ return x.id !== p.id; });
+    save(); closePartyView(); render(); toast("Khata deleted");
+  });
+});
+$("dSearch").addEventListener("input", renderPartyList);
 
 /* ---------- expense + adjust ---------- */
 $("eSave").addEventListener("click", function(){
@@ -1164,7 +1404,7 @@ $("btnExportCsv").addEventListener("click", function(){
   db.bank.forEach(function(x){ rows.push([x.type==="cashin"?"cash-in":"cash-out",x.date,x.service,"","","",x.amount,x.comm,x.commIn,x.note||""]); });
   db.expenses.forEach(function(x){ rows.push(["expense",x.date,x.cat,"","","",x.amount,"",x.from,x.note||""]); });
   db.adjust.forEach(function(x){ rows.push(["adjust",x.date,adjLabel(x),"","","",x.amount,"",x.wallet||"",x.note||""]); });
-  db.dues.forEach(function(x){ rows.push([x.type==="given"?"baki-given":"baki-paid",x.date,x.party,"","","",x.amount,"",x.where||"",x.note||""]); });
+  db.dues.forEach(function(x){ var dp2 = partyById(x.partyId); rows.push([x.type==="given"?"baki-dilam":"baki-pelam",x.date,dp2?dp2.name:"","","","",x.amount,"",x.where||"",x.note||""]); });
   var csv = rows.map(function(r){
     return r.map(function(c){ c = c===undefined||c===null ? "" : String(c); return /[",\n]/.test(c) ? '"'+c.replace(/"/g,'""')+'"' : c; }).join(",");
   }).join("\n");
@@ -1193,13 +1433,14 @@ function wipeAll(){
   try{ localStorage.removeItem(KEY); }catch(e){}
   db = blank();
   save();
-  ["sItem","sBuy","sSell","sNote","sCustomer","bAmount","bComm","bNote","eAmount","eNote","aAmount","aNote","dParty","dPhone","dAmount","dNote"].forEach(function(id){
+  ["sItem","sBuy","sSell","sNote","sCustomer","bAmount","bComm","bNote","eAmount","eNote","aAmount","aNote","dSearch"].forEach(function(id){
     var el = $(id); if(el) el.value = "";
   });
   var q = $("sQty"); if(q) q.value = "1";
-  ["homeDate","sDate","bDate","eDate","aDate","dDate"].forEach(function(id){ var el = $(id); if(el) el.value = todayStr(); });
+  ["homeDate","sDate","bDate","eDate","aDate"].forEach(function(id){ var el = $(id); if(el) el.value = todayStr(); });
+  closePartyView();
   commEdited = false;
-  fillSettings(); salePreview(); refreshComm(); duePreview(); render();
+  fillSettings(); salePreview(); refreshComm(); render();
   toast("App is fresh again");
 }
 $("btnWipe").addEventListener("click", function(){
@@ -1209,17 +1450,16 @@ $("btnWipe").addEventListener("click", function(){
 });
 
 /* ---------- init ---------- */
-["homeDate","sDate","bDate","eDate","aDate","dDate"].forEach(function(id){ $(id).value = todayStr(); });
+["homeDate","sDate","bDate","eDate","aDate"].forEach(function(id){ $(id).value = todayStr(); });
 $("homeDate").addEventListener("change", render);
 $("repFrom").addEventListener("change", render);
 $("repTo").addEventListener("change", render);
 buildChips("salesRange","sales");
 buildChips("bankRange","bank");
 buildChips("expRange","exp");
-buildChips("dueRange","due");
 buildChips("repRange","rep");
 var r0 = rangeDates("rep"); $("repFrom").value = r0.from; $("repTo").value = r0.to;
-fillSettings(); salePreview(); refreshComm(); duePreview(); render();
+fillSettings(); salePreview(); refreshComm(); render();
 
 /* offline service worker (only works when opened from http/https, not file://) */
 if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
