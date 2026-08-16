@@ -282,6 +282,28 @@ details.help li b{color:var(--text)}
   nav.tabs button .nb{width:36px;height:28px}
   nav.tabs button svg{width:19px;height:19px}
 }
+
+/* ---------------- app lock (v7) ---------------- */
+.lock{position:fixed;inset:0;z-index:220;display:none;background:linear-gradient(165deg,#6C4BF6 0%,#8B5CF6 46%,#C026D3 100%);align-items:center;justify-content:center;padding:22px}
+.lock.show{display:flex}
+.lock-box{width:100%;max-width:330px;text-align:center}
+.lock-mark{width:62px;height:62px;border-radius:20px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.34);color:#fff;font-weight:800;font-size:20px;letter-spacing:.5px}
+.lock-name{color:#fff;font-size:21px;font-weight:800;letter-spacing:-.4px}
+.lock-sub{color:rgba(255,255,255,.82);font-size:13.5px;margin-top:4px}
+.dots{display:flex;gap:15px;justify-content:center;margin:24px 0 6px}
+.dots i{width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.24);border:1.5px solid rgba(255,255,255,.55);transition:transform .12s,background .12s}
+.dots i.f{background:#fff;border-color:#fff;transform:scale(1.15)}
+.lock.err .dots{animation:shake .38s}
+@keyframes shake{10%,90%{transform:translateX(-5px)}30%,70%{transform:translateX(7px)}50%{transform:translateX(-7px)}}
+.lock-msg{color:#FFE1E5;font-size:13px;font-weight:650;min-height:19px}
+.keys{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-top:16px}
+.keys button{height:58px;border:0;border-radius:18px;background:rgba(255,255,255,.16);color:#fff;font-size:23px;font-weight:700;cursor:pointer;font-family:inherit}
+.keys button:active{background:rgba(255,255,255,.36);transform:translateY(1px)}
+.keys button.txt{font-size:13.5px;font-weight:700;background:rgba(255,255,255,.08)}
+body.locked{overflow:hidden}
+#recoverModal{z-index:260}
+#recoverModal .box{max-height:88vh;overflow-y:auto}
+.verline{text-align:center;color:var(--faint);font-size:12px;font-weight:650;padding:2px 0 6px}
 </style>
 </head>
 <body>
@@ -289,7 +311,7 @@ details.help li b{color:var(--text)}
   <div class="appbar-row">
     <div class="brandmark">SH</div>
     <div class="main">
-      <div class="app-title">Shop Hisab</div>
+      <div class="app-title" id="appTitle">Shop Hisab</div>
       <div class="app-sub" id="headerSub">Mobile shop daily accounts</div>
     </div>
   </div>
@@ -489,6 +511,8 @@ details.help li b{color:var(--text)}
       <input type="date" id="aDate">
       <label for="aType">Action</label>
       <select id="aType">
+        <option value="money_in">Money received — keep it in…</option>
+        <option value="money_out">Money paid out — take it from…</option>
         <option value="cash_add">Add my own cash to shop</option>
         <option value="cash_take">Take cash out of shop</option>
         <option value="buy_float">Buy wallet balance with cash</option>
@@ -496,12 +520,13 @@ details.help li b{color:var(--text)}
       </select>
       <div class="row">
         <div><label for="aAmount">Amount</label><input type="number" id="aAmount" placeholder="0" inputmode="decimal"></div>
-        <div><label for="aWallet">Wallet</label>
-          <select id="aWallet"><option value="bKash Agent">bKash Agent SIM</option><option value="bKash Personal">bKash Personal SIM</option><option value="bKash Merchant">bKash Merchant SIM</option><option value="Nagad Agent">Nagad Agent SIM</option><option value="Nagad Personal">Nagad Personal SIM</option><option value="Nagad Merchant">Nagad Merchant SIM</option><option value="Rocket">Rocket</option></select>
+        <div><label for="aWallet" id="aWalletLabel">Keep the money in</label>
+          <select id="aWallet"><option value="Cash">Cash in hand</option><option value="bKash Agent">bKash Agent SIM</option><option value="bKash Personal">bKash Personal SIM</option><option value="bKash Merchant">bKash Merchant SIM</option><option value="Nagad Agent">Nagad Agent SIM</option><option value="Nagad Personal">Nagad Personal SIM</option><option value="Nagad Merchant">Nagad Merchant SIM</option><option value="Rocket">Rocket</option></select>
         </div>
       </div>
       <label for="aNote">Note (optional)</label>
-      <input type="text" id="aNote" placeholder="Distributor / reason">
+      <input type="text" id="aNote" placeholder="Who gave it / reason">
+      <div class="card" style="margin-top:14px"><div id="aEffect" style="font-size:14.5px;font-weight:650;color:var(--muted)">Effect will show here.</div></div>
       <div class="btn-row">
         <button class="btn secondary" type="button" id="aClear">Clear</button>
         <button class="btn" type="button" id="aSave">Save adjustment</button>
@@ -550,6 +575,9 @@ details.help li b{color:var(--text)}
 
     <h2 class="sec">Data &amp; settings</h2>
     <div class="card">
+      <label for="setShopName">Shop name</label>
+      <input type="text" id="setShopName" placeholder="e.g. Younus Telecom" maxlength="34">
+      <div class="hint">This name shows at the top of the app.</div>
       <label for="setOpenCash">Opening cash in hand</label>
       <input type="number" id="setOpenCash" placeholder="0" inputmode="decimal">
       <div class="row">
@@ -582,6 +610,31 @@ details.help li b{color:var(--text)}
         <button class="btn" type="button" id="setSave">Save settings</button>
       </div>
     </div>
+    <div class="card">
+      <div class="t" style="font-weight:700">App lock · 4-digit PIN</div>
+      <div class="hint">When this is on, the app asks for your PIN every time it opens.</div>
+      <label for="setLockOn">App lock</label>
+      <select id="setLockOn">
+        <option value="off">Off</option>
+        <option value="on">On — ask for the PIN</option>
+      </select>
+      <div class="row">
+        <div><label for="setPin1">New 4-digit PIN</label><input type="password" id="setPin1" inputmode="numeric" maxlength="4" placeholder="••••" autocomplete="off"></div>
+        <div><label for="setPin2">Type it again</label><input type="password" id="setPin2" inputmode="numeric" maxlength="4" placeholder="••••" autocomplete="off"></div>
+      </div>
+      <div class="subtle" id="lockStatus" style="margin-top:10px">App lock is off.</div>
+      <button class="btn" type="button" id="btnLockSave" style="margin-top:12px">Save app lock</button>
+      <details class="help">
+        <summary>If you forget the PIN</summary>
+        <ul>
+          <li>On the lock screen tap <b>Forgot</b>.</li>
+          <li>Type the Gmail you saved in <b>Google Drive auto backup</b> below. A 6-digit code is emailed to it, then you set a new PIN.</li>
+          <li>Drive link not set up yet, or no internet? Use the <b>recovery key</b> instead. Write it down somewhere safe today.</li>
+        </ul>
+        <div class="subtle">Your recovery key: <b id="lockKey">—</b></div>
+      </details>
+    </div>
+
     <div class="card">
       <div class="t" style="font-weight:600">Backup</div>
       <div class="hint">Everything is stored inside this phone only. Export a backup file sometimes so nothing is lost.</div>
@@ -704,6 +757,7 @@ details.help li b{color:var(--text)}
   </section>
 
   <datalist id="partyList"></datalist>
+  <div class="verline" id="verLine"></div>
 </main>
 
 <div class="modal" id="entryModal">
@@ -756,6 +810,61 @@ details.help li b{color:var(--text)}
   </div>
 </div>
 
+<div class="lock" id="lockScreen">
+  <div class="lock-box">
+    <div class="lock-mark">SH</div>
+    <div class="lock-name" id="lockShop">Shop Hisab</div>
+    <div class="lock-sub">Enter your 4-digit PIN</div>
+    <div class="dots" id="lockDots"><i></i><i></i><i></i><i></i></div>
+    <div class="lock-msg" id="lockMsg"></div>
+    <div class="keys" id="lockKeys">
+      <button type="button" data-k="1">1</button>
+      <button type="button" data-k="2">2</button>
+      <button type="button" data-k="3">3</button>
+      <button type="button" data-k="4">4</button>
+      <button type="button" data-k="5">5</button>
+      <button type="button" data-k="6">6</button>
+      <button type="button" data-k="7">7</button>
+      <button type="button" data-k="8">8</button>
+      <button type="button" data-k="9">9</button>
+      <button type="button" data-k="forgot" class="txt">Forgot</button>
+      <button type="button" data-k="0">0</button>
+      <button type="button" data-k="del" class="txt">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="recoverModal">
+  <div class="box">
+    <div style="font-weight:800;font-size:17px">Recover your PIN</div>
+    <div class="subtle" id="rcSub" style="margin-top:4px">Type the Gmail you saved for Drive backup.</div>
+    <div id="rcStep1">
+      <label for="rcEmail">Backup Gmail</label>
+      <input type="email" id="rcEmail" placeholder="you@gmail.com" autocapitalize="off" autocorrect="off" spellcheck="false">
+      <button class="btn" type="button" id="rcSend" style="margin-top:12px">Email me a code</button>
+      <button class="btn secondary" type="button" id="rcUseKey" style="margin-top:10px">I have the recovery key</button>
+    </div>
+    <div id="rcStep2" style="display:none">
+      <label for="rcCode">6-digit code from the email</label>
+      <input type="text" id="rcCode" inputmode="numeric" maxlength="6" placeholder="000000">
+      <button class="btn" type="button" id="rcCheck" style="margin-top:12px">Check code</button>
+    </div>
+    <div id="rcStep2k" style="display:none">
+      <label for="rcKey">Recovery key</label>
+      <input type="text" id="rcKey" placeholder="XXXX-XXXX" autocapitalize="characters" spellcheck="false">
+      <button class="btn" type="button" id="rcCheckKey" style="margin-top:12px">Check key</button>
+    </div>
+    <div id="rcStep3" style="display:none">
+      <div class="row">
+        <div><label for="rcPin1">New PIN</label><input type="password" id="rcPin1" inputmode="numeric" maxlength="4" placeholder="••••"></div>
+        <div><label for="rcPin2">Type it again</label><input type="password" id="rcPin2" inputmode="numeric" maxlength="4" placeholder="••••"></div>
+      </div>
+      <button class="btn" type="button" id="rcSetPin" style="margin-top:12px">Save new PIN</button>
+    </div>
+    <button class="btn secondary" type="button" id="rcClose" style="margin-top:10px">Close</button>
+  </div>
+</div>
+
 <nav class="tabs" id="tabs">
   <button data-view="home" class="on"><span class="nb"><svg viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg></span>Home</button>
   <button data-view="sales"><span class="nb"><svg viewBox="0 0 24 24"><path d="M4 7h16l-1.5 12H5.5z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg></span>Sales</button>
@@ -781,6 +890,7 @@ details.help li b{color:var(--text)}
 (function(){
 "use strict";
 var KEY = "shopHisab.v1";
+var APP_VERSION = "v7";
 var ACCOUNTS = ["bKash Agent","bKash Personal","bKash Merchant","Nagad Agent","Nagad Personal","Nagad Merchant","Rocket"];
 var DEFAULT_RATES = {
   "bKash Agent":{ cin:4, cout:3.75 },
@@ -802,7 +912,7 @@ function blank(){
     opening[a] = 0;
     rates[a] = { cin:DEFAULT_RATES[a].cin, cout:DEFAULT_RATES[a].cout };
   });
-  return { settings:{ opening:opening, rates:rates }, sales:[], bank:[], expenses:[], adjust:[], dues:[], parties:[] };
+  return { settings:{ shop:"", opening:opening, rates:rates, lock:{ on:false, pin:"", key:"" } }, sales:[], bank:[], expenses:[], adjust:[], dues:[], parties:[] };
 }
 function mapAcc(v){ return (v && OLD_MAP[v]) ? OLD_MAP[v] : v; }
 function load(){
@@ -823,6 +933,8 @@ function load(){
       ACCOUNTS.forEach(function(a){ if(s.rates[a]) b.settings.rates[a] = Object.assign(b.settings.rates[a], s.rates[a]); });
     }
     b.settings.cloud = Object.assign({ url:"", email:"", auto:"on", last:"", lastFile:"" }, s.cloud || {});
+    b.settings.shop = (s.shop || "") + "";
+    b.settings.lock = Object.assign({ on:false, pin:"", key:"" }, s.lock || {});
     b.sales = (d.sales||[]).map(function(x){ if(x.pay && x.pay !== "Due" && x.pay !== "Cash") x.pay = mapAcc(x.pay); return x; });
     b.bank = (d.bank||[]).map(function(x){ x.service = mapAcc(x.service); return x; });
     b.expenses = (d.expenses||[]).map(function(x){ if(x.from && x.from !== "Cash") x.from = mapAcc(x.from); return x; });
@@ -907,7 +1019,9 @@ function balances(){
   });
   db.adjust.forEach(function(x){
     var amt = num(x.amount), w = x.wallet;
-    if(x.type === "cash_add") b.Cash += amt;
+    if(x.type === "money_in"){ if(b.hasOwnProperty(w)) b[w] += amt; }
+    else if(x.type === "money_out"){ if(b.hasOwnProperty(w)) b[w] -= amt; }
+    else if(x.type === "cash_add") b.Cash += amt;
     else if(x.type === "cash_take") b.Cash -= amt;
     else if(x.type === "buy_float"){ b.Cash -= amt; if(b.hasOwnProperty(w)) b[w] += amt; }
     else if(x.type === "sell_float"){ b.Cash += amt; if(b.hasOwnProperty(w)) b[w] -= amt; }
@@ -1096,6 +1210,7 @@ function render(){
   $("kpiComm").textContent = money(t.comm);
   $("kpiSaleAmt").textContent = money(t.saleAmt);
   $("kpiExp").textContent = money(t.exp);
+  $("appTitle").textContent = db.settings.shop || "Shop Hisab";
   $("headerSub").textContent = (hd===todayStr() ? "Today" : pretty(hd)) + " · net " + money(t.net);
 
   /* home feed */
@@ -1223,6 +1338,8 @@ function escapeHtml(s){
   });
 }
 function adjLabel(x){
+  if(x.type==="money_in") return "Money received in " + (x.wallet || "Cash");
+  if(x.type==="money_out") return "Money paid out from " + (x.wallet || "Cash");
   if(x.type==="cash_add") return "Cash added to shop";
   if(x.type==="cash_take") return "Cash taken out";
   if(x.type==="buy_float") return "Bought "+(x.wallet||"wallet")+" balance";
@@ -1522,19 +1639,38 @@ $("eSave").addEventListener("click", function(){
   save(); $("eAmount").value=""; $("eNote").value=""; render(); toast("Expense saved");
 });
 $("eClear").addEventListener("click", function(){ $("eAmount").value=""; $("eNote").value=""; });
-$("aSave").addEventListener("click", function(){
-  if(num($("aAmount").value) <= 0){ toast("Write the amount"); $("aAmount").focus(); return; }
-  db.adjust.push({
-    id:uid(), date:$("aDate").value || todayStr(), type:$("aType").value,
-    amount:num($("aAmount").value), wallet:$("aWallet").value, note:$("aNote").value.trim()
-  });
-  save(); $("aAmount").value=""; $("aNote").value=""; render(); toast("Adjustment saved");
+function adjPreview(){
+  var t = $("aType").value, w = $("aWallet").value, m = money(num($("aAmount").value));
+  var el = $("aEffect"), lab = $("aWalletLabel"), txt;
+  if(t === "money_in"){ txt = w + "  +" + m; lab.textContent = "Keep the money in"; }
+  else if(t === "money_out"){ txt = w + "  \u2212" + m; lab.textContent = "Take the money from"; }
+  else if(t === "cash_add"){ txt = "Cash in hand  +" + m; lab.textContent = "Wallet (not used)"; }
+  else if(t === "cash_take"){ txt = "Cash in hand  \u2212" + m; lab.textContent = "Wallet (not used)"; }
+  else if(t === "buy_float"){ txt = "Cash \u2212" + m + "   \u00b7   " + w + " +" + m; lab.textContent = "Wallet"; }
+  else { txt = "Cash +" + m + "   \u00b7   " + w + " \u2212" + m; lab.textContent = "Wallet"; }
+  if((t === "buy_float" || t === "sell_float") && w === "Cash") txt = "Pick a bKash / Nagad / Rocket wallet for this action.";
+  el.textContent = txt;
+}
+["aType","aWallet","aAmount"].forEach(function(id){
+  $(id).addEventListener("input", adjPreview);
+  $(id).addEventListener("change", adjPreview);
 });
-$("aClear").addEventListener("click", function(){ $("aAmount").value=""; $("aNote").value=""; });
+$("aSave").addEventListener("click", function(){
+  var t = $("aType").value, w = $("aWallet").value;
+  if(num($("aAmount").value) <= 0){ toast("Write the amount"); $("aAmount").focus(); return; }
+  if((t === "buy_float" || t === "sell_float") && w === "Cash"){ toast("Pick a wallet, not Cash"); return; }
+  db.adjust.push({
+    id:uid(), date:$("aDate").value || todayStr(), type:t,
+    amount:num($("aAmount").value), wallet:w, note:$("aNote").value.trim()
+  });
+  save(); $("aAmount").value=""; $("aNote").value=""; adjPreview(); render(); toast("Adjustment saved");
+});
+$("aClear").addEventListener("click", function(){ $("aAmount").value=""; $("aNote").value=""; adjPreview(); });
 
 /* ---------- settings + backup ---------- */
 var RATE_FIELDS = ["bKash Agent","Nagad Agent"];
 function fillSettings(){
+  $("setShopName").value = db.settings.shop || "";
   $("setOpenCash").value = db.settings.opening.Cash || "";
   ACCOUNTS.forEach(function(a){
     var el = $("setOpen_" + idOf(a));
@@ -1548,6 +1684,7 @@ function fillSettings(){
   });
 }
 $("setSave").addEventListener("click", function(){
+  db.settings.shop = $("setShopName").value.trim().slice(0,34);
   db.settings.opening.Cash = num($("setOpenCash").value);
   ACCOUNTS.forEach(function(a){
     var el = $("setOpen_" + idOf(a));
@@ -1560,7 +1697,167 @@ $("setSave").addEventListener("click", function(){
   });
   save(); refreshComm(); render(); toast("Settings saved");
 });
-$("setReset").addEventListener("click", fillSettings);
+$("setReset").addEventListener("click", function(){
+  askConfirm("Empty the boxes above and put the standard commission rates back? Nothing is saved until you tap Save settings.", function(){
+    $("setOpenCash").value = "";
+    ACCOUNTS.forEach(function(a){ var el = $("setOpen_" + idOf(a)); if(el) el.value = ""; });
+    RATE_FIELDS.forEach(function(a){
+      var i = $("rate_" + idOf(a) + "_in"), o = $("rate_" + idOf(a) + "_out");
+      if(i) i.value = DEFAULT_RATES[a].cin;
+      if(o) o.value = DEFAULT_RATES[a].cout;
+    });
+    $("setOpenCash").focus();
+    toast("Fields reset \u2014 tap Save settings to keep it");
+  });
+});
+
+/* ---------- app lock (v7) ---------- */
+function makeKey(){
+  var s = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789", out = "";
+  for(var i=0;i<8;i++){ out += s.charAt(Math.floor(Math.random()*s.length)); if(i===3) out += "-"; }
+  return out;
+}
+function lockCfg(){
+  if(!db.settings.lock) db.settings.lock = { on:false, pin:"", key:"" };
+  if(!db.settings.lock.key) db.settings.lock.key = makeKey();
+  return db.settings.lock;
+}
+function pinHash(p){
+  var h = 5381, s = "sh7:" + p;
+  for(var i=0;i<s.length;i++){ h = ((h * 33) ^ s.charCodeAt(i)) >>> 0; }
+  return h.toString(36);
+}
+var lockBuf = "";
+function drawDots(){
+  var d = $("lockDots").children;
+  for(var i=0;i<d.length;i++) d[i].className = i < lockBuf.length ? "f" : "";
+}
+function showLock(){
+  lockBuf = ""; drawDots();
+  $("lockMsg").textContent = "";
+  $("lockShop").textContent = db.settings.shop || "Shop Hisab";
+  $("lockScreen").classList.add("show");
+  document.body.classList.add("locked");
+}
+function hideLock(){
+  $("lockScreen").classList.remove("show");
+  document.body.classList.remove("locked");
+}
+function tryPin(){
+  if(pinHash(lockBuf) === lockCfg().pin){
+    hideLock(); toast("Welcome back");
+  } else {
+    $("lockMsg").textContent = "Wrong PIN, try again";
+    $("lockScreen").classList.add("err");
+    setTimeout(function(){ $("lockScreen").classList.remove("err"); }, 420);
+    lockBuf = ""; drawDots();
+  }
+}
+$("lockKeys").addEventListener("click", function(e){
+  var b = e.target;
+  while(b && b.tagName !== "BUTTON") b = b.parentNode;
+  if(!b) return;
+  var k = b.getAttribute("data-k");
+  if(k === "del"){ lockBuf = lockBuf.slice(0, -1); drawDots(); return; }
+  if(k === "forgot"){ openRecover(); return; }
+  if(lockBuf.length >= 4) return;
+  lockBuf += k; drawDots();
+  if(lockBuf.length === 4) setTimeout(tryPin, 150);
+});
+function fillLock(){
+  var c = lockCfg();
+  $("setLockOn").value = c.on ? "on" : "off";
+  $("lockKey").textContent = c.key || "\u2014";
+  $("lockStatus").textContent = c.on
+    ? "App lock is ON \u00b7 recovery Gmail: " + (cloudCfg().email || "not saved yet")
+    : "App lock is off.";
+  $("setPin1").value = ""; $("setPin2").value = "";
+}
+$("btnLockSave").addEventListener("click", function(){
+  var c = lockCfg(), on = $("setLockOn").value === "on";
+  var p1 = $("setPin1").value.trim(), p2 = $("setPin2").value.trim();
+  if(!on){ c.on = false; save(); fillLock(); toast("App lock turned off"); return; }
+  if(!c.pin && !p1){ toast("Write a 4-digit PIN first"); $("setPin1").focus(); return; }
+  if(p1 || p2){
+    if(!/^[0-9]{4}$/.test(p1)){ toast("PIN must be 4 numbers"); $("setPin1").focus(); return; }
+    if(p1 !== p2){ toast("Both PIN boxes must match"); $("setPin2").focus(); return; }
+    c.pin = pinHash(p1);
+  }
+  c.on = true; save(); fillLock();
+  toast("App lock is on \u2014 write the recovery key down");
+});
+var rcCodeWanted = "", rcOkToSet = false;
+function rcStep(n){
+  $("rcStep1").style.display = n === 1 ? "" : "none";
+  $("rcStep2").style.display = n === 2 ? "" : "none";
+  $("rcStep2k").style.display = n === 22 ? "" : "none";
+  $("rcStep3").style.display = n === 3 ? "" : "none";
+}
+function openRecover(){
+  rcCodeWanted = ""; rcOkToSet = false;
+  ["rcEmail","rcCode","rcKey","rcPin1","rcPin2"].forEach(function(id){ $(id).value = ""; });
+  $("rcSub").textContent = "Type the Gmail you saved for Drive backup.";
+  rcStep(1);
+  $("recoverModal").classList.add("show");
+}
+function closeRecover(){ $("recoverModal").classList.remove("show"); }
+$("rcClose").addEventListener("click", closeRecover);
+$("rcUseKey").addEventListener("click", function(){
+  $("rcSub").textContent = "Type the recovery key from Settings.";
+  rcStep(22);
+});
+$("rcSend").addEventListener("click", function(){
+  var c = cloudCfg(), mail = $("rcEmail").value.trim().toLowerCase();
+  if(!mail){ toast("Write your Gmail"); return; }
+  if(!c.email){ $("rcSub").textContent = "No backup Gmail is saved yet. Use the recovery key instead."; return; }
+  if(mail !== (c.email || "").toLowerCase()){ $("rcSub").textContent = "That is not the Gmail saved in this app."; return; }
+  if(!c.url){ $("rcSub").textContent = "Drive link is not set up yet, so no email can be sent. Use the recovery key instead."; return; }
+  var code = String(Math.floor(100000 + Math.random() * 900000));
+  $("rcSub").textContent = "Sending the code\u2026";
+  fetch(c.url, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    redirect: "follow",
+    body: JSON.stringify({
+      action: "mail", email: c.email,
+      subject: "Shop Hisab PIN reset code",
+      body: "Your Shop Hisab PIN reset code is " + code + "\n\nType it in the app to set a new PIN. If you did not ask for this, ignore this email."
+    })
+  })
+  .then(function(r){ return r.text(); })
+  .then(function(t){
+    var res = null; try{ res = JSON.parse(t); }catch(e){}
+    if(res && res.ok){
+      rcCodeWanted = code;
+      $("rcSub").textContent = "Code sent to " + c.email + ". Check the inbox.";
+      rcStep(2);
+    } else {
+      $("rcSub").textContent = "Could not send the email. Use the recovery key instead.";
+    }
+  })
+  .catch(function(){ $("rcSub").textContent = "No internet. Use the recovery key instead."; });
+});
+$("rcCheck").addEventListener("click", function(){
+  if(rcCodeWanted && $("rcCode").value.trim() === rcCodeWanted){
+    rcOkToSet = true; $("rcSub").textContent = "Code matched. Now set a new PIN."; rcStep(3);
+  } else { $("rcSub").textContent = "That code is not right."; }
+});
+$("rcCheckKey").addEventListener("click", function(){
+  var k = $("rcKey").value.trim().toUpperCase().replace(/\s/g, "");
+  if(k && k === (lockCfg().key || "").toUpperCase()){
+    rcOkToSet = true; $("rcSub").textContent = "Key matched. Now set a new PIN."; rcStep(3);
+  } else { $("rcSub").textContent = "That key is not right."; }
+});
+$("rcSetPin").addEventListener("click", function(){
+  if(!rcOkToSet) return;
+  var p1 = $("rcPin1").value.trim(), p2 = $("rcPin2").value.trim();
+  if(!/^[0-9]{4}$/.test(p1)){ $("rcSub").textContent = "PIN must be 4 numbers."; return; }
+  if(p1 !== p2){ $("rcSub").textContent = "Both boxes must match."; return; }
+  var c = lockCfg();
+  c.pin = pinHash(p1); c.on = true; c.key = makeKey();
+  save(); fillLock(); closeRecover(); hideLock();
+  toast("New PIN saved");
+});
 
 /* ---------- google drive auto backup ---------- */
 function cloudCfg(){
@@ -1760,11 +2057,13 @@ $("fileImport").addEventListener("change", function(e){
 });
 function wipeAll(){
   keepPrev();
-  var keepCloud = null;
+  var keepCloud = null, keepLock = null;
   try{ keepCloud = JSON.parse(JSON.stringify(cloudCfg())); }catch(e){}
+  try{ keepLock = JSON.parse(JSON.stringify(lockCfg())); }catch(e){}
   try{ localStorage.removeItem(KEY); }catch(e){}
   db = blank();
   if(keepCloud) db.settings.cloud = keepCloud;
+  if(keepLock) db.settings.lock = keepLock;
   save();
   ["sItem","sBuy","sSell","sNote","sCustomer","bAmount","bComm","bNote","eAmount","eNote","aAmount","aNote","dSearch"].forEach(function(id){
     var el = $(id); if(el) el.value = "";
@@ -1773,7 +2072,7 @@ function wipeAll(){
   ["homeDate","sDate","bDate","eDate","aDate"].forEach(function(id){ var el = $(id); if(el) el.value = todayStr(); });
   closePartyView();
   commEdited = false;
-  fillSettings(); fillCloud(); salePreview(); refreshComm(); render();
+  fillSettings(); fillCloud(); fillLock(); salePreview(); adjPreview(); refreshComm(); render();
   toast("App is fresh again");
 }
 $("btnWipe").addEventListener("click", function(){
@@ -1792,7 +2091,9 @@ buildChips("bankRange","bank");
 buildChips("expRange","exp");
 buildChips("repRange","rep");
 var r0 = rangeDates("rep"); $("repFrom").value = r0.from; $("repTo").value = r0.to;
-fillSettings(); fillCloud(); salePreview(); refreshComm(); render();
+$("verLine").textContent = "Shop Hisab " + APP_VERSION;
+fillSettings(); fillCloud(); fillLock(); salePreview(); adjPreview(); refreshComm(); render();
+if(lockCfg().on && lockCfg().pin) showLock();
 autoCloudBackup();
 
 /* offline service worker (only works when opened from http/https, not file://) */
