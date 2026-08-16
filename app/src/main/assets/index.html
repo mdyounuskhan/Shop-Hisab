@@ -807,6 +807,10 @@ input[type=search]{margin-bottom:10px}
         <div class="amt pos" id="repMonthProduct">Tk 0</div>
       </div>
       <div class="item"><div class="main"><div class="t">Items sold this month</div></div><div class="amt" id="repMonthItems">0</div></div>
+      <div class="item"><div class="main"><div class="t">bKash / Nagad Agent profit</div><div class="s">Commission earned on Agent SIM</div></div><div class="amt pos" id="repMonthAgent">Tk 0</div></div>
+      <div class="item"><div class="main"><div class="t">Personal / Merchant profit</div><div class="s">Commission earned on Personal and Merchant SIM</div></div><div class="amt pos" id="repMonthPM">Tk 0</div></div>
+      <div class="item"><div class="main"><div class="t">Flexiload profit</div><div class="s">Load bonus, send difference and offer commission</div></div><div class="amt pos" id="repMonthFlexi">Tk 0</div></div>
+      <div class="item"><div class="main"><div class="t">Expense this month</div></div><div class="amt neg" id="repMonthExp">Tk 0</div></div>
       <div class="item" style="padding-bottom:0"><div class="main"><div class="t">Net profit this month</div><div class="s">Product + commission + flexiload − expense</div></div><div class="amt pos" id="repMonthNet">Tk 0</div></div>
     </div>
     <div class="grid2" style="margin-top:12px">
@@ -1188,7 +1192,7 @@ input[type=search]{margin-bottom:10px}
 (function(){
 "use strict";
 var KEY = "shopHisab.v1";
-var APP_VERSION = "v11";
+var APP_VERSION = "v12";
 var ACCOUNTS = ["bKash Agent","bKash Personal","bKash Merchant","Nagad Agent","Nagad Personal","Nagad Merchant","Rocket"];
 var DEFAULT_RATES = {
   "bKash Agent":{ cin:4, cout:3.75 },
@@ -1201,6 +1205,12 @@ var DEFAULT_RATES = {
 };
 var OLD_MAP = { "bKash":"bKash Agent", "Nagad":"Nagad Agent", "Rocket":"Rocket" };
 var OPERATORS = ["Robi","Airtel","Grameenphone","Banglalink"];
+var QUICK_SEED = 12;
+var DEFAULT_QUICK = [
+  { name:"Min/MB card 19", buy:18.85, sell:20 },
+  { name:"Min/MB card 29", buy:28.50, sell:30 },
+  { name:"Min/MB card 39", buy:38.50, sell:40 }
+];
 var FLEXI_BONUS = 2.7; /* Tk 27 extra on every Tk 1000 taken from the company */
 function flexiLabel(ty){
   if(ty === "load") return _t("Load from company");
@@ -1225,8 +1235,8 @@ function blank(){
   });
   var fopen = {}, frate = {};
   OPERATORS.forEach(function(o){ fopen[o] = 0; frate[o] = FLEXI_BONUS; });
-  var quick = [{ name:"Min/MB card 19", buy:18.85, sell:20 }];
-  return { settings:{ shop:"", opening:opening, rates:rates, lock:{ on:false, pin:"", key:"" }, backup:{ last:"", file:"" }, lang:"en", flexiOpen:fopen, flexiRate:frate, quick:quick, theme:"light", target:0, lowBal:1000 }, sales:[], bank:[], expenses:[], adjust:[], dues:[], parties:[], flexi:[] };
+  var quick = DEFAULT_QUICK.map(function(q){ return { name:q.name, buy:q.buy, sell:q.sell }; });
+  return { settings:{ shop:"", opening:opening, rates:rates, lock:{ on:false, pin:"", key:"" }, backup:{ last:"", file:"" }, lang:"en", flexiOpen:fopen, flexiRate:frate, quick:quick, qseed:QUICK_SEED, theme:"light", target:0, lowBal:1000 }, sales:[], bank:[], expenses:[], adjust:[], dues:[], parties:[], flexi:[] };
 }
 function mapAcc(v){ return (v && OLD_MAP[v]) ? OLD_MAP[v] : v; }
 function load(){
@@ -1257,6 +1267,15 @@ function load(){
     b.parties = (d.parties||[]).slice();
     b.flexi = (d.flexi||[]).slice();
     if(s.quick && s.quick.length !== undefined) b.settings.quick = s.quick.slice();
+    b.settings.qseed = num(s.qseed);
+    if(b.settings.qseed < QUICK_SEED){
+      DEFAULT_QUICK.forEach(function(q){
+        var has = false;
+        b.settings.quick.forEach(function(z){ if(z.name === q.name) has = true; });
+        if(!has) b.settings.quick.push({ name:q.name, buy:q.buy, sell:q.sell });
+      });
+      b.settings.qseed = QUICK_SEED;
+    }
     b.settings.theme = (s.theme === "dark") ? "dark" : "light";
     b.settings.target = num(s.target);
     b.settings.lowBal = (s.lowBal === undefined) ? 1000 : num(s.lowBal);
@@ -1443,7 +1462,7 @@ function avColor(name){
   return AV_COLORS[h % AV_COLORS.length];
 }
 function totals(from, to){
-  var t = { saleAmt:0, saleProfit:0, comm:0, exp:0, cashIn:0, cashOut:0, net:0, items:0, flexi:0, flexiSent:0 };
+  var t = { saleAmt:0, saleProfit:0, comm:0, commAgent:0, commPM:0, exp:0, cashIn:0, cashOut:0, net:0, items:0, flexi:0, flexiSent:0 };
   db.sales.forEach(function(x){
     if(!inRange(x.date, from, to)) return;
     var q = num(x.qty);
@@ -1455,6 +1474,7 @@ function totals(from, to){
     if(!inRange(x.date, from, to)) return;
     if(isB2B(x.type)) return;
     t.comm += num(x.comm);
+    if(isAgent(x.service)) t.commAgent += num(x.comm); else t.commPM += num(x.comm);
     if(x.type === "cashin") t.cashIn += num(x.amount); else t.cashOut += num(x.amount);
   });
   db.expenses.forEach(function(x){ if(inRange(x.date, from, to)) t.exp += num(x.amount); });
@@ -1680,6 +1700,10 @@ function render(){
   var mtot = totals(mFrom, mTo);
   $("repMonthProduct").textContent = money(mtot.saleProfit);
   $("repMonthItems").textContent = mtot.items + " " + _t("pcs");
+  $("repMonthAgent").textContent = money(mtot.commAgent);
+  $("repMonthPM").textContent = money(mtot.commPM);
+  $("repMonthFlexi").textContent = money(mtot.flexi);
+  $("repMonthExp").textContent = "−" + money(mtot.exp);
   $("repMonthNet").textContent = money(mtot.net);
   $("repMonthLbl").textContent = pretty(mFrom) + " – " + pretty(mTo);
 
@@ -2647,6 +2671,7 @@ function buildBackupCsv(){
     L.push(csvRow(["flexiOpen:" + o, num(db.settings.flexiOpen[o])]));
     L.push(csvRow(["flexiRate:" + o, flexiRateOf(o)]));
   });
+  L.push(csvRow(["qseed", num(db.settings.qseed)]));
   L.push(csvRow(["theme", db.settings.theme || "light"]));
   L.push(csvRow(["target", num(db.settings.target)]));
   L.push(csvRow(["lowBal", num(db.settings.lowBal)]));
@@ -2686,6 +2711,7 @@ function csvToDb(text){
         var p = first.split(":");
         if(p.length === 3 && d.settings.rates[p[1]]) d.settings.rates[p[1]][p[2]] = num(v);
       }
+      else if(first === "qseed") d.settings.qseed = num(v);
       else if(first === "theme") d.settings.theme = (v === "dark") ? "dark" : "light";
       else if(first === "target") d.settings.target = num(v);
       else if(first === "lowBal") d.settings.lowBal = num(v);
@@ -2872,6 +2898,13 @@ $("btnWipe").addEventListener("click", function(){
 /* ---------- language ---------- */
 var LANG = "en";
 var DICT = { bn: {
+  "bKash / Nagad Agent profit": "বিকাশ / নগদ এজেন্টের লাভ",
+  "Commission earned on Agent SIM": "এজেন্ট সিমে পাওয়া কমিশন",
+  "Personal / Merchant profit": "পার্সনাল / মার্চেন্টের লাভ",
+  "Commission earned on Personal and Merchant SIM": "পার্সনাল ও মার্চেন্ট সিমে পাওয়া কমিশন",
+  "Load bonus, send difference and offer commission": "লোডের বাড়তি, পাঠানোর পার্থক্য ও অফার কমিশন",
+  "Expense this month": "এই মাসের খরচ",
+
   "Flexiload": "ফ্লেক্সিলোড",
   "Flexi": "ফ্লেক্সি",
   "Flexiload entry": "ফ্লেক্সিলোড এন্ট্রি",
