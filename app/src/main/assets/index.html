@@ -402,6 +402,65 @@ nav.tabs button.on .nb{background:rgba(91,75,245,.12);color:#4A2FD6;box-shadow:n
 .langbtn{border-radius:16px;padding:14px 10px}
 .prof-av{border-radius:20px}
 #btnProfile{border-radius:50%}
+
+/* ---- v11 flexiload ---- */
+.card.fl{color:#fff;padding:16px 18px;border:0;background:linear-gradient(135deg,#06AED4 0%,#0A6E8A 100%);box-shadow:0 14px 28px -12px rgba(10,110,138,.6)}
+.card.fl .item{border-bottom-color:rgba(255,255,255,.20)}
+.card.fl .t,.card.fl .amt{color:#fff}
+.card.fl .s{color:rgba(255,255,255,.82)}
+.card.fl .brand.fl{background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.34);box-shadow:none}
+.brand.fl{background:linear-gradient(135deg,#06AED4,#0A6E8A)}
+.segrow{display:flex;background:#F1F2F8;border-radius:16px;padding:4px;gap:4px;margin-bottom:14px}
+.segrow button{flex:1;border:0;background:transparent;padding:12px 6px;border-radius:13px;font-size:13.5px;font-weight:750;color:#8A8FA8;cursor:pointer}
+.segrow button.on{background:#fff;color:#4A2FD6;box-shadow:0 2px 8px rgba(14,17,38,.10)}
+
+/* ---- v11 quick rows ---- */
+.qrow{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 6px}
+.qrow button{border:1.5px solid #E8EAF3;background:#fff;border-radius:12px;padding:9px 13px;font-size:13px;font-weight:750;color:#4A2FD6;cursor:pointer}
+.qrow button:active{background:#EEEBFF}
+.qrow .subtle{font-size:12.5px}
+
+/* ---- v11 alerts + target ---- */
+.alert{border-radius:16px;padding:12px 14px;font-size:13.5px;font-weight:650;margin-bottom:8px;line-height:1.45}
+.alert.warn{background:#FFF4E5;color:#8A5B00}
+.alert.bad{background:#FEECEC;color:#A32020}
+.alert.ok{background:#E7F8EF;color:#0B7A46}
+.bar{height:10px;border-radius:999px;background:#EDEFF7;margin-top:12px;overflow:hidden}
+.bar span{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#5B4BF5,#8B5CF6)}
+
+/* ---- v11 dark mode ---- */
+body.dark{background:#0B0E20;color:#E7E9F5}
+body.dark .card,body.dark .stat{background:#161A31;border:1px solid #232948;box-shadow:none}
+body.dark .stat.hero,body.dark .stat.tp,body.dark .stat.tg,body.dark .stat.to,body.dark .stat.tr,body.dark .stat.tb{background:#161A31}
+body.dark .t,body.dark .amt,body.dark .val,body.dark .stat.hero .val{color:#E7E9F5}
+body.dark h2.sec{color:#9BA2C2}
+body.dark .s,body.dark .lbl,body.dark .subtle,body.dark .hint,body.dark .empty,body.dark label,body.dark summary{color:#9BA2C2}
+body.dark input,body.dark select,body.dark textarea{background:#1E2340;border-color:#2C3358;color:#E7E9F5}
+body.dark .item{border-bottom-color:#232948}
+body.dark .chip,body.dark .qrow button,body.dark .langbtn{background:#1E2340;border-color:#2C3358;color:#B9BFDA}
+body.dark .chip.on,body.dark .langbtn.on{color:#fff}
+body.dark nav.tabs{background:#161A31;border-color:#232948;box-shadow:0 8px 26px rgba(0,0,0,.5)}
+body.dark .tabs button{color:#8A90B4}
+body.dark .tabs button.on{color:#C4B5FD}
+body.dark .segrow{background:#1E2340}
+body.dark .segrow button{color:#8A90B4}
+body.dark .segrow button.on{background:#2C3358;color:#C4B5FD;box-shadow:none}
+body.dark table th{color:#9BA2C2}
+body.dark table td{border-color:#232948;color:#E7E9F5}
+body.dark .bar{background:#232948}
+body.dark .box,body.dark .modal>div{background:#161A31;color:#E7E9F5}
+body.dark .stat.hero.cash .val{color:#34D399}
+body.dark .val.pos,body.dark .amt.pos,body.dark .pos{color:#34D399}
+body.dark .val.neg,body.dark .amt.neg,body.dark .neg{color:#FB7185}
+body.dark .alert.warn{background:#3A2C10;color:#F5C86B}
+body.dark .alert.bad{background:#3B1A1E;color:#FCA5A5}
+body.dark .alert.ok{background:#10322A;color:#6EE7B7}
+body.dark .stat.hero .pill{background:#232948;color:#B9BFDA}
+
+/* ---- v11 search + edit ---- */
+.del.ed{color:var(--primary);font-size:16px}
+.del.ed:active{background:var(--primary-soft)}
+input[type=search]{margin-bottom:10px}
 </style>
 </head>
 <body>
@@ -421,8 +480,10 @@ nav.tabs button.on .nb{background:rgba(91,75,245,.12);color:#4A2FD6;box-shadow:n
   <section class="view active" id="view-home">
     <label for="homeDate">Date</label>
     <input type="date" id="homeDate">
+    <div class="chipbar" id="homeRange"></div>
+    <div id="homeAlerts"></div>
 
-    <h2 class="sec">Profit this day</h2>
+    <h2 class="sec" id="homeProfitLbl">Profit this day</h2>
     <div class="stat hero">
       <div class="lbl">Net profit today</div>
       <div class="val" id="kpiNet">Tk 0</div>
@@ -446,6 +507,14 @@ nav.tabs button.on .nb{background:rgba(91,75,245,.12);color:#4A2FD6;box-shadow:n
         <div class="ico r"><svg viewBox="0 0 24 24"><path d="M12 4v13"/><path d="M6 11l6 6 6-6"/></svg></div>
         <div class="lbl">Expense</div><div class="val neg" id="kpiExp">Tk 0</div>
       </div>
+    </div>
+
+    <div class="card" id="targetCard" style="margin-top:12px">
+      <div class="item" style="padding:0;border:0">
+        <div class="main"><div class="t">Monthly profit target</div><div class="s" id="targetSub">Set a target in Profile</div></div>
+        <div class="amt pos" id="targetPct">—</div>
+      </div>
+      <div class="bar"><span id="targetBar"></span></div>
     </div>
 
     <h2 class="sec">Balance right now</h2>
@@ -489,6 +558,18 @@ nav.tabs button.on .nb{background:rgba(91,75,245,.12);color:#4A2FD6;box-shadow:n
       </div>
     </div>
 
+    <div class="card fl" style="margin-top:12px">
+      <div class="item" style="padding-top:0">
+        <div class="brand fl">FL</div>
+        <div class="main"><div class="t">Flexiload — all company</div><div class="s">Robi + Airtel + GP + Banglalink</div></div>
+        <div class="amt" id="balFlexiTotal">Tk 0</div>
+      </div>
+      <div class="item"><div class="main"><div class="t">Robi</div></div><div class="amt" id="fbal_Robi">Tk 0</div></div>
+      <div class="item"><div class="main"><div class="t">Airtel</div></div><div class="amt" id="fbal_Airtel">Tk 0</div></div>
+      <div class="item"><div class="main"><div class="t">Grameenphone</div></div><div class="amt" id="fbal_Grameenphone">Tk 0</div></div>
+      <div class="item" style="padding-bottom:0"><div class="main"><div class="t">Banglalink</div></div><div class="amt" id="fbal_Banglalink">Tk 0</div></div>
+    </div>
+
     <div class="grid2" style="margin-top:12px">
       <div class="stat tr"><div class="lbl">Baki — I will get</div><div class="val get" id="balDue">Tk 0</div></div>
       <div class="stat tg"><div class="lbl">Baki — I will pay</div><div class="val pay" id="balDuePay">Tk 0</div></div>
@@ -505,6 +586,8 @@ nav.tabs button.on .nb{background:rgba(91,75,245,.12);color:#4A2FD6;box-shadow:n
     <div class="card">
       <label for="sDate">Date</label>
       <input type="date" id="sDate">
+      <label>Quick items — tap to fill</label>
+      <div class="qrow" id="sQuick"></div>
       <label for="sItem">Item (phone, cover, charger, SIM…)</label>
       <input type="text" id="sItem" placeholder="e.g. Redmi 13C cover">
       <div class="row">
@@ -528,18 +611,23 @@ nav.tabs button.on .nb{background:rgba(91,75,245,.12);color:#4A2FD6;box-shadow:n
         </div>
       </div>
       <div class="btn-row">
-        <button class="btn secondary" type="button" id="sClear">Clear</button>
+        <button class="btn secondary" type="button" id="sQuickAdd">Save as quick item</button>
         <button class="btn" type="button" id="sSave">Save sale</button>
       </div>
     </div>
 
+    <button class="btn secondary" type="button" id="sClear" style="margin-top:10px">Clear the form</button>
+
     <h2 class="sec">Sales list</h2>
     <div class="chipbar" id="salesRange"></div>
+    <input type="search" id="sSearch" placeholder="Search item, customer or note…">
     <div class="card"><div class="list" id="salesList"></div></div>
   </section>
 
   <!-- ================= BANKING ================= -->
   <section class="view" id="view-bank">
+    <div class="segrow"><button type="button" id="segMB" class="on">Mobile banking</button><button type="button" id="segFL">Flexiload</button></div>
+    <div id="mbWrap">
     <h2 class="sec">Mobile banking entry</h2>
     <div class="card">
       <label for="bDate">Date</label>
@@ -565,6 +653,7 @@ nav.tabs button.on .nb{background:rgba(91,75,245,.12);color:#4A2FD6;box-shadow:n
         <div><label for="bAmount">Amount</label><input type="number" id="bAmount" placeholder="0" inputmode="decimal"></div>
         <div id="bCommBox"><label for="bComm">Commission (auto)</label><input type="number" id="bComm" placeholder="0" inputmode="decimal"></div>
       </div>
+      <div class="qrow" id="bQuick"></div>
       <div class="hint" id="bRateHint">Rate will show here.</div>
       <div id="bCommInBox">
       <label for="bCommIn">Commission goes to</label>
@@ -583,7 +672,61 @@ nav.tabs button.on .nb{background:rgba(91,75,245,.12);color:#4A2FD6;box-shadow:n
 
     <h2 class="sec">Transactions</h2>
     <div class="chipbar" id="bankRange"></div>
+    <input type="search" id="bSearch" placeholder="Search SIM, type or note…">
     <div class="card"><div class="list" id="bankList"></div></div>
+    </div>
+
+    <div id="flWrap" style="display:none">
+    <h2 class="sec">Flexiload entry</h2>
+    <div class="card">
+      <label for="fDate">Date</label>
+      <input type="date" id="fDate">
+      <label for="fOp">Company</label>
+      <select id="fOp"><option value="Robi">Robi</option><option value="Airtel">Airtel</option><option value="Grameenphone">Grameenphone</option><option value="Banglalink">Banglalink</option></select>
+      <label for="fType">What happened</label>
+      <select id="fType">
+        <option value="load">Took load from company</option>
+        <option value="sell">Sent flexiload to a customer</option>
+        <option value="comm">Offer commission from company</option>
+      </select>
+      <div class="row">
+        <div id="fABox"><label for="fA" id="fALabel">Cash paid to company</label><input type="number" id="fA" placeholder="0" inputmode="decimal"></div>
+        <div><label for="fB" id="fBLabel">Balance received</label><input type="number" id="fB" placeholder="0" inputmode="decimal"></div>
+      </div>
+      <div class="qrow" id="fQuick"></div>
+      <div class="hint" id="fHint">Rate will show here.</div>
+      <div id="fWhereBox">
+        <label for="fWhere" id="fWhereLabel">Cash paid from</label>
+        <select id="fWhere"><option value="Cash">Cash in hand</option><option value="bKash Agent">bKash Agent SIM</option><option value="bKash Personal">bKash Personal SIM</option><option value="bKash Merchant">bKash Merchant SIM</option><option value="Nagad Agent">Nagad Agent SIM</option><option value="Nagad Personal">Nagad Personal SIM</option><option value="Nagad Merchant">Nagad Merchant SIM</option><option value="Rocket">Rocket</option></select>
+      </div>
+      <label for="fNote">Note (optional)</label>
+      <input type="text" id="fNote" placeholder="Customer number / details">
+      <div class="card" style="background:var(--soft); margin-top:14px">
+        <div class="s" id="fEffect" style="font-size:14px; color:var(--muted)">Effect will show here.</div>
+      </div>
+      <div class="btn-row">
+        <button class="btn secondary" type="button" id="fClear">Clear</button>
+        <button class="btn" type="button" id="fSave">Save flexiload</button>
+      </div>
+    </div>
+
+    <h2 class="sec">Company balance</h2>
+    <div class="card"><div class="list" id="flBalList"></div></div>
+
+    <h2 class="sec">Flexiload entries</h2>
+    <div class="chipbar" id="flexiRange"></div>
+    <input type="search" id="fSearch" placeholder="Search company or note…">
+    <div class="card"><div class="list" id="flexiList"></div></div>
+
+    <details class="help">
+      <summary>How flexiload profit is counted</summary>
+      <ul>
+        <li><b>Took load from company:</b> you pay Tk 1,000 and the company gives Tk 1,027 balance. Cash goes down 1,000, company balance goes up 1,027, profit is Tk 27.</li>
+        <li><b>Sent to a customer:</b> customer hands you Tk 20 and you send Tk 19. Cash goes up 20, company balance goes down 19, profit is Tk 1. Send the full 20 and profit is 0 — the profit already came from the load.</li>
+        <li><b>Offer commission:</b> type whatever the company gave. It is added to the company balance and counted as profit.</li>
+      </ul>
+    </details>
+    </div>
   </section>
 
   <!-- ================= EXPENSE + BALANCE ================= -->
@@ -639,6 +782,7 @@ nav.tabs button.on .nb{background:rgba(91,75,245,.12);color:#4A2FD6;box-shadow:n
 
     <h2 class="sec">Expenses &amp; adjustments</h2>
     <div class="chipbar" id="expRange"></div>
+    <input type="search" id="eSearch" placeholder="Search category or note…">
     <div class="card"><div class="list" id="expList"></div></div>
   </section>
 
@@ -657,6 +801,14 @@ nav.tabs button.on .nb{background:rgba(91,75,245,.12);color:#4A2FD6;box-shadow:n
       <div class="lbl">Net profit for selected period</div>
       <div class="val" id="repNet">Tk 0</div>
     </div>
+    <div class="card" style="margin-top:12px">
+      <div class="item" style="padding-top:0">
+        <div class="main"><div class="t">Product profit this month</div><div class="s" id="repMonthLbl">This month</div></div>
+        <div class="amt pos" id="repMonthProduct">Tk 0</div>
+      </div>
+      <div class="item"><div class="main"><div class="t">Items sold this month</div></div><div class="amt" id="repMonthItems">0</div></div>
+      <div class="item" style="padding-bottom:0"><div class="main"><div class="t">Net profit this month</div><div class="s">Product + commission + flexiload − expense</div></div><div class="amt pos" id="repMonthNet">Tk 0</div></div>
+    </div>
     <div class="grid2" style="margin-top:12px">
       <div class="stat tb"><div class="lbl">Sales amount</div><div class="val" id="repSaleAmt">Tk 0</div></div>
       <div class="stat tg"><div class="lbl">Sales profit</div><div class="val pos" id="repSaleProfit">Tk 0</div></div>
@@ -664,12 +816,14 @@ nav.tabs button.on .nb{background:rgba(91,75,245,.12);color:#4A2FD6;box-shadow:n
       <div class="stat tr"><div class="lbl">Expense</div><div class="val neg" id="repExp">Tk 0</div></div>
       <div class="stat tp"><div class="lbl">Cash In volume</div><div class="val" id="repIn">Tk 0</div></div>
       <div class="stat tp"><div class="lbl">Cash Out volume</div><div class="val" id="repOut">Tk 0</div></div>
+      <div class="stat tg"><div class="lbl">Flexiload profit</div><div class="val pos" id="repFlexi">Tk 0</div></div>
+      <div class="stat tb"><div class="lbl">Flexiload sent</div><div class="val" id="repFlexiSent">Tk 0</div></div>
     </div>
 
     <h2 class="sec">Day by day</h2>
     <div class="card" style="overflow-x:auto">
       <table id="repTable">
-        <thead><tr><th>Date</th><th class="num">Sale profit</th><th class="num">Comm.</th><th class="num">Expense</th><th class="num">Net</th></tr></thead>
+        <thead><tr><th>Date</th><th class="num">Sale profit</th><th class="num">Comm.</th><th class="num">Flexi</th><th class="num">Expense</th><th class="num">Net</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
@@ -693,6 +847,15 @@ nav.tabs button.on .nb{background:rgba(91,75,245,.12);color:#4A2FD6;box-shadow:n
           <div class="t" style="font-weight:800;font-size:18px" id="profName">Shop Hisab</div>
           <div class="subtle" id="profSub">Mobile shop daily accounts</div>
         </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="t" style="font-weight:700">Look</div>
+      <div class="hint">Dark mode is easier on the eyes at night.</div>
+      <div class="langrow">
+        <button class="langbtn on" type="button" id="themeLight">Light</button>
+        <button class="langbtn" type="button" id="themeDark">Dark</button>
       </div>
     </div>
 
@@ -738,11 +901,42 @@ nav.tabs button.on .nb{background:rgba(91,75,245,.12);color:#4A2FD6;box-shadow:n
         <div><label for="rate_Nagad_Agent_in">Nagad Agent — Cash In</label><input type="number" id="rate_Nagad_Agent_in" placeholder="4.10" inputmode="decimal"></div>
         <div><label for="rate_Nagad_Agent_out">Nagad Agent — Cash Out</label><input type="number" id="rate_Nagad_Agent_out" placeholder="4.10" inputmode="decimal"></div>
       </div>
+      <h2 class="sec" style="margin-bottom:0">Target &amp; alerts</h2>
+      <div class="hint">The home page warns you when a balance falls under the warning amount.</div>
+      <div class="row">
+        <div><label for="setTarget">Monthly profit target</label><input type="number" id="setTarget" placeholder="0" inputmode="decimal"></div>
+        <div><label for="setLowBal">Low balance warning</label><input type="number" id="setLowBal" placeholder="1000" inputmode="decimal"></div>
+      </div>
+
+      <h2 class="sec" style="margin-bottom:0">Flexiload company</h2>
+      <div class="hint">Opening balance of each company, and how much extra they give on every Tk 1,000 of load (yours is 27).</div>
+      <div class="row">
+        <div><label for="fopen_Robi">Robi opening balance</label><input type="number" id="fopen_Robi" placeholder="0" inputmode="decimal"></div>
+        <div><label for="frate_Robi">Robi extra per 1000</label><input type="number" id="frate_Robi" placeholder="27" inputmode="decimal"></div>
+      </div>
+      <div class="row">
+        <div><label for="fopen_Airtel">Airtel opening balance</label><input type="number" id="fopen_Airtel" placeholder="0" inputmode="decimal"></div>
+        <div><label for="frate_Airtel">Airtel extra per 1000</label><input type="number" id="frate_Airtel" placeholder="27" inputmode="decimal"></div>
+      </div>
+      <div class="row">
+        <div><label for="fopen_Grameenphone">Grameenphone opening balance</label><input type="number" id="fopen_Grameenphone" placeholder="0" inputmode="decimal"></div>
+        <div><label for="frate_Grameenphone">Grameenphone extra per 1000</label><input type="number" id="frate_Grameenphone" placeholder="27" inputmode="decimal"></div>
+      </div>
+      <div class="row">
+        <div><label for="fopen_Banglalink">Banglalink opening balance</label><input type="number" id="fopen_Banglalink" placeholder="0" inputmode="decimal"></div>
+        <div><label for="frate_Banglalink">Banglalink extra per 1000</label><input type="number" id="frate_Banglalink" placeholder="27" inputmode="decimal"></div>
+      </div>
       <div class="btn-row">
         <button class="btn secondary" type="button" id="setReset">Reset fields</button>
         <button class="btn" type="button" id="setSave">Save settings</button>
       </div>
     </div>
+    <div class="card">
+      <div class="t" style="font-weight:700">Quick items</div>
+      <div class="hint">These show as buttons on the sales page. Fill a sale and tap <b>Save as quick item</b> to add one.</div>
+      <div class="list" id="quickList"></div>
+    </div>
+
     <div class="card">
       <div class="t" style="font-weight:700">App lock · 4-digit PIN</div>
       <div class="hint">When this is on, the app asks for your PIN every time it opens.</div>
@@ -775,6 +969,9 @@ nav.tabs button.on .nb{background:rgba(91,75,245,.12);color:#4A2FD6;box-shadow:n
       <button class="btn" type="button" id="btnBackupCsv" style="margin-top:12px">Backup to phone</button>
       <button class="btn secondary" type="button" id="btnRestoreCsv" style="margin-top:10px">Restore from phone</button>
       <input type="file" id="fileImport" accept=".csv,text/csv,.json,application/json,text/plain,application/octet-stream" style="display:none">
+      <h2 class="sec" style="margin-bottom:0">Last 5 backups kept inside the app</h2>
+      <div class="hint">Every backup is also kept here. You can save it to the phone again, or go back to it if something goes wrong.</div>
+      <div class="list" id="histList"></div>
       <details class="help">
         <summary>How to move everything to a new phone</summary>
         <ul>
@@ -991,7 +1188,7 @@ nav.tabs button.on .nb{background:rgba(91,75,245,.12);color:#4A2FD6;box-shadow:n
 (function(){
 "use strict";
 var KEY = "shopHisab.v1";
-var APP_VERSION = "v10";
+var APP_VERSION = "v11";
 var ACCOUNTS = ["bKash Agent","bKash Personal","bKash Merchant","Nagad Agent","Nagad Personal","Nagad Merchant","Rocket"];
 var DEFAULT_RATES = {
   "bKash Agent":{ cin:4, cout:3.75 },
@@ -1003,6 +1200,13 @@ var DEFAULT_RATES = {
   "Rocket":{ cin:0, cout:0 }
 };
 var OLD_MAP = { "bKash":"bKash Agent", "Nagad":"Nagad Agent", "Rocket":"Rocket" };
+var OPERATORS = ["Robi","Airtel","Grameenphone","Banglalink"];
+var FLEXI_BONUS = 2.7; /* Tk 27 extra on every Tk 1000 taken from the company */
+function flexiLabel(ty){
+  if(ty === "load") return _t("Load from company");
+  if(ty === "sell") return _t("Sent to customer");
+  return _t("Company commission");
+}
 function idOf(acc){ return acc.replace(/ /g, "_"); }
 function isAgent(acc){ return /Agent$/.test(acc || ""); }
 function isB2B(ty){ return ty === "b2b_cash" || ty === "b2b_bal"; }
@@ -1019,7 +1223,10 @@ function blank(){
     opening[a] = 0;
     rates[a] = { cin:DEFAULT_RATES[a].cin, cout:DEFAULT_RATES[a].cout };
   });
-  return { settings:{ shop:"", opening:opening, rates:rates, lock:{ on:false, pin:"", key:"" }, backup:{ last:"", file:"" }, lang:"en" }, sales:[], bank:[], expenses:[], adjust:[], dues:[], parties:[] };
+  var fopen = {}, frate = {};
+  OPERATORS.forEach(function(o){ fopen[o] = 0; frate[o] = FLEXI_BONUS; });
+  var quick = [{ name:"Min/MB card 19", buy:18.85, sell:20 }];
+  return { settings:{ shop:"", opening:opening, rates:rates, lock:{ on:false, pin:"", key:"" }, backup:{ last:"", file:"" }, lang:"en", flexiOpen:fopen, flexiRate:frate, quick:quick, theme:"light", target:0, lowBal:1000 }, sales:[], bank:[], expenses:[], adjust:[], dues:[], parties:[], flexi:[] };
 }
 function mapAcc(v){ return (v && OLD_MAP[v]) ? OLD_MAP[v] : v; }
 function load(){
@@ -1048,6 +1255,13 @@ function load(){
     b.expenses = (d.expenses||[]).map(function(x){ if(x.from && x.from !== "Cash") x.from = mapAcc(x.from); return x; });
     b.adjust = (d.adjust||[]).map(function(x){ x.wallet = mapAcc(x.wallet); return x; });
     b.parties = (d.parties||[]).slice();
+    b.flexi = (d.flexi||[]).slice();
+    if(s.quick && s.quick.length !== undefined) b.settings.quick = s.quick.slice();
+    b.settings.theme = (s.theme === "dark") ? "dark" : "light";
+    b.settings.target = num(s.target);
+    b.settings.lowBal = (s.lowBal === undefined) ? 1000 : num(s.lowBal);
+    if(s.flexiOpen){ OPERATORS.forEach(function(o){ if(s.flexiOpen[o] !== undefined) b.settings.flexiOpen[o] = num(s.flexiOpen[o]); }); }
+    if(s.flexiRate){ OPERATORS.forEach(function(o){ if(s.flexiRate[o] !== undefined) b.settings.flexiRate[o] = num(s.flexiRate[o]); }); }
     b.dues = (d.dues||[]).map(function(x){ if(x.where && x.where !== "None" && x.where !== "Cash") x.where = mapAcc(x.where); return x; });
     /* old name-based baki rows -> party khata */
     b.dues.forEach(function(x){
@@ -1145,7 +1359,33 @@ function balances(){
     if(!w || w === "None" || !b.hasOwnProperty(w)) return;
     if(x.type === "received") b[w] += amt; else b[w] -= amt;
   });
+  db.flexi.forEach(function(x){
+    var w = x.where || "Cash";
+    if(!b.hasOwnProperty(w)) return;
+    if(x.type === "load") b[w] -= num(x.a);
+    else if(x.type === "sell") b[w] += num(x.a);
+  });
   return b;
+}
+function flexiBalances(){
+  var f = {};
+  OPERATORS.forEach(function(o){ f[o] = num(db.settings.flexiOpen[o]); });
+  db.flexi.forEach(function(x){
+    if(!f.hasOwnProperty(x.op)) return;
+    if(x.type === "sell") f[x.op] -= num(x.b);
+    else f[x.op] += num(x.b);
+  });
+  return f;
+}
+function flexiTotal(){
+  var f = flexiBalances(), t = 0;
+  OPERATORS.forEach(function(o){ t += f[o]; });
+  return t;
+}
+function flexiProfit(x){
+  if(x.type === "load") return num(x.b) - num(x.a);
+  if(x.type === "sell") return num(x.a) - num(x.b);
+  return num(x.b);
 }
 function groupTotal(b, prefix){
   var t = 0;
@@ -1155,7 +1395,7 @@ function groupTotal(b, prefix){
 function grandTotal(b){
   var t = b.Cash;
   ACCOUNTS.forEach(function(a){ t += b[a]; });
-  return t;
+  return t + flexiTotal();
 }
 function inRange(ds, from, to){
   if(from && ds < from) return false;
@@ -1203,7 +1443,7 @@ function avColor(name){
   return AV_COLORS[h % AV_COLORS.length];
 }
 function totals(from, to){
-  var t = { saleAmt:0, saleProfit:0, comm:0, exp:0, cashIn:0, cashOut:0, net:0, items:0 };
+  var t = { saleAmt:0, saleProfit:0, comm:0, exp:0, cashIn:0, cashOut:0, net:0, items:0, flexi:0, flexiSent:0 };
   db.sales.forEach(function(x){
     if(!inRange(x.date, from, to)) return;
     var q = num(x.qty);
@@ -1218,7 +1458,12 @@ function totals(from, to){
     if(x.type === "cashin") t.cashIn += num(x.amount); else t.cashOut += num(x.amount);
   });
   db.expenses.forEach(function(x){ if(inRange(x.date, from, to)) t.exp += num(x.amount); });
-  t.net = t.saleProfit + t.comm - t.exp;
+  db.flexi.forEach(function(x){
+    if(!inRange(x.date, from, to)) return;
+    t.flexi += flexiProfit(x);
+    if(x.type === "sell") t.flexiSent += num(x.b);
+  });
+  t.net = t.saleProfit + t.comm + t.flexi - t.exp;
   return t;
 }
 
@@ -1235,7 +1480,7 @@ Array.prototype.forEach.call($("tabs").children, function(btn){
 });
 
 /* ---------- range chips ---------- */
-var ranges = { sales:"today", bank:"today", exp:"today", rep:"month", due:"all" };
+var ranges = { sales:"today", bank:"today", exp:"today", rep:"month", due:"all", flexi:"today", home:"today" };
 function buildChips(holderId, key){
   var holder = $(holderId);
   var opts = [["today",_t("Today")],["7",_t("Last 7 days")],["month",_t("This month")],["all",_t("All")]];
@@ -1267,7 +1512,7 @@ function rangeDates(key){
 
 /* ---------- list rendering ---------- */
 function emptyRow(text){ return '<div class="empty">'+text+'</div>'; }
-function rowEl(title, sub, amount, amountSub, cls, onDelete){
+function rowEl(title, sub, amount, amountSub, cls, onDelete, onEdit){
   var el = document.createElement("div");
   el.className = "item";
   var main = document.createElement("div");
@@ -1281,6 +1526,13 @@ function rowEl(title, sub, amount, amountSub, cls, onDelete){
   amt.querySelector("span").textContent = amount;
   if(amountSub) amt.querySelector("small").textContent = amountSub;
   el.appendChild(main); el.appendChild(amt);
+  if(onEdit){
+    var ed = document.createElement("button");
+    ed.className = "del ed"; ed.type = "button"; ed.textContent = "✎";
+    ed.setAttribute("aria-label", "Edit entry");
+    ed.addEventListener("click", onEdit);
+    el.appendChild(ed);
+  }
   if(onDelete){
     var del = document.createElement("button");
     del.className = "del"; del.type = "button"; del.textContent = "×";
@@ -1319,7 +1571,9 @@ function render(){
   if(openParty) renderPartyKhata();
 
   var hd = $("homeDate").value || todayStr();
-  var t = totals(hd, hd);
+  var hr = homeRange(hd);
+  var t = totals(hr.from, hr.to);
+  if($("homeProfitLbl")) $("homeProfitLbl").textContent = _t("Profit") + " · " + hr.label;
   $("kpiNet").textContent = money(t.net);
   $("kpiSaleProfit").textContent = money(t.saleProfit);
   $("kpiComm").textContent = money(t.comm);
@@ -1330,8 +1584,12 @@ function render(){
   var shopNm = (db.settings.shop || "").trim() || "Shop Hisab";
   if(pn) pn.textContent = shopNm;
   if(pav) pav.textContent = initials(shopNm);
-  $("headerSub").textContent = (hd===todayStr() ? _t("Today") : pretty(hd)) + " · " + _t("net") + " " + money(t.net);
+  $("headerSub").textContent = hr.label + " · " + _t("net") + " " + money(t.net);
   try { drawSpark(hd); } catch(e){}
+  try { renderFlexi(); } catch(e){}
+  try { renderQuick(); } catch(e){}
+  try { renderTarget(); } catch(e){}
+  try { renderAlerts(); } catch(e){}
 
   /* home feed */
   var feed = $("homeFeed"); feed.innerHTML = "";
@@ -1366,7 +1624,7 @@ function render(){
   /* sales list */
   var sr = rangeDates("sales");
   var list = $("salesList"); list.innerHTML = "";
-  var rows = db.sales.filter(function(x){ return inRange(x.date, sr.from, sr.to); }).slice().reverse();
+  var rows = db.sales.filter(function(x){ return inRange(x.date, sr.from, sr.to) && matchQ("sSearch", [x.item||"", x.note||"", x.customer||"", x.pay||"", String(x.sell)]); }).slice().reverse();
   if(!rows.length) list.innerHTML = emptyRow(_t("No sales in this period."));
   rows.forEach(function(x){
     var profit = (num(x.sell)-num(x.buy))*num(x.qty);
@@ -1374,35 +1632,35 @@ function render(){
     list.appendChild(rowEl(x.item||"Sale", sub, money(num(x.sell)*num(x.qty)), "profit "+money(profit), "", function(){
       removeById(db.sales, x.id);
       db.dues = db.dues.filter(function(d){ return d.saleId !== x.id; });
-    }));
+    }, function(){ editSale(x); }));
   });
 
   /* bank list */
   var br = rangeDates("bank");
   var bl = $("bankList"); bl.innerHTML = "";
-  var brows = db.bank.filter(function(x){ return inRange(x.date, br.from, br.to); }).slice().reverse();
+  var brows = db.bank.filter(function(x){ return inRange(x.date, br.from, br.to) && matchQ("bSearch", [x.service||"", bankLabel(x.type), x.note||"", String(x.amount)]); }).slice().reverse();
   if(!brows.length) bl.innerHTML = emptyRow(_t("No transactions in this period."));
   brows.forEach(function(x){
     var lbl = bankLabel(x.type);
     var cwhere = isB2B(x.type) ? _t("B2B with ASR - no commission") : _t("commission in")+" "+(x.commIn||"Cash");
     var sub = pretty(x.date)+" · "+cwhere + (x.note ? " · "+escapeHtml(x.note) : "");
-    bl.appendChild(rowEl(x.service+" · "+lbl, sub, money(num(x.amount)), (isB2B(x.type) ? _t("B2B") : _t("comm")+" "+money(num(x.comm))), "", function(){ removeById(db.bank, x.id); }));
+    bl.appendChild(rowEl(x.service+" · "+lbl, sub, money(num(x.amount)), (isB2B(x.type) ? _t("B2B") : _t("comm")+" "+money(num(x.comm))), "", function(){ removeById(db.bank, x.id); }, function(){ editBank(x); }));
   });
 
   /* expenses + adjustments */
   var er = rangeDates("exp");
   var el = $("expList"); el.innerHTML = "";
   var erows = [];
-  db.expenses.forEach(function(x){ if(inRange(x.date, er.from, er.to)) erows.push({ k:"exp", x:x }); });
-  db.adjust.forEach(function(x){ if(inRange(x.date, er.from, er.to)) erows.push({ k:"adj", x:x }); });
+  db.expenses.forEach(function(x){ if(inRange(x.date, er.from, er.to) && matchQ("eSearch", [x.cat||"", x.note||"", x.from||"", String(x.amount)])) erows.push({ k:"exp", x:x }); });
+  db.adjust.forEach(function(x){ if(inRange(x.date, er.from, er.to) && matchQ("eSearch", [adjLabel(x), x.note||"", x.wallet||"", String(x.amount)])) erows.push({ k:"adj", x:x }); });
   erows.sort(function(a,c){ return a.x.date < c.x.date ? 1 : -1; });
   if(!erows.length) el.innerHTML = emptyRow(_t("Nothing recorded in this period."));
   erows.forEach(function(e){
     var x = e.x;
     if(e.k==="exp"){
-      el.appendChild(rowEl(x.cat||"Expense", pretty(x.date)+" · from "+(x.from||"Cash")+(x.note?" · "+escapeHtml(x.note):""), "−"+money(num(x.amount)), null, "neg", function(){ removeById(db.expenses, x.id); }));
+      el.appendChild(rowEl(x.cat||"Expense", pretty(x.date)+" · from "+(x.from||"Cash")+(x.note?" · "+escapeHtml(x.note):""), "−"+money(num(x.amount)), null, "neg", function(){ removeById(db.expenses, x.id); }, function(){ editExp(x); }));
     } else {
-      el.appendChild(rowEl(adjLabel(x), pretty(x.date)+(x.wallet?" · "+x.wallet:"")+(x.note?" · "+escapeHtml(x.note):""), money(num(x.amount)), _t("balance only"), "", function(){ removeById(db.adjust, x.id); }));
+      el.appendChild(rowEl(adjLabel(x), pretty(x.date)+(x.wallet?" · "+x.wallet:"")+(x.note?" · "+escapeHtml(x.note):""), money(num(x.amount)), _t("balance only"), "", function(){ removeById(db.adjust, x.id); }, function(){ editAdj(x); }));
     }
   });
 
@@ -1416,25 +1674,34 @@ function render(){
   $("repExp").textContent = money(rtot.exp);
   $("repIn").textContent = money(rtot.cashIn);
   $("repOut").textContent = money(rtot.cashOut);
+  $("repFlexi").textContent = money(rtot.flexi);
+  $("repFlexiSent").textContent = money(rtot.flexiSent);
+  var mFrom = todayStr().slice(0,7) + "-01", mTo = todayStr();
+  var mtot = totals(mFrom, mTo);
+  $("repMonthProduct").textContent = money(mtot.saleProfit);
+  $("repMonthItems").textContent = mtot.items + " " + _t("pcs");
+  $("repMonthNet").textContent = money(mtot.net);
+  $("repMonthLbl").textContent = pretty(mFrom) + " – " + pretty(mTo);
 
   var byDay = {};
   function bump(date, field, v){
-    if(!byDay[date]) byDay[date] = { sp:0, cm:0, ex:0 };
+    if(!byDay[date]) byDay[date] = { sp:0, cm:0, ex:0, fx:0 };
     byDay[date][field] += v;
   }
   db.sales.forEach(function(x){ if(inRange(x.date, rf, rt)) bump(x.date, "sp", (num(x.sell)-num(x.buy))*num(x.qty)); });
   db.bank.forEach(function(x){ if(inRange(x.date, rf, rt)) bump(x.date, "cm", num(x.comm)); });
   db.expenses.forEach(function(x){ if(inRange(x.date, rf, rt)) bump(x.date, "ex", num(x.amount)); });
+  db.flexi.forEach(function(x){ if(inRange(x.date, rf, rt)) bump(x.date, "fx", flexiProfit(x)); });
   var tb = $("repTable").querySelector("tbody");
   tb.innerHTML = "";
   var days = Object.keys(byDay).sort().reverse();
   if(!days.length){
-    tb.innerHTML = '<tr><td colspan="5" style="color:#7D7A75">No data in this period.</td></tr>';
+    tb.innerHTML = '<tr><td colspan="6" style="color:#7D7A75">No data in this period.</td></tr>';
   }
   days.forEach(function(d){
-    var v = byDay[d], net = v.sp + v.cm - v.ex;
+    var v = byDay[d], net = v.sp + v.cm + v.fx - v.ex;
     var tr = document.createElement("tr");
-    tr.innerHTML = "<td>"+pretty(d)+'</td><td class="num">'+money(v.sp)+'</td><td class="num">'+money(v.cm)+'</td><td class="num">'+money(v.ex)+'</td><td class="num" style="font-weight:650">'+money(net)+"</td>";
+    tr.innerHTML = "<td>"+pretty(d)+'</td><td class="num">'+money(v.sp)+'</td><td class="num">'+money(v.cm)+'</td><td class="num">'+money(v.fx)+'</td><td class="num">'+money(v.ex)+'</td><td class="num" style="font-weight:650">'+money(net)+"</td>";
     tb.appendChild(tr);
   });
 
@@ -1600,6 +1867,288 @@ $("bSave").addEventListener("click", function(){
 });
 function clearBank(){ $("bAmount").value = ""; $("bComm").value = ""; $("bNote").value = ""; commEdited = false; refreshComm(); }
 $("bClear").addEventListener("click", clearBank);
+
+/* ---------- search + edit (v11) ---------- */
+function matchQ(id, parts){
+  var f = $(id);
+  var q = (f && f.value ? f.value : "").trim().toLowerCase();
+  if(!q) return true;
+  return parts.join(" · ").toLowerCase().indexOf(q) >= 0;
+}
+function editEntry(fill, view){
+  askConfirm(_t("Load this entry into the form so you can change it?"), function(){
+    fill();
+    save(); render(); go(view);
+    toast("Change it and save again");
+  });
+}
+function setVal(id, v){ var e = $(id); if(e) e.value = (v === undefined || v === null) ? "" : v; }
+function editSale(x){
+  editEntry(function(){
+    setVal("sDate", x.date); setVal("sItem", x.item); setVal("sQty", x.qty);
+    setVal("sBuy", x.buy); setVal("sSell", x.sell); setVal("sPay", x.pay);
+    setVal("sCustomer", x.customer); setVal("sNote", x.note);
+    removeById(db.sales, x.id);
+    db.dues = db.dues.filter(function(d){ return d.saleId !== x.id; });
+    try { salePreview(); } catch(e){}
+  }, "sales");
+}
+function editBank(x){
+  editEntry(function(){
+    setVal("bDate", x.date); setVal("bService", x.service); setVal("bType", x.type);
+    setVal("bAmount", x.amount);
+    try { labelTypes(); } catch(e){}
+    commEdited = true;
+    setVal("bComm", x.comm); setVal("bCommIn", x.commIn || "Cash"); setVal("bNote", x.note);
+    removeById(db.bank, x.id);
+    try { bankPreview(); } catch(e){}
+  }, "bank");
+}
+function editExp(x){
+  editEntry(function(){
+    setVal("eDate", x.date); setVal("eCat", x.cat); setVal("eAmount", x.amount);
+    setVal("ePaidFrom", x.from || "Cash"); setVal("eNote", x.note);
+    removeById(db.expenses, x.id);
+  }, "expense");
+}
+function editAdj(x){
+  editEntry(function(){
+    setVal("aDate", x.date); setVal("aType", x.type); setVal("aAmount", x.amount);
+    setVal("aWallet", x.wallet || "Cash"); setVal("aNote", x.note);
+    removeById(db.adjust, x.id);
+    try { adjPreview(); } catch(e){}
+  }, "expense");
+}
+function editFlexi(x){
+  editEntry(function(){
+    setVal("fDate", x.date); setVal("fOp", x.op); setVal("fType", x.type);
+    setVal("fA", x.a); fBEdited = true; setVal("fB", x.b);
+    if(x.where && x.where !== "None") setVal("fWhere", x.where);
+    setVal("fNote", x.note);
+    removeById(db.flexi, x.id);
+    try { flexiPreview(); showSeg("fl"); } catch(e){}
+  }, "bank");
+}
+["sSearch","bSearch","eSearch","fSearch"].forEach(function(id){
+  var e = $(id);
+  if(e) e.addEventListener("input", function(){ render(); });
+});
+
+/* ---------- theme, target, alerts (v11) ---------- */
+function applyTheme(){
+  var dark = db.settings.theme === "dark";
+  document.body.classList.toggle("dark", dark);
+  if($("themeLight")) $("themeLight").classList.toggle("on", !dark);
+  if($("themeDark")) $("themeDark").classList.toggle("on", dark);
+  var mt = document.querySelector('meta[name="theme-color"]');
+  if(mt) mt.setAttribute("content", dark ? "#0B0E20" : "#6C4BF6");
+}
+$("themeLight").addEventListener("click", function(){ db.settings.theme = "light"; save(); applyTheme(); toast("Light mode on"); });
+$("themeDark").addEventListener("click", function(){ db.settings.theme = "dark"; save(); applyTheme(); toast("Dark mode on"); });
+function homeRange(hd){
+  var m = ranges.home;
+  if(m === "7") return { from:shift(6), to:todayStr(), label:_t("Last 7 days") };
+  if(m === "month") return { from:todayStr().slice(0,7) + "-01", to:todayStr(), label:_t("This month") };
+  if(m === "all") return { from:"", to:"", label:_t("All") };
+  return { from:hd, to:hd, label:(hd === todayStr() ? _t("Today") : pretty(hd)) };
+}
+function renderTarget(){
+  if(!$("targetCard")) return;
+  var tg = num(db.settings.target);
+  if(!tg){
+    $("targetSub").textContent = _t("Set a target in Profile");
+    $("targetPct").textContent = "—";
+    $("targetBar").style.width = "0%";
+    return;
+  }
+  var mt = totals(todayStr().slice(0,7) + "-01", todayStr());
+  var pct = Math.round(mt.net / tg * 100);
+  $("targetSub").textContent = money(mt.net) + " " + _t("of") + " " + money(tg) + " " + _t("this month");
+  $("targetPct").textContent = pct + "%";
+  $("targetBar").style.width = Math.max(0, Math.min(100, pct)) + "%";
+}
+function renderAlerts(){
+  var el = $("homeAlerts"); if(!el) return;
+  el.innerHTML = "";
+  var out = [], b = balances(), f = flexiBalances();
+  var low = num(db.settings.lowBal);
+  if(low > 0){
+    ACCOUNTS.forEach(function(a){ if(b[a] < low) out.push(["warn", a + " · " + money(b[a]) + " — " + _t("balance is low")]); });
+    OPERATORS.forEach(function(o){ if(f[o] < low) out.push(["warn", o + " · " + money(f[o]) + " — " + _t("flexiload balance is low")]); });
+    if(b.Cash < 0) out.push(["bad", _t("Cash in hand is below zero — check today's entries.")]);
+  }
+  var days = null;
+  try { days = daysSince(backupCfg().last); } catch(e){}
+  if(days === null || days === undefined || days >= 3) out.push(["bad", _t("Backup is old — take one today from Profile.")]);
+  var td = todayStr(), any = false;
+  ["sales","bank","expenses","flexi"].forEach(function(k){
+    (db[k] || []).forEach(function(x){ if(x.date === td) any = true; });
+  });
+  if(!any) out.push(["warn", _t("Nothing written today yet.")]);
+  out.slice(0, 4).forEach(function(a){
+    var d = document.createElement("div");
+    d.className = "alert " + a[0];
+    d.textContent = a[1];
+    el.appendChild(d);
+  });
+}
+
+/* ---------- quick amount buttons + quick items (v11) ---------- */
+var QUICK_BANK = [100,500,1000,2000,5000], QUICK_FLEXI = [10,20,50,100,200];
+function fillQuickRow(holderId, list, inputId, after){
+  var el = $(holderId); if(!el) return;
+  el.innerHTML = "";
+  list.forEach(function(v){
+    var b = document.createElement("button");
+    b.type = "button"; b.textContent = "+" + v;
+    b.addEventListener("click", function(){
+      var i = $(inputId); i.value = Math.round((num(i.value) + v) * 100) / 100;
+      if(after) after();
+    });
+    el.appendChild(b);
+  });
+  var c = document.createElement("button");
+  c.type = "button"; c.textContent = _t("Clear");
+  c.addEventListener("click", function(){ $(inputId).value = ""; if(after) after(); });
+  el.appendChild(c);
+}
+function quickItems(){
+  if(!db.settings.quick || db.settings.quick.length === undefined) db.settings.quick = [];
+  return db.settings.quick;
+}
+function renderQuick(){
+  var el = $("sQuick");
+  if(el){
+    el.innerHTML = "";
+    var q = quickItems();
+    if(!q.length){
+      var sp = document.createElement("span");
+      sp.className = "subtle"; sp.textContent = _t("No quick item yet.");
+      el.appendChild(sp);
+    }
+    q.forEach(function(it){
+      var b = document.createElement("button");
+      b.type = "button"; b.textContent = it.name + "  " + money(num(it.sell));
+      b.addEventListener("click", function(){
+        $("sItem").value = it.name; $("sBuy").value = it.buy; $("sSell").value = it.sell;
+        if(!num($("sQty").value)) $("sQty").value = 1;
+        salePreview(); toast("Filled: " + it.name);
+      });
+      el.appendChild(b);
+    });
+  }
+  var ml = $("quickList");
+  if(ml){
+    ml.innerHTML = "";
+    var qq = quickItems();
+    if(!qq.length){ ml.innerHTML = emptyRow(_t("No quick item yet.")); return; }
+    qq.forEach(function(it){
+      ml.appendChild(rowEl(it.name, _t("Buy") + " " + money(num(it.buy)) + " · " + _t("Sell") + " " + money(num(it.sell)),
+        money(num(it.sell) - num(it.buy)), _t("profit"), "pos", function(){
+          db.settings.quick = quickItems().filter(function(z){ return z.name !== it.name; });
+        }));
+    });
+  }
+}
+$("sQuickAdd").addEventListener("click", function(){
+  var nm = $("sItem").value.trim();
+  if(!nm){ toast("Type the item name first"); return; }
+  var it = { name:nm.slice(0,26), buy:num($("sBuy").value), sell:num($("sSell").value) };
+  var q = quickItems().filter(function(z){ return z.name !== it.name; });
+  q.unshift(it);
+  db.settings.quick = q.slice(0, 12);
+  save(); renderQuick(); toast("Quick item saved");
+});
+
+/* ---------- flexiload (v11) ---------- */
+var fBEdited = false;
+function flexiRateOf(op){
+  var r = db.settings.flexiRate ? db.settings.flexiRate[op] : undefined;
+  return (r === undefined || r === null || r === "") ? FLEXI_BONUS : num(r);
+}
+function flexiTypeUi(){
+  var ty = $("fType").value;
+  if(ty === "load"){
+    $("fALabel").textContent = _t("Cash paid to company");
+    $("fBLabel").textContent = _t("Balance received");
+    $("fWhereLabel").textContent = _t("Cash paid from");
+    $("fABox").style.display = ""; $("fWhereBox").style.display = "";
+  } else if(ty === "sell"){
+    $("fALabel").textContent = _t("Taken from customer");
+    $("fBLabel").textContent = _t("Sent to customer");
+    $("fWhereLabel").textContent = _t("Money received in");
+    $("fABox").style.display = ""; $("fWhereBox").style.display = "";
+  } else {
+    $("fBLabel").textContent = _t("Commission given by company");
+    $("fABox").style.display = "none"; $("fWhereBox").style.display = "none";
+  }
+}
+function flexiAuto(){
+  if(fBEdited) return;
+  var ty = $("fType").value, a = num($("fA").value);
+  if(ty === "comm") return;
+  if(!a){ $("fB").value = ""; return; }
+  if(ty === "load") $("fB").value = Math.round((a + a * flexiRateOf($("fOp").value) / 100) * 100) / 100;
+  else $("fB").value = a;
+}
+function flexiPreview(){
+  flexiTypeUi(); flexiAuto();
+  var ty = $("fType").value, op = $("fOp").value, a = num($("fA").value), b = num($("fB").value), w = $("fWhere").value;
+  var rate = flexiRateOf(op);
+  $("fHint").textContent = ty === "load"
+    ? _t("Company gives") + " " + money(rate * 10) + " " + _t("extra on every Tk 1,000") + " (" + op + ")"
+    : (ty === "sell" ? _t("Send less than you took and the difference is your profit.") : _t("Whatever you type is added to the company balance and counted as profit."));
+  var profit = ty === "load" ? (b - a) : (ty === "sell" ? (a - b) : b);
+  var txt;
+  if(ty === "load") txt = w + " " + money(-a) + "  ·  " + op + " +" + money(b);
+  else if(ty === "sell") txt = w + " +" + money(a) + "  ·  " + op + " " + money(-b);
+  else txt = op + " +" + money(b);
+  $("fEffect").textContent = txt + "  ·  " + _t("profit") + " " + money(profit);
+}
+function clearFlexi(){ $("fA").value = ""; $("fB").value = ""; $("fNote").value = ""; fBEdited = false; flexiPreview(); }
+$("fSave").addEventListener("click", function(){
+  var ty = $("fType").value, a = num($("fA").value), b = num($("fB").value);
+  if(ty === "comm") a = 0;
+  if(!a && !b){ toast("Type an amount first"); return; }
+  db.flexi.push({ id:uid(), date:$("fDate").value || todayStr(), op:$("fOp").value, type:ty, a:a, b:b, where:(ty === "comm" ? "None" : $("fWhere").value), note:$("fNote").value.trim() });
+  save(); clearFlexi(); render(); toast("Flexiload entry saved");
+});
+$("fClear").addEventListener("click", clearFlexi);
+$("fB").addEventListener("input", function(){ fBEdited = true; flexiPreview(); });
+$("fA").addEventListener("input", flexiPreview);
+$("fOp").addEventListener("change", flexiPreview);
+$("fWhere").addEventListener("change", flexiPreview);
+$("fType").addEventListener("change", function(){ fBEdited = false; flexiPreview(); });
+function showSeg(which){
+  var mb = which === "mb";
+  $("mbWrap").style.display = mb ? "" : "none";
+  $("flWrap").style.display = mb ? "none" : "";
+  $("segMB").classList.toggle("on", mb);
+  $("segFL").classList.toggle("on", !mb);
+  window.scrollTo(0, 0);
+}
+$("segMB").addEventListener("click", function(){ showSeg("mb"); });
+$("segFL").addEventListener("click", function(){ showSeg("fl"); });
+function renderFlexi(){
+  var f = flexiBalances();
+  OPERATORS.forEach(function(o){ var el = $("fbal_" + o); if(el) el.textContent = money(f[o]); });
+  var tot = $("balFlexiTotal"); if(tot) tot.textContent = money(flexiTotal());
+  var bl = $("flBalList");
+  if(bl){
+    bl.innerHTML = "";
+    OPERATORS.forEach(function(o){ bl.appendChild(rowEl(o, _t("Company balance"), money(f[o]), null, "", null)); });
+  }
+  var list = $("flexiList"); if(!list) return;
+  var fr = rangeDates("flexi");
+  list.innerHTML = "";
+  var rows = db.flexi.filter(function(x){ return inRange(x.date, fr.from, fr.to) && matchQ("fSearch", [x.op||"", flexiLabel(x.type), x.note||"", String(x.a), String(x.b)]); }).slice().reverse();
+  if(!rows.length){ list.innerHTML = emptyRow(_t("No flexiload entry in this period.")); return; }
+  rows.forEach(function(x){
+    var sub = pretty(x.date) + " · " + flexiLabel(x.type) + (x.where && x.where !== "None" ? " · " + x.where : "") + (x.note ? " · " + escapeHtml(x.note) : "");
+    var amt = (x.type === "comm") ? money(num(x.b)) : money(num(x.a));
+    list.appendChild(rowEl(x.op, sub, amt, _t("profit") + " " + money(flexiProfit(x)), "", function(){ removeById(db.flexi, x.id); }, function(){ editFlexi(x); }));
+  });
+}
 
 /* ---------- baki khata screens ---------- */
 var openParty = null, editingEntry = null, entryType = "given", editingParty = null;
@@ -1845,6 +2394,13 @@ function fillSettings(){
     if(i) i.value = r.cin;
     if(o) o.value = r.cout;
   });
+  OPERATORS.forEach(function(o){
+    var op = $("fopen_" + o), rt = $("frate_" + o);
+    if(op) op.value = db.settings.flexiOpen[o] || "";
+    if(rt) rt.value = Math.round(flexiRateOf(o) * 10 * 100) / 100;
+  });
+  if($("setTarget")) $("setTarget").value = num(db.settings.target) || "";
+  if($("setLowBal")) $("setLowBal").value = (db.settings.lowBal === undefined ? 1000 : num(db.settings.lowBal));
 }
 $("setSave").addEventListener("click", function(){
   db.settings.shop = $("setShopName").value.trim().slice(0,34);
@@ -1858,7 +2414,14 @@ $("setSave").addEventListener("click", function(){
     if(i) db.settings.rates[a].cin = num(i.value);
     if(o) db.settings.rates[a].cout = num(o.value);
   });
-  save(); refreshComm(); render(); toast("Settings saved");
+  OPERATORS.forEach(function(o){
+    var op = $("fopen_" + o), rt = $("frate_" + o);
+    if(op) db.settings.flexiOpen[o] = num(op.value);
+    if(rt && rt.value !== "") db.settings.flexiRate[o] = num(rt.value) / 10;
+  });
+  if($("setTarget")) db.settings.target = num($("setTarget").value);
+  if($("setLowBal")) db.settings.lowBal = num($("setLowBal").value);
+  save(); refreshComm(); flexiPreview(); render(); toast("Settings saved");
 });
 $("setReset").addEventListener("click", function(){
   askConfirm("Empty the boxes above and put the standard commission rates back? Nothing is saved until you tap Save settings.", function(){
@@ -1869,6 +2432,13 @@ $("setReset").addEventListener("click", function(){
       if(i) i.value = DEFAULT_RATES[a].cin;
       if(o) o.value = DEFAULT_RATES[a].cout;
     });
+    OPERATORS.forEach(function(o){
+      var op = $("fopen_" + o), rt = $("frate_" + o);
+      if(op) op.value = "";
+      if(rt) rt.value = Math.round(FLEXI_BONUS * 10 * 100) / 100;
+    });
+    if($("setTarget")) $("setTarget").value = "";
+    if($("setLowBal")) $("setLowBal").value = 1000;
     $("setOpenCash").focus();
     toast("Fields reset \u2014 tap Save settings to keep it");
   });
@@ -2022,9 +2592,10 @@ var SECTIONS = [
   { tag:"#EXPENSES", key:"expenses", cols:["id","date","cat","amount","from","note"] },
   { tag:"#ADJUST",   key:"adjust",   cols:["id","date","type","amount","wallet","note"] },
   { tag:"#PARTIES",  key:"parties",  cols:["id","name","phone","kind"] },
-  { tag:"#DUES",     key:"dues",     cols:["id","partyId","date","type","amount","where","note","saleId"] }
+  { tag:"#DUES",     key:"dues",     cols:["id","partyId","date","type","amount","where","note","saleId"] },
+  { tag:"#FLEXI",    key:"flexi",    cols:["id","date","op","type","a","b","where","note"] }
 ];
-var NUM_COLS = { qty:1, buy:1, sell:1, amount:1, comm:1 };
+var NUM_COLS = { qty:1, buy:1, sell:1, amount:1, comm:1, a:1, b:1 };
 function csvCell(v){
   v = (v === undefined || v === null) ? "" : String(v);
   return /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
@@ -2072,6 +2643,14 @@ function buildBackupCsv(){
     L.push(csvRow(["rate:" + a + ":cin", num(r.cin)]));
     L.push(csvRow(["rate:" + a + ":cout", num(r.cout)]));
   });
+  OPERATORS.forEach(function(o){
+    L.push(csvRow(["flexiOpen:" + o, num(db.settings.flexiOpen[o])]));
+    L.push(csvRow(["flexiRate:" + o, flexiRateOf(o)]));
+  });
+  L.push(csvRow(["theme", db.settings.theme || "light"]));
+  L.push(csvRow(["target", num(db.settings.target)]));
+  L.push(csvRow(["lowBal", num(db.settings.lowBal)]));
+  quickItems().forEach(function(q, i){ L.push(csvRow(["quick:" + i, q.name + "|" + num(q.buy) + "|" + num(q.sell)])); });
   var lc = lockCfg();
   L.push(csvRow(["lock:on", lc.on ? "yes" : "no"]));
   L.push(csvRow(["lock:pin", lc.pin || ""]));
@@ -2090,7 +2669,7 @@ function csvToDb(text){
   var rows = parseCsv(text);
   if(!rows.length) return null;
   if(((rows[0][0] || "") + "").trim().toLowerCase().indexOf("shop hisab") !== 0) return null;
-  var d = blank(), sec = "", cols = null;
+  var d = blank(), sec = "", cols = null, qcleared = false;
   for(var i = 1; i < rows.length; i++){
     var r = rows[i];
     if(!r.length) continue;
@@ -2107,6 +2686,16 @@ function csvToDb(text){
         var p = first.split(":");
         if(p.length === 3 && d.settings.rates[p[1]]) d.settings.rates[p[1]][p[2]] = num(v);
       }
+      else if(first === "theme") d.settings.theme = (v === "dark") ? "dark" : "light";
+      else if(first === "target") d.settings.target = num(v);
+      else if(first === "lowBal") d.settings.lowBal = num(v);
+      else if(first.indexOf("quick:") === 0){
+        if(!qcleared){ d.settings.quick = []; qcleared = true; }
+        var qp = (v + "").split("|");
+        if(qp[0]) d.settings.quick.push({ name:qp[0], buy:num(qp[1]), sell:num(qp[2]) });
+      }
+      else if(first.indexOf("flexiOpen:") === 0) d.settings.flexiOpen[first.slice(10)] = num(v);
+      else if(first.indexOf("flexiRate:") === 0) d.settings.flexiRate[first.slice(10)] = num(v);
       else if(first === "lock:on") d.settings.lock.on = (v === "yes" || v === "true" || v === "1");
       else if(first === "lock:pin") d.settings.lock.pin = v;
       else if(first === "lock:key") d.settings.lock.key = v;
@@ -2133,8 +2722,18 @@ function afterRestore(){
   fillSettings(); fillLock(); fillBackup(); refreshComm();
   closePartyView(); salePreview(); adjPreview(); render();
 }
+function restorePreview(d){
+  var p = [];
+  p.push((d.sales||[]).length + " " + _t("sales"));
+  p.push((d.bank||[]).length + " " + _t("banking"));
+  p.push((d.flexi||[]).length + " " + _t("flexiload"));
+  p.push((d.expenses||[]).length + " " + _t("expenses"));
+  p.push((d.parties||[]).length + " " + _t("parties"));
+  p.push((d.dues||[]).length + " " + _t("baki entries"));
+  return p.join(", ");
+}
 function applyRestore(d, what){
-  askConfirm("Replace everything on this phone with " + what + "?", function(){
+  askConfirm("Replace everything on this phone with " + what + "?\n\n" + _t("Inside the file:") + " " + restorePreview(d), function(){
     keepPrev();
     localStorage.setItem(KEY, JSON.stringify(d));
     db = load(); save();
@@ -2155,13 +2754,63 @@ function download(name, text, mime){
     return true;
   }catch(e){ return false; }
 }
+var HKEY = KEY + ".hist";
+function histList(){
+  try{ var a = JSON.parse(localStorage.getItem(HKEY) || "[]"); return a.length !== undefined ? a : []; }
+  catch(e){ return []; }
+}
+function histPush(name, csv){
+  try{
+    var a = histList();
+    a.unshift({ name:name, at:stampNice(), csv:csv });
+    a = a.slice(0, 5);
+    localStorage.setItem(HKEY, JSON.stringify(a));
+  }catch(e){
+    try{ localStorage.setItem(HKEY, JSON.stringify([{ name:name, at:stampNice(), csv:csv }])); }catch(e2){}
+  }
+  renderHist();
+}
+function renderHist(){
+  var el = $("histList"); if(!el) return;
+  el.innerHTML = "";
+  var a = histList();
+  if(!a.length){ el.innerHTML = emptyRow(_t("No backup kept inside the app yet.")); return; }
+  a.forEach(function(x, i){
+    var row = document.createElement("div");
+    row.className = "item";
+    var main = document.createElement("div");
+    main.className = "main";
+    main.innerHTML = '<div class="t"></div><div class="s"></div>';
+    main.querySelector(".t").textContent = x.at;
+    main.querySelector(".s").textContent = x.name + "  ·  " + Math.round((x.csv || "").length / 1024) + " KB";
+    var bsave = document.createElement("button");
+    bsave.className = "del ed"; bsave.type = "button"; bsave.textContent = "⤓";
+    bsave.setAttribute("aria-label", "Save to phone again");
+    bsave.addEventListener("click", function(){
+      if(download(x.name, x.csv, "text/csv")) toast("Saved: " + x.name);
+      else toast("Could not save the file");
+    });
+    var bres = document.createElement("button");
+    bres.className = "del ed"; bres.type = "button"; bres.textContent = "↺";
+    bres.setAttribute("aria-label", "Go back to this backup");
+    bres.addEventListener("click", function(){
+      var d = null;
+      try { d = csvToDb(x.csv); } catch(e){ d = null; }
+      if(!d){ toast("This backup could not be read"); return; }
+      applyRestore(d, x.at + " " + _t("backup"));
+    });
+    row.appendChild(main); row.appendChild(bsave); row.appendChild(bres);
+    el.appendChild(row);
+  });
+}
 $("btnBackupCsv").addEventListener("click", function(){
   var name = "shop-hisab-" + stampFile() + ".csv";
-  if(download(name, buildBackupCsv(), "text/csv")){
+  var csv = buildBackupCsv();
+  if(download(name, csv, "text/csv")){
     var b = backupCfg();
     b.last = new Date().toISOString();
     b.file = name;
-    save(); fillBackup(); render();
+    save(); fillBackup(); histPush(name, csv); render();
     toast("Saved: " + name);
   } else {
     toast("Could not save the file");
@@ -2204,14 +2853,14 @@ function wipeAll(){
   if(keepLock) db.settings.lock = keepLock;
   db.settings.lang = keepLang;
   save();
-  ["sItem","sBuy","sSell","sNote","sCustomer","bAmount","bComm","bNote","eAmount","eNote","aAmount","aNote","dSearch"].forEach(function(id){
+  ["sItem","sBuy","sSell","sNote","sCustomer","bAmount","bComm","bNote","eAmount","eNote","aAmount","aNote","dSearch","fA","fB","fNote"].forEach(function(id){
     var el = $(id); if(el) el.value = "";
   });
   var q = $("sQty"); if(q) q.value = "1";
-  ["homeDate","sDate","bDate","eDate","aDate"].forEach(function(id){ var el = $(id); if(el) el.value = todayStr(); });
+  ["homeDate","sDate","bDate","eDate","aDate","fDate"].forEach(function(id){ var el = $(id); if(el) el.value = todayStr(); });
   closePartyView();
   commEdited = false;
-  fillSettings(); fillBackup(); fillLock(); salePreview(); adjPreview(); refreshComm(); render();
+  fillSettings(); fillBackup(); fillLock(); salePreview(); adjPreview(); refreshComm(); flexiPreview(); render();
   toast("App is fresh again");
 }
 $("btnWipe").addEventListener("click", function(){
@@ -2222,7 +2871,71 @@ $("btnWipe").addEventListener("click", function(){
 
 /* ---------- language ---------- */
 var LANG = "en";
-var DICT = { bn: {"Mobile shop daily accounts":"মোবাইল দোকানের দৈনিক হিসাব","Date":"তারিখ","Profit this day":"এই দিনের লাভ","Net profit today":"আজকের নিট লাভ","Sales profit + commission − expense":"বিক্রির লাভ + কমিশন − খরচ","Sales profit":"বিক্রির লাভ","Commission":"কমিশন","Sales amount":"বিক্রির পরিমাণ","Expense":"খরচ","Balance right now":"এখনকার ব্যালেন্স","Cash in hand":"হাতে নগদ","Live · all dates":"লাইভ · সব তারিখ","bKash — all SIM":"বিকাশ — সব সিম","Agent + Personal + Merchant":"এজেন্ট + পার্সোনাল + মার্চেন্ট","Agent SIM":"এজেন্ট সিম","Personal SIM":"পার্সোনাল সিম","Merchant SIM":"মার্চেন্ট সিম","Nagad — all SIM":"নগদ — সব সিম","Rocket":"রকেট","Wallet balance":"ওয়ালেট ব্যালেন্স","Total value (cash + all SIM)":"মোট টাকা (নগদ + সব সিম)","Live, all dates included":"লাইভ, সব তারিখ ধরা","Baki — I will get":"বাকি — আমি পাবো","Baki — I will pay":"বাকি — আমি দিবো","Today's entries":"আজকের এন্ট্রি","Add a sale":"বিক্রি যোগ করুন","Quantity":"পরিমাণ","Buy price / unit":"কেনা দাম / পিস","Sell price / unit":"বিক্রির দাম / পিস","Payment received in":"টাকা কোথায় পেলাম","Cash":"নগদ","bKash Agent SIM":"বিকাশ এজেন্ট সিম","bKash Personal SIM":"বিক��শ পার্সোনাল সিম","bKash Merchant SIM":"বিকাশ মার্চেন্ট সিম","Nagad Agent SIM":"নগদ এজেন্ট সিম","Nagad Personal SIM":"নগদ পার্সোনাল সিম","Nagad Merchant SIM":"নগদ মার্চেন্ট সিম","Due (not paid)":"বাকি (টাকা পাইনি)","Note (optional)":"নোট (ইচ্ছা হলে)","Profit on this sale":"এই বিক্রিতে লাভ","Clear":"মুছুন","Save sale":"বিক্রি সেভ করুন","Sales list":"বিক্রির তালিকা","Mobile banking entry":"মোবাইল ব্যাংকিং এন্ট্রি","Which SIM / account":"কোন সিম / একাউন্ট","What happened":"কী হয়েছে","Cash In":"ক্যাশ ইন","Cash Out":"ক্যাশ আউট","Amount":"টাকার পরিমাণ","Commission (auto)":"কমিশন (অটো)","Rate will show here.":"রেট এখানে দেখাবে।","Commission goes to":"কমিশন কোথায় যাবে","SIM / wallet balance":"সিম / ওয়ালেট ব্যালেন্স","Effect will show here.":"হিসাব এখানে দেখাবে।","Save entry":"এন্ট্রি সেভ করুন","Transactions":"লেনদেন","Add expense":"খরচ যোগ করুন","Category":"খাত","Shop rent":"দোকান ভাড়া","Bill / Electricity":"বিল / বিদ্যুৎ","Tea & food":"চা / খাবার","Transport":"যাতায়াত","Salary":"বেতন","Recharge / Internet":"রিচার্জ / ইন্টারনেট","Purchase (stock)":"মাল কেনা","Personal":"ব্যক্তিগত","Other":"অন্যান্য","Paid from":"কোথা থেকে দিলাম","Save expense":"খরচ সেভ করুন","Move / adjust money":"টাকা সরানো / সমন্বয়","Action":"কাজ","Add my own cash to shop":"নিজের টাকা দোকানে দিলাম","Take cash out of shop":"দোকান থেকে টাকা নিলাম","Buy wallet balance with cash":"নগদ দিয়ে ব্যালেন্স কিনলাম","Send wallet balance, get cash":"ব্যালেন্স দিয়ে নগদ নিলাম","Keep the money in":"টাকা কোথায় রাখবো","Save adjustment":"সমন্বয় সেভ করুন","Expenses & adjustments":"খরচ ও সমন্বয়","Report":"রিপোর্ট","From":"শুরু","To":"শেষ","Net profit for selected period":"এই সময়ের নিট লাভ","Cash In volume":"ক্যাশ ইন মোট","Cash Out volume":"ক্যাশ আউট মোট","Day by day":"দিন অনুযায়ী","Sale profit":"বিক্রির লাভ","Comm.":"কমিশন","Net":"নিট","Top selling items":"সবচেয়ে বেশি বিক্রি","Settings moved to Profile":"সেটিংস প্রোফাইলে সরানো হয়েছে","Open Profile":"প্রোফাইল খুলুন","Profile":"প্রোফাইল","Language":"ভাষা","Data & settings":"তথ্য ও সেটিংস","Shop name":"দোকানের নাম","This name shows at the top of the app.":"এই নাম অ্যাপের উপরে দেখাবে।","Opening cash in hand":"শুরুর হাতে নগদ","Opening Rocket":"শুরুর রকেট","Commission rate (Tk per 1000)":"কমিশন রেট (প্রতি ১০০০ টাকায়)","bKash Agent — Cash In":"বিকাশ এজেন্ট — ক্যাশ ইন","bKash Agent — Cash Out":"বিকাশ এজেন্ট — ক্যাশ আউট","Nagad Agent — Cash In":"নগদ এজেন্ট — ক্যাশ ইন","Nagad Agent — Cash Out":"নগদ এজেন্ট — ক্যাশ আউট","Reset fields":"ঘর খালি করুন","Save settings":"সেটিংস সেভ করুন","App lock · 4-digit PIN":"অ্যাপ লক · ৪ সংখ্যার পিন","App lock":"অ্যাপ লক","Off":"বন্ধ","On — ask for the PIN":"চালু — পিন চাইবে","New 4-digit PIN":"নতুন ৪ সংখ্যার পিন","Type it again":"আবার লিখুন","App lock is off.":"অ্যাপ লক বন্ধ আছে।","Save app lock":"অ্যাপ লক সেভ করুন","If you forget the PIN":"পিন ভুলে গেলে","On the lock screen tap":"লক স্ক্রিনে চাপুন","Forgot":"ভুলে গেছি","recovery key":"রিকভারি কী","Your recovery key:":"আপনার রিকভারি কী:","Backup & restore":"ব্যাকআপ ও রিস্টোর","Backup to phone":"ফোনে ব্যাকআপ","No backup taken yet.":"এখনো কোনো ব্যাকআপ নেওয়া হয়নি।","Restore from phone":"ফোন থেকে রিস্টোর","How to move everything to a new phone":"নতুন ফোনে সব নেবেন যেভাবে","Danger zone":"সতর্ক এলাকা","Take a fresh backup before you touch these.":"এগুলোতে হাত দেওয়ার আগে নতুন ব্যাকআপ নিন।","Undo last restore / delete":"শেষ রিস্টোর / ডিলিট ফিরিয়ে আনুন","Delete all data":"সব তথ্য মুছে ফেলুন","How the numbers work":"হিসাব যেভাবে কাজ করে","Profit":"লাভ","Baki":"বাকি","Total I will get":"মোট পাবো","Total I will pay":"মোট দিবো","Search":"খোঁজ","+ Add customer / supplier":"+ কাস্টমার / সাপ্লায়ার যোগ","How baki khata works":"বাকি খাতা যেভাবে কাজ করে","Dilam / Becha":"দিলাম / বেচা","Pelam":"পেলাম","I will get":"আমি পাবো","I will pay":"আমি দিবো","Name":"নাম","Khata":"খাতা","Delete this khata":"এই খাতা মুছুন","What did I give":"কী দিলাম","Goods / service (no cash moved)":"মাল / সেবা (টাকা যায়নি)","Details (optional)":"বিবরণ (ইচ্ছা হলে)","Cancel":"বাতিল","Save":"সেভ","Delete this entry":"এই এন্ট্রি মুছুন","Add customer / supplier":"কাস্টমার / সাপ্লায়ার যোগ","Phone (optional)":"ফোন (ইচ্ছা হলে)","Type":"ধরন","Customer":"কাস্টমার","Supplier":"সাপ্লায়ার","Enter your 4-digit PIN":"আপনার ৪ সংখ্যার পিন দিন","Delete":"মুছুন","Recover your PIN":"পিন ফিরে পান","Recovery key":"রিকভারি কী","Check key":"কী মিলান","New PIN":"নতুন পিন","Save new PIN":"নতুন পিন সেভ","Close":"বন্ধ","Home":"হোম","Sales":"বিক্রি","Banking":"ব্যাংকিং","Yes":"হ্যাঁ","Details":"বিবরণ","Who gave it / reason":"কে দিল / কারণ","Name or phone number":"নাম বা ফোন নম্বর","Customer number / name":"কাস্টমারের নম্বর / নাম","B2B with ASR - took cash, gave balance":"ASR এর সাথে B2B - নগদ নিলাম, ব্যালেন্স দিলাম","B2B with ASR - took balance, gave cash":"ASR এর সাথে B2B - ব্যালেন্স নিলাম, নগদ দিলাম","B2B with ASR - no commission on this entry.":"ASR এর সাথে B2B - এই এন্ট্রিতে কোনো কমিশন নেই।","B2B with ASR - no commission":"ASR এর সাথে B2B - কমিশন নেই","B2B - took cash":"B2B - নগদ নিলাম","B2B - gave cash":"B2B - নগদ দিলাম","B2B":"B2B","Cash In - I took cash, money left the SIM":"ক্যাশ ইন - নগদ নিলাম, সিম থেকে টাকা গেল","Cash Out - I gave cash, money came into the SIM":"ক্যাশ আউট - নগদ দিলাম, সিমে টাকা এলো","Cash In - money came into this SIM (cash goes out)":"ক্যাশ ইন - এই সিমে টাকা এলো (নগদ কমবে)","Cash Out - money left this SIM (cash comes in)":"ক্যাশ আউট - এই সিম থেকে টাকা গেল (নগদ বাড়বে)","Today":"আজ","Last 7 days":"শেষ ৭ দিন","This month":"এই মাস","All":"সব","net":"নিট","comm":"কমিশন","no commission":"কমিশন নেই","commission in":"কমিশন যাবে","profit":"লাভ","rate":"রেট","Tk per 1000":"টাকা প্রতি ১০০০","auto commission":"অটো কমিশন","(you typed your own)":"(নিজে লিখেছেন)","balance only":"শুধু ব্যালেন্স","balance":"ব্যালেন্স","Customers":"কাস্টমার","Suppliers":"সাপ্লায়ার","No entry for this day yet.":"এই দিনের কোনো এন্ট্রি নেই।","No sales in this period.":"এই সময়ে কোনো বিক্রি নেই।","No transactions in this period.":"এই সময়ে কোনো লেনদেন নেই।","Nothing recorded in this period.":"এই সময়ে কিছু লেখা হয়নি।","Delete this entry?":"এই এন্ট্রি মুছে ফেলবো?","Money received in":"টাকা পেলাম","Money paid out from":"টাকা দিলাম","Cash added to shop":"দোকানে নগদ যোগ","Cash taken out":"নগদ তুলে নেওয়া","Bought":"ক��নলাম","Sold":"বেচলাম","App lock is ON":"অ্যাপ লক চালু আছে","recovery key:":"রিকভারি কী:","not set":"দেওয়া হয়নি","Backup saved.":"ব্যাকআপ সেভ হয়েছে।","Backup: saved today":"ব্যাকআপ: আজ নেওয়া হয়েছে","Backup: yesterday - take a fresh one.":"ব্যাকআপ: গতকাল - নতুন করে নিন।","Backup:":"ব্যাকআপ:","days ago - take a fresh one.":"দিন আগ��� - নতুন করে নিন।","Settings saved":"সেটিংস সেভ হয়েছে","Transaction saved":"লেনদেন সেভ হয়েছে","Deleted":"মুছে ফেলা হয়েছে","Write the amount":"টাকার পরিমাণ লিখুন","Welcome back":"স্বাগতম","Wrong PIN, try again":"ভুল পিন, আবার চেষ্টা করুন","App lock turned off":"অ্যাপ লক বন্ধ হলো","New PIN saved":"নতুন পিন সেভ হয়েছে","App is fresh again":"অ্যাপ আবার নতুন","That key is not right.":"এই কী ঠিক নয়।","Pick a wallet, not Cash":"ওয়ালেট বাছুন, নগদ নয়"} };
+var DICT = { bn: {
+  "Flexiload": "ফ্লেক্সিলোড",
+  "Flexi": "ফ্লেক্সি",
+  "Flexiload entry": "ফ্লেক্সিলোড এন্ট্রি",
+  "Flexiload entries": "ফ্লেক্সিলোড এন্ট্রি",
+  "Company balance": "কোম্পানি ব্যালেন্স",
+  "Company": "কোম্পানি",
+  "Load from company": "কোম্পানি থেকে লোড",
+  "Sent to customer": "কাস্টমারকে পাঠানো",
+  "Company commission": "কোম্পানি কমিশন",
+  "Cash paid to company": "কোম্পানিকে দেওয়া ক্যাশ",
+  "Balance received": "যত ব্যালেন্স পেলেন",
+  "Cash paid from": "ক্যাশ কোথা থেকে দিলেন",
+  "Taken from customer": "কাস্টমারের কাছ থেকে নিলেন",
+  "Money received in": "টাকা কোথায় নিলেন",
+  "Commission given by company": "কোম্পানি যত কমিশন দিল",
+  "Company gives": "কোম্পানি দেয়",
+  "extra on every Tk 1,000": "বাড়তি, প্রতি ১,০০০ টাকায়",
+  "Send less than you took and the difference is your profit.": "নেওয়ার চেয়ে কম পাঠালে বাকিটা আপনার লাভ।",
+  "Whatever you type is added to the company balance and counted as profit.": "যত টাকা লিখবেন তা কোম্পানি ব্যালেন্সে যোগ হবে, পুরোটাই লাভ।",
+  "profit": "লাভ",
+  "Profit": "লাভ",
+  "pcs": "পিস",
+  "No flexiload entry in this period.": "এই সময়ে কোনো ফ্লেক্সিলোড এন্ট্রি নেই।",
+  "Flexiload company": "ফ্লেক্সিলোড কোম্পানি",
+  "Flexiload profit": "ফ্লেক্সিলোডের লাভ",
+  "Flexiload sent": "ফ্লেক্সিলোড পাঠানো",
+  "Product profit this month": "এই মাসে পণ্যের লাভ",
+  "Items sold this month": "এই মাসে বিক্রি হওয়া পিস",
+  "Net profit this month": "এই মাসের নিট লাভ",
+  "Quick items": "কুইক আইটেম",
+  "Quick items — tap to fill": "কুইক আইটেম — চাপ দিলেই বসে যাবে",
+  "Save as quick item": "কুইক আইটেম হিসেবে রাখুন",
+  "Clear the form": "ফর্ম খালি করুন",
+  "Clear": "খালি",
+  "No quick item yet.": "এখনো কোনো কুইক আইটেম নেই।",
+  "Buy": "কেনা",
+  "Sell": "বেচা",
+  "Look": "চেহারা",
+  "Light": "লাইট",
+  "Dark": "ডার্ক",
+  "Dark mode is easier on the eyes at night.": "রাতে ডার্ক মোড চোখের জন্য আরামদায়ক।",
+  "Target & alerts": "টার্গেট ও সতর্কতা",
+  "Monthly profit target": "মাসিক লাভের টার্গেট",
+  "Low balance warning": "কম ব্যালেন্সের সতর্কতা",
+  "Set a target in Profile": "প্রোফাইলে টার্গেট দিন",
+  "of": "এর মধ্যে",
+  "this month": "এই মাসে",
+  "balance is low": "ব্যালেন্স কমে গেছে",
+  "flexiload balance is low": "ফ্লেক্সিলোড ব্যালেন্স কমে গেছে",
+  "Cash in hand is below zero — check today's entries.": "হাতে ক্যাশ শূন্যের নিচে — আজকের হিসাব দেখুন।",
+  "Backup is old — take one today from Profile.": "ব্যাকআপ পুরোনো — আজ প্রোফাইল থেকে একটা নিন।",
+  "Nothing written today yet.": "আজ এখনো কিছু লেখা হয়নি।",
+  "Load this entry into the form so you can change it?": "এন্ট্রিটা ফর্মে এনে বদলাতে চান?",
+  "Inside the file:": "ফাইলের ভেতরে:",
+  "sales": "বিক্রি",
+  "banking": "ব্যাংকিং",
+  "flexiload": "ফ্লেক্সিলোড",
+  "expenses": "খরচ",
+  "parties": "পার্টি",
+  "baki entries": "বাকির এন্ট্রি",
+  "backup": "ব্যাকআপ",
+  "No backup kept inside the app yet.": "অ্যাপের ভেতরে এখনো কোনো ব্যাকআপ নেই।",
+  "Last 5 backups kept inside the app": "অ্যাপের ভেতরে রাখা শেষ ৫টি ব্যাকআপ",
+"Mobile shop daily accounts":"মোবাইল দোকানের দৈনিক হিসাব","Date":"তারিখ","Profit this day":"এই দিনের লাভ","Net profit today":"আজকের নিট লাভ","Sales profit + commission − expense":"বিক্রির লাভ + কমিশন − খরচ","Sales profit":"বিক্রির লাভ","Commission":"কমিশন","Sales amount":"বিক্রির পরিমাণ","Expense":"খরচ","Balance right now":"এখনকার ব্যালেন্স","Cash in hand":"হাতে নগদ","Live · all dates":"লাইভ · সব তারিখ","bKash — all SIM":"বিকাশ — সব সিম","Agent + Personal + Merchant":"এজেন্ট + পার্সোনাল + মার্চেন্ট","Agent SIM":"এজেন্ট সিম","Personal SIM":"পার্সোনাল সিম","Merchant SIM":"মার্চেন্ট সিম","Nagad — all SIM":"নগদ — সব সিম","Rocket":"রকেট","Wallet balance":"ওয়ালেট ব্যালেন্স","Total value (cash + all SIM)":"মোট টাকা (নগদ + সব সিম)","Live, all dates included":"লাইভ, সব তারিখ ধরা","Baki — I will get":"বাকি — আমি পাবো","Baki — I will pay":"বাকি — আমি দিবো","Today's entries":"আজকের এন্ট্রি","Add a sale":"বিক্রি যোগ করুন","Quantity":"পরিমাণ","Buy price / unit":"কেনা দাম / পিস","Sell price / unit":"বিক্রির দাম / পিস","Payment received in":"টাকা কোথায় পেলাম","Cash":"নগদ","bKash Agent SIM":"বিকাশ এজেন্ট সিম","bKash Personal SIM":"বিক��শ পার্সোনাল সিম","bKash Merchant SIM":"বিকাশ মার্চেন্ট সিম","Nagad Agent SIM":"নগদ এজেন্ট সিম","Nagad Personal SIM":"নগদ পার্সোনাল সিম","Nagad Merchant SIM":"নগদ মার্চেন্ট সিম","Due (not paid)":"বাকি (টাকা পাইনি)","Note (optional)":"নোট (ইচ্ছা হলে)","Profit on this sale":"এই বিক্রিতে লাভ","Clear":"মুছুন","Save sale":"বিক্রি সেভ করুন","Sales list":"বিক্রির তালিকা","Mobile banking entry":"মোবাইল ব্যাংকিং এন্ট্রি","Which SIM / account":"কোন সিম / একাউন্ট","What happened":"কী হয়েছে","Cash In":"ক্যাশ ইন","Cash Out":"ক্যাশ আউট","Amount":"টাকার পরিমাণ","Commission (auto)":"কমিশন (অটো)","Rate will show here.":"রেট এখানে দেখাবে।","Commission goes to":"কমিশন কোথায় যাবে","SIM / wallet balance":"সিম / ওয়ালেট ব্যালেন্স","Effect will show here.":"হিসাব এখানে দেখাবে।","Save entry":"এন্ট্রি সেভ করুন","Transactions":"লেনদেন","Add expense":"খরচ যোগ করুন","Category":"খাত","Shop rent":"দোকান ভাড়া","Bill / Electricity":"বিল / বিদ্যুৎ","Tea & food":"চা / খাবার","Transport":"যাতায়াত","Salary":"বেতন","Recharge / Internet":"রিচার্জ / ইন্টারনেট","Purchase (stock)":"মাল কেনা","Personal":"ব্যক্তিগত","Other":"অন্যান্য","Paid from":"কোথা থেকে দিলাম","Save expense":"খরচ সেভ করুন","Move / adjust money":"টাকা সরানো / সমন্বয়","Action":"কাজ","Add my own cash to shop":"নিজের টাকা দোকানে দিলাম","Take cash out of shop":"দোকান থেকে টাকা নিলাম","Buy wallet balance with cash":"নগদ দিয়ে ব্যালেন্স কিনলাম","Send wallet balance, get cash":"ব্যালেন্স দিয়ে নগদ নিলাম","Keep the money in":"টাকা কোথায় রাখবো","Save adjustment":"সমন্বয় সেভ করুন","Expenses & adjustments":"খরচ ও সমন্বয়","Report":"রিপোর্ট","From":"শুরু","To":"শেষ","Net profit for selected period":"এই সময়ের নিট লাভ","Cash In volume":"ক্যাশ ইন মোট","Cash Out volume":"ক্যাশ আউট মোট","Day by day":"দিন অনুযায়ী","Sale profit":"বিক্রির লাভ","Comm.":"কমিশন","Net":"নিট","Top selling items":"সবচেয়ে বেশি বিক্রি","Settings moved to Profile":"সেটিংস প্রোফাইলে সরানো হয়েছে","Open Profile":"প্রোফাইল খুলুন","Profile":"প্রোফাইল","Language":"ভাষা","Data & settings":"তথ্য ও সেটিংস","Shop name":"দোকানের নাম","This name shows at the top of the app.":"এই নাম অ্যাপের উপরে দেখাবে।","Opening cash in hand":"শুরুর হাতে নগদ","Opening Rocket":"শুরুর রকেট","Commission rate (Tk per 1000)":"কমিশন রেট (প্রতি ১০০০ টাকায়)","bKash Agent — Cash In":"বিকাশ এজেন্ট — ক্যাশ ইন","bKash Agent — Cash Out":"বিকাশ এজেন্ট — ক্যাশ আউট","Nagad Agent — Cash In":"নগদ এজেন্ট — ক্যাশ ইন","Nagad Agent — Cash Out":"নগদ এজেন্ট — ক্যাশ আউট","Reset fields":"ঘর খালি করুন","Save settings":"সেটিংস সেভ করুন","App lock · 4-digit PIN":"অ্যাপ লক · ৪ সংখ্যার পিন","App lock":"অ্যাপ লক","Off":"বন্ধ","On — ask for the PIN":"চালু — পিন চাইবে","New 4-digit PIN":"নতুন ৪ সংখ্যার পিন","Type it again":"আবার লিখুন","App lock is off.":"অ্যাপ লক বন্ধ আছে।","Save app lock":"অ্যাপ লক সেভ করুন","If you forget the PIN":"পিন ভুলে গেলে","On the lock screen tap":"লক স্ক্রিনে চাপুন","Forgot":"ভুলে গেছি","recovery key":"রিকভারি কী","Your recovery key:":"আপনার রিকভারি কী:","Backup & restore":"ব্যাকআপ ও রিস্টোর","Backup to phone":"ফোনে ব্যাকআপ","No backup taken yet.":"এখনো কোনো ব্যাকআপ নেওয়া হয়নি।","Restore from phone":"ফোন থেকে রিস্টোর","How to move everything to a new phone":"নতুন ফোনে সব নেবেন যেভাবে","Danger zone":"সতর্ক এলাকা","Take a fresh backup before you touch these.":"এগুলোতে হাত দেওয়ার আগে নতুন ব্যাকআপ নিন।","Undo last restore / delete":"শেষ রিস্টোর / ডিলিট ফিরিয়ে আনুন","Delete all data":"সব তথ্য মুছে ফেলুন","How the numbers work":"হিসাব যেভাবে কাজ করে","Profit":"লাভ","Baki":"বাকি","Total I will get":"মোট পাবো","Total I will pay":"মোট দিবো","Search":"খোঁজ","+ Add customer / supplier":"+ কাস্টমার / সাপ্লায়ার যোগ","How baki khata works":"বাকি খাতা যেভাবে কাজ করে","Dilam / Becha":"দিলাম / বেচা","Pelam":"পেলাম","I will get":"আমি পাবো","I will pay":"আমি দিবো","Name":"নাম","Khata":"খাতা","Delete this khata":"এই খাতা মুছুন","What did I give":"কী দিলাম","Goods / service (no cash moved)":"মাল / সেবা (টাকা যায়নি)","Details (optional)":"বিবরণ (ইচ্ছা হলে)","Cancel":"বাতিল","Save":"সেভ","Delete this entry":"এই এন্ট্রি মুছুন","Add customer / supplier":"কাস্টমার / সাপ্লায়ার যোগ","Phone (optional)":"ফোন (ইচ্ছা হলে)","Type":"ধরন","Customer":"কাস্টমার","Supplier":"সাপ্লায়ার","Enter your 4-digit PIN":"আপনার ৪ সংখ্যার পিন দিন","Delete":"মুছুন","Recover your PIN":"পিন ফিরে পান","Recovery key":"রিকভারি কী","Check key":"কী মিলান","New PIN":"নতুন পিন","Save new PIN":"নতুন পিন সেভ","Close":"বন্ধ","Home":"হোম","Sales":"বিক্রি","Banking":"ব্যাংকিং","Yes":"হ্যাঁ","Details":"বিবরণ","Who gave it / reason":"কে দিল / কারণ","Name or phone number":"নাম বা ফোন নম্বর","Customer number / name":"কাস্টমারের নম্বর / নাম","B2B with ASR - took cash, gave balance":"ASR এর সাথে B2B - নগদ নিলাম, ব্যালেন্স দিলাম","B2B with ASR - took balance, gave cash":"ASR এর সাথে B2B - ব্যালেন্স নিলাম, নগদ দিলাম","B2B with ASR - no commission on this entry.":"ASR এর সাথে B2B - এই এন্ট্রিতে কোনো কমিশন নেই।","B2B with ASR - no commission":"ASR এর সাথে B2B - কমিশন নেই","B2B - took cash":"B2B - নগদ নিলাম","B2B - gave cash":"B2B - নগদ দিলাম","B2B":"B2B","Cash In - I took cash, money left the SIM":"ক্যাশ ইন - নগদ নিলাম, সিম থেকে টাকা গেল","Cash Out - I gave cash, money came into the SIM":"ক্যাশ আউট - নগদ দিলাম, সিমে টাকা এলো","Cash In - money came into this SIM (cash goes out)":"ক্যাশ ইন - এই সিমে টাকা এলো (নগদ কমবে)","Cash Out - money left this SIM (cash comes in)":"ক্যাশ আউট - এই সিম থেকে টাকা গেল (নগদ বাড়বে)","Today":"আজ","Last 7 days":"শেষ ৭ দিন","This month":"এই মাস","All":"সব","net":"নিট","comm":"কমিশন","no commission":"কমিশন নেই","commission in":"কমিশন যাবে","profit":"লাভ","rate":"রেট","Tk per 1000":"টাকা প্রতি ১০০০","auto commission":"অটো কমিশন","(you typed your own)":"(নিজে লিখেছেন)","balance only":"শুধু ব্যালেন্স","balance":"ব্যালেন্স","Customers":"কাস্টমার","Suppliers":"সাপ্লায়ার","No entry for this day yet.":"এই দিনের কোনো এন্ট্রি নেই।","No sales in this period.":"এই সময়ে কোনো বিক্রি নেই।","No transactions in this period.":"এই সময়ে কোনো লেনদেন নেই।","Nothing recorded in this period.":"এই সময়ে কিছু লেখা হয়নি।","Delete this entry?":"এই এন্ট্রি মুছে ফেলবো?","Money received in":"টাকা পেলাম","Money paid out from":"টাকা দিলাম","Cash added to shop":"দোকানে নগদ যোগ","Cash taken out":"নগদ তুলে নেওয়া","Bought":"ক��নলাম","Sold":"বেচলাম","App lock is ON":"অ্যাপ লক চালু আছে","recovery key:":"রিকভারি কী:","not set":"দেওয়া হয়নি","Backup saved.":"ব্যাকআপ সেভ হয়েছে।","Backup: saved today":"ব্যাকআপ: আজ নেওয়া হয়েছে","Backup: yesterday - take a fresh one.":"ব্যাকআপ: গতকাল - নতুন করে নিন।","Backup:":"ব্যাকআপ:","days ago - take a fresh one.":"দিন আগ��� - নতুন করে নিন।","Settings saved":"সেটিংস সেভ হয়েছে","Transaction saved":"লেনদেন সেভ হয়েছে","Deleted":"মুছে ফেলা হয়েছে","Write the amount":"টাকার পরিমাণ লিখুন","Welcome back":"স্বাগতম","Wrong PIN, try again":"ভুল পিন, আবার চেষ্টা করুন","App lock turned off":"অ্যাপ লক বন্ধ হলো","New PIN saved":"নতুন পিন সেভ হয়েছে","App is fresh again":"অ্যাপ আবার নতুন","That key is not right.":"এই কী ঠিক নয়।","Pick a wallet, not Cash":"ওয়ালেট বাছুন, নগদ নয়"} };
 var SNAP = null;
 function _t(s){
   if(LANG === "en" || s == null) return s;
@@ -2306,7 +3019,7 @@ if(document.getElementById("btnProfile")) document.getElementById("btnProfile").
 if(document.getElementById("btnGoProfile")) document.getElementById("btnGoProfile").addEventListener("click", function(){ go("profile"); });
 
 /* ---------- init ---------- */
-["homeDate","sDate","bDate","eDate","aDate"].forEach(function(id){ $(id).value = todayStr(); });
+["homeDate","sDate","bDate","eDate","aDate","fDate"].forEach(function(id){ $(id).value = todayStr(); });
 $("homeDate").addEventListener("change", render);
 $("repFrom").addEventListener("change", render);
 $("repTo").addEventListener("change", render);
@@ -2314,13 +3027,19 @@ buildChips("salesRange","sales");
 buildChips("bankRange","bank");
 buildChips("expRange","exp");
 buildChips("repRange","rep");
+buildChips("flexiRange","flexi");
+buildChips("homeRange","home");
+try { renderHist(); } catch(e){}
+applyTheme();
+fillQuickRow("bQuick", QUICK_BANK, "bAmount", function(){ commEdited = false; refreshComm(); bankPreview(); });
+fillQuickRow("fQuick", QUICK_FLEXI, "fA", function(){ fBEdited = false; flexiPreview(); });
 var r0 = rangeDates("rep"); $("repFrom").value = r0.from; $("repTo").value = r0.to;
 $("verLine").textContent = "Shop Hisab " + APP_VERSION;
 if($("verLine2")) $("verLine2").textContent = "Shop Hisab " + APP_VERSION;
 snapLang();
 LANG = (db.settings.lang === "bn") ? "bn" : "en";
 setTimeout(function(){ if(LANG === "bn" && !window.__bnForce && !bnFontOk()){ LANG = "en"; db.settings.lang = "en"; } applyLang(); }, 0);
-fillSettings(); fillBackup(); fillLock(); salePreview(); adjPreview(); refreshComm(); render();
+fillSettings(); fillBackup(); fillLock(); salePreview(); adjPreview(); refreshComm(); flexiPreview(); render();
 if(lockCfg().on && lockCfg().pin) showLock();
 
 /* offline service worker (only works when opened from http/https, not file://) */
