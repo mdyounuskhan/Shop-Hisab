@@ -313,6 +313,95 @@ body.locked{overflow:hidden}
 .langbtn.on{border-color:var(--primary);background:rgba(108,75,246,.09);color:var(--primary)}
 .prof-head{display:flex;align-items:center;gap:14px}
 .prof-av{width:58px;height:58px;border-radius:50%;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;color:#fff;background:linear-gradient(135deg,#6C4BF6 0%,#8B5CF6 52%,#C026D3 100%)}
+
+/* ===================================================================
+   Shop Hisab 3.0 (v10) - modern clean refresh
+   =================================================================== */
+body{background:#F4F5FA;padding-bottom:120px}
+header.app{padding:18px 18px 22px;border-radius:0 0 30px 30px}
+main{padding:16px 16px 8px}
+
+h2.sec{font-size:11.5px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:#8A8FA8;margin:24px 4px 11px}
+h2.sec:before{display:none}
+h2.sec:first-child{margin-top:4px}
+
+.card,.stat{border-radius:22px;box-shadow:0 8px 24px rgba(14,17,38,.07)}
+.card{padding:16px}
+.stat{padding:15px}
+.stat .lbl{font-size:12.5px;font-weight:650}
+.stat .val{font-size:21px;font-weight:800;letter-spacing:-.5px;margin-top:2px}
+.ico{width:38px;height:38px;border-radius:12px;margin-bottom:10px}
+.ico svg{width:19px;height:19px;stroke-width:2.1}
+
+/* ---- hero: white floating card + sparkline ---- */
+.stat.hero{background:#fff;box-shadow:0 12px 32px rgba(14,17,38,.11);padding:18px}
+.stat.hero:before,.stat.hero:after{display:none}
+.stat.hero .lbl{color:#8A8FA8}
+.stat.hero .val{color:#0E1126;font-size:34px;letter-spacing:-1.1px;margin-top:2px}
+.stat.hero .pill{background:rgba(18,183,106,.12);border:0;color:#0B8A50;font-weight:750;font-size:11.5px;margin-top:9px}
+.stat.hero.cash .val{color:#0B7A46}
+.stat.hero.cash .pill{background:#F1F2F8;color:#8A8FA8}
+#homeSpark{display:block;width:100%;height:54px;margin-top:8px}
+
+/* ---- wallet cards: full gradient ---- */
+.card.bk,.card.ng,.card.rk{color:#fff;padding:16px 18px;border:0}
+.card.bk:before,.card.ng:before,.card.rk:before{display:none}
+.card.bk{background:linear-gradient(135deg,#EC4899 0%,#BE185D 100%);box-shadow:0 14px 28px -12px rgba(190,24,93,.65)}
+.card.ng{background:linear-gradient(135deg,#F79009 0%,#DC6803 100%);box-shadow:0 14px 28px -12px rgba(220,104,3,.65)}
+.card.rk{background:linear-gradient(135deg,#7C5CF8 0%,#5B21B6 100%);box-shadow:0 14px 28px -12px rgba(91,33,182,.65)}
+.card.bk .item,.card.ng .item,.card.rk .item{border-bottom-color:rgba(255,255,255,.20)}
+.card.bk .t,.card.ng .t,.card.rk .t{color:#fff}
+.card.bk .s,.card.ng .s,.card.rk .s{color:rgba(255,255,255,.82)}
+.card.bk .amt,.card.ng .amt,.card.rk .amt{color:#fff}
+.card.bk .amt small,.card.ng .amt small,.card.rk .amt small{color:rgba(255,255,255,.8)}
+.card.bk .brand.bk,.card.ng .brand.ng,.card.rk .brand.rk{background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.34);box-shadow:none}
+
+/* ---- tinted mini stats ---- */
+.stat.tp,.stat.tg,.stat.to,.stat.tr,.stat.tb{border-radius:18px;padding:14px;box-shadow:none}
+.stat.tp .val,.stat.tg .val,.stat.to .val,.stat.tr .val,.stat.tb .val{font-size:19px}
+
+/* ---- chips / pills ---- */
+.chipbar{padding:2px 0 10px}
+.chip{background:#fff;border:1.5px solid #E8EAF3;box-shadow:none;padding:9px 15px;min-height:38px;font-weight:700}
+.chip.on{background:linear-gradient(135deg,#5B4BF5,#8B5CF6);border-color:transparent;color:#fff;box-shadow:0 8px 16px -8px rgba(91,75,245,.8)}
+
+/* ---- fields ---- */
+input,select,textarea{border-radius:15px;min-height:52px;font-weight:600}
+label{font-size:12.5px;font-weight:700}
+
+/* ---- buttons ---- */
+.btn{border-radius:16px;min-height:54px;font-weight:800;background:linear-gradient(135deg,#5B4BF5,#8B5CF6);box-shadow:0 10px 22px -8px rgba(91,75,245,.6)}
+.btn.secondary,.btn.danger{border-radius:16px;box-shadow:none}
+
+/* ---- lists ---- */
+.item{padding:13px 0}
+.item .t{font-size:14.5px;font-weight:700}
+.avatar{border-radius:14px}
+.brand{border-radius:13px}
+.tag{font-weight:800;padding:3px 9px}
+
+/* ---- preview boxes ---- */
+#sPreviewTotal,#sPreviewProfit,#bEffect,#aEffect,#emEffect{
+  background:linear-gradient(135deg,rgba(91,75,245,.07),rgba(236,72,153,.07));
+  border:1px dashed rgba(91,75,245,.32);border-radius:16px;padding:13px;
+  font-weight:750;color:#4A2FD6;margin-top:12px;font-size:13.5px;
+}
+
+/* ---- floating bottom nav ---- */
+nav.tabs{
+  left:12px;right:12px;bottom:12px;border-radius:24px;
+  box-shadow:0 12px 32px rgba(14,17,38,.16);
+  padding:8px 6px calc(8px + env(safe-area-inset-bottom));
+  background:rgba(255,255,255,.98);
+}
+nav.tabs button .nb{width:42px;height:30px;border-radius:13px}
+nav.tabs button.on .nb{background:rgba(91,75,245,.12);color:#4A2FD6;box-shadow:none}
+.toast{bottom:124px}
+
+/* ---- profile ---- */
+.langbtn{border-radius:16px;padding:14px 10px}
+.prof-av{border-radius:20px}
+#btnProfile{border-radius:50%}
 </style>
 </head>
 <body>
@@ -337,6 +426,7 @@ body.locked{overflow:hidden}
     <div class="stat hero">
       <div class="lbl">Net profit today</div>
       <div class="val" id="kpiNet">Tk 0</div>
+      <svg id="homeSpark" viewBox="0 0 300 54" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="sparkFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5B4BF5" stop-opacity=".28"/><stop offset="1" stop-color="#5B4BF5" stop-opacity="0"/></linearGradient></defs><path id="sparkArea" fill="url(#sparkFill)" d=""/><path id="sparkLine" fill="none" stroke="#5B4BF5" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d=""/></svg>
       <span class="pill">Sales profit + commission − expense</span>
     </div>
     <div class="grid2" style="margin-top:12px">
@@ -901,7 +991,7 @@ body.locked{overflow:hidden}
 (function(){
 "use strict";
 var KEY = "shopHisab.v1";
-var APP_VERSION = "v9";
+var APP_VERSION = "v10";
 var ACCOUNTS = ["bKash Agent","bKash Personal","bKash Merchant","Nagad Agent","Nagad Personal","Nagad Merchant","Rocket"];
 var DEFAULT_RATES = {
   "bKash Agent":{ cin:4, cout:3.75 },
@@ -1241,6 +1331,7 @@ function render(){
   if(pn) pn.textContent = shopNm;
   if(pav) pav.textContent = initials(shopNm);
   $("headerSub").textContent = (hd===todayStr() ? _t("Today") : pretty(hd)) + " · " + _t("net") + " " + money(t.net);
+  try { drawSpark(hd); } catch(e){}
 
   /* home feed */
   var feed = $("homeFeed"); feed.innerHTML = "";
@@ -1366,6 +1457,32 @@ function escapeHtml(s){
   return String(s).replace(/[&<>"']/g, function(c){
     return ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" })[c];
   });
+}
+function shiftDay(ds, n){
+  var p = ds.split("-");
+  var d = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+  d.setDate(d.getDate() + n);
+  return d.getFullYear() + "-" + two(d.getMonth() + 1) + "-" + two(d.getDate());
+}
+function drawSpark(hd){
+  var line = document.getElementById("sparkLine");
+  var area = document.getElementById("sparkArea");
+  if(!line || !area) return;
+  var vals = [], i, ds;
+  for(i = 6; i >= 0; i--){
+    ds = shiftDay(hd, -i);
+    try { vals.push(Number(totals(ds, ds).net) || 0); } catch(e){ vals.push(0); }
+  }
+  var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
+  if(hi === lo){ hi = lo + 1; }
+  var W = 300, H = 54, pad = 6, step = W / (vals.length - 1), d = "", x, y;
+  for(i = 0; i < vals.length; i++){
+    x = Math.round(i * step * 10) / 10;
+    y = Math.round((H - pad - ((vals[i] - lo) / (hi - lo)) * (H - pad * 2)) * 10) / 10;
+    d += (i === 0 ? "M" : " L") + x + " " + y;
+  }
+  line.setAttribute("d", d);
+  area.setAttribute("d", d + " L" + W + " " + H + " L0 " + H + " Z");
 }
 function adjLabel(x){
   if(x.type==="money_in") return _t("Money received in") + " " + (x.wallet || "Cash");
