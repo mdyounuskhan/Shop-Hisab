@@ -538,21 +538,15 @@ input[type=search]{margin-bottom:10px}
     <div class="card ng" style="margin-top:12px">
       <div class="item" style="padding-top:0">
         <div class="brand ng">Ng</div>
-        <div class="main"><div class="t">Nagad — all SIM</div><div class="s">Agent + Personal + Merchant</div></div>
+        <div class="main"><div class="t">Nagad — all SIM</div><div class="s">Agent + Personal</div></div>
         <div class="amt" id="balNagadTotal">Tk 0</div>
       </div>
       <div class="item"><div class="main"><div class="t">Agent SIM</div></div><div class="amt" id="bal_Nagad_Agent">Tk 0</div></div>
       <div class="item"><div class="main"><div class="t">Personal SIM</div></div><div class="amt" id="bal_Nagad_Personal">Tk 0</div></div>
-      <div class="item"><div class="main"><div class="t">Merchant SIM</div></div><div class="amt" id="bal_Nagad_Merchant">Tk 0</div></div>
     </div>
 
-    <div class="card rk" style="margin-top:12px">
-      <div class="item" style="padding-top:0">
-        <div class="brand rk">Rk</div>
-        <div class="main"><div class="t">Rocket</div><div class="s">Wallet balance</div></div>
-        <div class="amt" id="bal_Rocket">Tk 0</div>
-      </div>
-      <div class="item" style="padding-bottom:0">
+    <div class="card" style="margin-top:12px">
+      <div class="item" style="padding-top:0;padding-bottom:0">
         <div class="main"><div class="t">Total value (cash + all SIM)</div><div class="s">Live, all dates included</div></div>
         <div class="amt" id="balTotal">Tk 0</div>
       </div>
@@ -597,7 +591,7 @@ input[type=search]{margin-bottom:10px}
       <div class="row">
         <div><label for="sSell">Sell price / unit</label><input type="number" id="sSell" placeholder="0" inputmode="decimal"></div>
         <div><label for="sPay">Payment received in</label>
-          <select id="sPay"><option value="Cash">Cash</option><option value="bKash Agent">bKash Agent SIM</option><option value="bKash Personal">bKash Personal SIM</option><option value="bKash Merchant">bKash Merchant SIM</option><option value="Nagad Agent">Nagad Agent SIM</option><option value="Nagad Personal">Nagad Personal SIM</option><option value="Nagad Merchant">Nagad Merchant SIM</option><option value="Rocket">Rocket</option><option value="Due">Due (not paid)</option></select>
+          <select id="sPay"><option value="Cash">Cash</option><option value="bKash Agent">bKash Agent SIM</option><option value="bKash Personal">bKash Personal SIM</option><option value="bKash Merchant">bKash Merchant SIM</option><option value="Nagad Agent">Nagad Agent SIM</option><option value="Nagad Personal">Nagad Personal SIM</option><option value="Due">Due (not paid)</option></select>
         </div>
       </div>
       <label for="sCustomer">Customer name (needed for a Due sale)</label>
@@ -639,8 +633,6 @@ input[type=search]{margin-bottom:10px}
         <option value="bKash Merchant">bKash Merchant SIM</option>
         <option value="Nagad Agent">Nagad Agent SIM</option>
         <option value="Nagad Personal">Nagad Personal SIM</option>
-        <option value="Nagad Merchant">Nagad Merchant SIM</option>
-        <option value="Rocket">Rocket</option>
       </select>
       <label for="bType">What happened</label>
       <select id="bType">
@@ -685,9 +677,9 @@ input[type=search]{margin-bottom:10px}
       <select id="fOp"><option value="Robi">Robi</option><option value="Airtel">Airtel</option><option value="Grameenphone">Grameenphone</option><option value="Banglalink">Banglalink</option></select>
       <label for="fType">What happened</label>
       <select id="fType">
-        <option value="load">Took load from company</option>
         <option value="sell">Sent flexiload to a customer</option>
         <option value="comm">Offer commission from company</option>
+        <option value="load">Took load from company</option>
       </select>
       <div class="row">
         <div id="fABox"><label for="fA" id="fALabel">Cash paid to company</label><input type="number" id="fA" placeholder="0" inputmode="decimal"></div>
@@ -697,7 +689,7 @@ input[type=search]{margin-bottom:10px}
       <div class="hint" id="fHint">Rate will show here.</div>
       <div id="fWhereBox">
         <label for="fWhere" id="fWhereLabel">Cash paid from</label>
-        <select id="fWhere"><option value="Cash">Cash in hand</option><option value="bKash Agent">bKash Agent SIM</option><option value="bKash Personal">bKash Personal SIM</option><option value="bKash Merchant">bKash Merchant SIM</option><option value="Nagad Agent">Nagad Agent SIM</option><option value="Nagad Personal">Nagad Personal SIM</option><option value="Nagad Merchant">Nagad Merchant SIM</option><option value="Rocket">Rocket</option></select>
+        <select id="fWhere"><option value="Cash">Cash in hand</option><option value="bKash Agent">bKash Agent SIM</option><option value="bKash Personal">bKash Personal SIM</option><option value="bKash Merchant">bKash Merchant SIM</option><option value="Nagad Agent">Nagad Agent SIM</option><option value="Nagad Personal">Nagad Personal SIM</option></select>
       </div>
       <label for="fNote">Note (optional)</label>
       <input type="text" id="fNote" placeholder="Customer number / details">
@@ -742,7 +734,7 @@ input[type=search]{margin-bottom:10px}
         <div><label for="eAmount">Amount</label><input type="number" id="eAmount" placeholder="0" inputmode="decimal"></div>
       </div>
       <label for="ePaidFrom">Paid from</label>
-      <select id="ePaidFrom"><option value="Cash">Cash</option><option value="bKash Agent">bKash Agent SIM</option><option value="bKash Personal">bKash Personal SIM</option><option value="bKash Merchant">bKash Merchant SIM</option><option value="Nagad Agent">Nagad Agent SIM</option><option value="Nagad Personal">Nagad Personal SIM</option><option value="Nagad Merchant">Nagad Merchant SIM</option><option value="Rocket">Rocket</option></select>
+      <select id="ePaidFrom"><option value="Cash">Cash</option><option value="bKash Agent">bKash Agent SIM</option><option value="bKash Personal">bKash Personal SIM</option><option value="bKash Merchant">bKash Merchant SIM</option><option value="Nagad Agent">Nagad Agent SIM</option><option value="Nagad Personal">Nagad Personal SIM</option></select>
       <label for="eNote">Note (optional)</label>
       <input type="text" id="eNote" placeholder="Details">
       <div class="btn-row">
@@ -768,7 +760,7 @@ input[type=search]{margin-bottom:10px}
       <div class="row">
         <div><label for="aAmount">Amount</label><input type="number" id="aAmount" placeholder="0" inputmode="decimal"></div>
         <div><label for="aWallet" id="aWalletLabel">Keep the money in</label>
-          <select id="aWallet"><option value="Cash">Cash in hand</option><option value="bKash Agent">bKash Agent SIM</option><option value="bKash Personal">bKash Personal SIM</option><option value="bKash Merchant">bKash Merchant SIM</option><option value="Nagad Agent">Nagad Agent SIM</option><option value="Nagad Personal">Nagad Personal SIM</option><option value="Nagad Merchant">Nagad Merchant SIM</option><option value="Rocket">Rocket</option></select>
+          <select id="aWallet"><option value="Cash">Cash in hand</option><option value="bKash Agent">bKash Agent SIM</option><option value="bKash Personal">bKash Personal SIM</option><option value="bKash Merchant">bKash Merchant SIM</option><option value="Nagad Agent">Nagad Agent SIM</option><option value="Nagad Personal">Nagad Personal SIM</option></select>
         </div>
       </div>
       <label for="aNote">Note (optional)</label>
@@ -835,6 +827,22 @@ input[type=search]{margin-bottom:10px}
     <h2 class="sec">Top selling items</h2>
     <div class="card"><div class="list" id="repTop"></div></div>
 
+    <h2 class="sec">Detailed report</h2>
+    <div class="card">
+      <label for="dSource">Show details of</label>
+      <select id="dSource">
+        <option value="product">Products — what I sold</option>
+        <option value="bank">bKash / Nagad — SIM by SIM</option>
+        <option value="flexi">Flexiload — company by company</option>
+        <option value="wallet">Money in / out of one SIM or cash</option>
+      </select>
+      <label for="dPick" id="dPickLabel">Which product</label>
+      <select id="dPick"></select>
+      <div class="hint">Uses the date range picked at the top of this page.</div>
+    </div>
+    <div class="card"><div class="list" id="dSum"></div></div>
+    <div class="card"><div class="list" id="dList"></div></div>
+
     <div class="card">
       <div class="t" style="font-weight:700">Settings moved to Profile</div>
       <div class="hint">Shop name, opening balance, commission rate, language, app lock and backup now live in the Profile page. Tap the round button at the top right corner any time.</div>
@@ -888,12 +896,8 @@ input[type=search]{margin-bottom:10px}
         <div><label for="setOpen_bKash_Personal">bKash Personal SIM</label><input type="number" id="setOpen_bKash_Personal" placeholder="0" inputmode="decimal"></div>
         <div><label for="setOpen_Nagad_Personal">Nagad Personal SIM</label><input type="number" id="setOpen_Nagad_Personal" placeholder="0" inputmode="decimal"></div>
       </div>
-      <div class="row">
-        <div><label for="setOpen_bKash_Merchant">bKash Merchant SIM</label><input type="number" id="setOpen_bKash_Merchant" placeholder="0" inputmode="decimal"></div>
-        <div><label for="setOpen_Nagad_Merchant">Nagad Merchant SIM</label><input type="number" id="setOpen_Nagad_Merchant" placeholder="0" inputmode="decimal"></div>
-      </div>
-      <label for="setOpen_Rocket">Opening Rocket</label>
-      <input type="number" id="setOpen_Rocket" placeholder="0" inputmode="decimal">
+      <label for="setOpen_bKash_Merchant">bKash Merchant SIM</label>
+      <input type="number" id="setOpen_bKash_Merchant" placeholder="0" inputmode="decimal">
 
       <h2 class="sec" style="margin-bottom:0">Commission rate (Tk per 1000)</h2>
       <div class="hint">Any amount is calculated with this rate. Example: 4 per 1000 means Tk 2,500 gives Tk 10.</div>
@@ -1090,8 +1094,6 @@ input[type=search]{margin-bottom:10px}
       <option value="bKash Merchant">bKash Merchant SIM</option>
       <option value="Nagad Agent">Nagad Agent SIM</option>
       <option value="Nagad Personal">Nagad Personal SIM</option>
-      <option value="Nagad Merchant">Nagad Merchant SIM</option>
-      <option value="Rocket">Rocket</option>
     </select>
     <label for="emNote">Details (optional)</label>
     <input type="text" id="emNote" placeholder="e.g. 1 cover, recharge">
@@ -1192,18 +1194,16 @@ input[type=search]{margin-bottom:10px}
 (function(){
 "use strict";
 var KEY = "shopHisab.v1";
-var APP_VERSION = "v12";
-var ACCOUNTS = ["bKash Agent","bKash Personal","bKash Merchant","Nagad Agent","Nagad Personal","Nagad Merchant","Rocket"];
+var APP_VERSION = "v13";
+var ACCOUNTS = ["bKash Agent","bKash Personal","bKash Merchant","Nagad Agent","Nagad Personal"];
 var DEFAULT_RATES = {
   "bKash Agent":{ cin:4, cout:3.75 },
   "bKash Personal":{ cin:0, cout:0 },
   "bKash Merchant":{ cin:0, cout:0 },
   "Nagad Agent":{ cin:4.10, cout:4.10 },
-  "Nagad Personal":{ cin:0, cout:0 },
-  "Nagad Merchant":{ cin:0, cout:0 },
-  "Rocket":{ cin:0, cout:0 }
+  "Nagad Personal":{ cin:0, cout:0 }
 };
-var OLD_MAP = { "bKash":"bKash Agent", "Nagad":"Nagad Agent", "Rocket":"Rocket" };
+var OLD_MAP = { "bKash":"bKash Agent", "Nagad":"Nagad Agent", "Rocket":"Cash", "Nagad Merchant":"Nagad Personal" };
 var OPERATORS = ["Robi","Airtel","Grameenphone","Banglalink"];
 var QUICK_SEED = 12;
 var DEFAULT_QUICK = [
@@ -1246,12 +1246,15 @@ function load(){
     if(!raw) return b;
     var d = JSON.parse(raw);
     var s = d.settings || {};
-    if(s.opening){ b.settings.opening = Object.assign(b.settings.opening, s.opening); }
+    if(s.opening){
+      b.settings.opening = Object.assign(b.settings.opening, s.opening);
+      if(b.settings.opening["Rocket"] !== undefined){ b.settings.opening.Cash += num(b.settings.opening["Rocket"]); delete b.settings.opening["Rocket"]; }
+      if(b.settings.opening["Nagad Merchant"] !== undefined){ b.settings.opening["Nagad Personal"] += num(b.settings.opening["Nagad Merchant"]); delete b.settings.opening["Nagad Merchant"]; }
+    }
     else{
       b.settings.opening.Cash = +s.openCash || 0;
       b.settings.opening["bKash Agent"] = +s.openBkash || 0;
       b.settings.opening["Nagad Agent"] = +s.openNagad || 0;
-      b.settings.opening["Rocket"] = +s.openRocket || 0;
     }
     if(s.rates){
       ACCOUNTS.forEach(function(a){ if(s.rates[a]) b.settings.rates[a] = Object.assign(b.settings.rates[a], s.rates[a]); });
@@ -1737,6 +1740,7 @@ function render(){
     top[k].qty += num(x.qty);
     top[k].profit += (num(x.sell)-num(x.buy))*num(x.qty);
   });
+  try { renderDetails(rf, rt); } catch(e){}
   var tl = $("repTop"); tl.innerHTML = "";
   var keys = Object.keys(top).sort(function(a,c){ return top[c].profit - top[a].profit; }).slice(0,8);
   if(!keys.length) tl.innerHTML = emptyRow(_t("No sales in this period."));
@@ -1754,6 +1758,203 @@ function shiftDay(ds, n){
   var d = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
   d.setDate(d.getDate() + n);
   return d.getFullYear() + "-" + two(d.getMonth() + 1) + "-" + two(d.getDate());
+}
+/* ---------- detailed report (v13) ---------- */
+var detail = { src:"product", pick:{ product:"All", bank:"All", flexi:"All", wallet:"Cash" } };
+function detailOptions(src){
+  if(src === "bank") return ["All"].concat(ACCOUNTS);
+  if(src === "flexi") return ["All"].concat(OPERATORS);
+  if(src === "wallet") return ["Cash"].concat(ACCOUNTS);
+  var names = [], seen = {};
+  db.sales.forEach(function(x){ var k = ((x.item || "") + "").trim() || "Unnamed"; if(!seen[k]){ seen[k] = 1; names.push(k); } });
+  names.sort();
+  return ["All"].concat(names);
+}
+function fillDetailPick(){
+  var sel = $("dPick"); if(!sel) return;
+  var opts = detailOptions(detail.src), cur = detail.pick[detail.src];
+  if(opts.indexOf(cur) < 0) cur = opts[0];
+  detail.pick[detail.src] = cur;
+  sel.innerHTML = "";
+  opts.forEach(function(o){
+    var op = document.createElement("option");
+    op.value = o; op.textContent = (o === "All") ? _t("All") : (o === "Cash" ? _t("Cash in hand") : o);
+    sel.appendChild(op);
+  });
+  sel.value = cur;
+  var lbl = $("dPickLabel");
+  if(lbl) lbl.textContent = detail.src === "product" ? _t("Which product") : (detail.src === "flexi" ? _t("Which company") : _t("Which SIM / wallet"));
+}
+function bankStats(acct, from, to){
+  var o = { cin:0, cout:0, comm:0, n:0, inSim:0, outSim:0, b2bIn:0, b2bOut:0 };
+  db.bank.forEach(function(x){
+    if(mapAcc(x.service) !== acct || !inRange(x.date, from, to)) return;
+    var a = num(x.amount), c = num(x.comm);
+    o.n++;
+    if(isB2B(x.type)){
+      if(x.type === "b2b_cash"){ o.outSim += a; o.b2bOut += a; }
+      else { o.inSim += a; o.b2bIn += a; }
+      return;
+    }
+    if(x.type === "cashin") o.cin += a; else o.cout += a;
+    if(isAgent(acct) ? (x.type === "cashin") : (x.type !== "cashin")) o.outSim += a; else o.inSim += a;
+    o.comm += c;
+    if(x.commIn !== "Cash") o.inSim += c;
+  });
+  return o;
+}
+function flexiStats(op, from, to){
+  var o = { loadCash:0, loadBal:0, taken:0, sent:0, comm:0, profit:0, n:0 };
+  db.flexi.forEach(function(x){
+    if(x.op !== op || !inRange(x.date, from, to)) return;
+    o.n++; o.profit += flexiProfit(x);
+    if(x.type === "load"){ o.loadCash += num(x.a); o.loadBal += num(x.b); }
+    else if(x.type === "sell"){ o.taken += num(x.a); o.sent += num(x.b); }
+    else o.comm += num(x.b);
+  });
+  return o;
+}
+function walletMoves(w, from, to){
+  var out = [];
+  function add(date, amt, title, sub){ if(!amt || !inRange(date, from, to)) return; out.push({ date:date, amt:amt, title:title, sub:sub || "" }); }
+  db.sales.forEach(function(x){
+    if(x.pay !== w) return;
+    add(x.date, num(x.sell) * num(x.qty), _t("Sale") + " · " + ((x.item || "") + "").trim(), x.customer || "");
+  });
+  db.bank.forEach(function(x){
+    var a = num(x.amount), c = num(x.comm), s = mapAcc(x.service);
+    var cashUp = isB2B(x.type) ? (x.type === "b2b_cash") : (isAgent(s) ? (x.type === "cashin") : (x.type !== "cashin"));
+    if(w === "Cash"){
+      add(x.date, cashUp ? a : -a, bankLabel(x.type) + " · " + s, x.note);
+      if(x.commIn === "Cash") add(x.date, c, _t("Commission") + " · " + s, "");
+    } else if(s === w){
+      add(x.date, cashUp ? -a : a, bankLabel(x.type), x.note);
+      if(x.commIn !== "Cash") add(x.date, c, _t("Commission"), "");
+    }
+  });
+  db.expenses.forEach(function(x){
+    if((x.from || "Cash") !== w) return;
+    add(x.date, -num(x.amount), _t("Expense") + " · " + (x.cat || ""), x.note);
+  });
+  db.adjust.forEach(function(x){
+    var a = num(x.amount), wa = x.wallet, ty = x.type;
+    if(ty === "money_in" && wa === w) add(x.date, a, adjLabel(x), x.note);
+    else if(ty === "money_out" && wa === w) add(x.date, -a, adjLabel(x), x.note);
+    else if(ty === "cash_add" && w === "Cash") add(x.date, a, adjLabel(x), x.note);
+    else if(ty === "cash_take" && w === "Cash") add(x.date, -a, adjLabel(x), x.note);
+    else if(ty === "buy_float"){ if(w === "Cash") add(x.date, -a, adjLabel(x), x.note); else if(wa === w) add(x.date, a, adjLabel(x), x.note); }
+    else if(ty === "sell_float"){ if(w === "Cash") add(x.date, a, adjLabel(x), x.note); else if(wa === w) add(x.date, -a, adjLabel(x), x.note); }
+  });
+  db.dues.forEach(function(x){
+    if((x.where || "None") !== w) return;
+    var p = partyById(x.partyId);
+    add(x.date, x.type === "received" ? num(x.amount) : -num(x.amount), _t("Baki") + " · " + (p ? p.name : ""), x.note);
+  });
+  db.flexi.forEach(function(x){
+    if((x.where || "Cash") !== w) return;
+    if(x.type === "load") add(x.date, -num(x.a), _t("Flexiload") + " · " + x.op, _t("Cash paid to company"));
+    else if(x.type === "sell") add(x.date, num(x.a), _t("Flexiload") + " · " + x.op, _t("Taken from customer"));
+  });
+  out.sort(function(a, b){ return a.date < b.date ? 1 : (a.date > b.date ? -1 : 0); });
+  return out;
+}
+function renderDetails(from, to){
+  var sum = $("dSum"), list = $("dList");
+  if(!sum || !list) return;
+  fillDetailPick();
+  sum.innerHTML = ""; list.innerHTML = "";
+  var src = detail.src, pick = detail.pick[src], bal = balances(), fb = flexiBalances();
+
+  if(src === "product"){
+    var rows = db.sales.filter(function(x){
+      return inRange(x.date, from, to) && (pick === "All" || (((x.item || "") + "").trim() || "Unnamed") === pick);
+    });
+    var amt = 0, cost = 0, qty = 0;
+    rows.forEach(function(x){ var q = num(x.qty); qty += q; amt += num(x.sell) * q; cost += num(x.buy) * q; });
+    sum.appendChild(rowEl(_t("Products sold"), rows.length + " " + _t("entries"), qty + " " + _t("pcs"), "", ""));
+    sum.appendChild(rowEl(_t("Sales amount"), "", money(amt), "", ""));
+    sum.appendChild(rowEl(_t("Buying cost"), "", money(cost), "", "neg"));
+    sum.appendChild(rowEl(_t("Product profit"), _t("Sell price − buy price"), money(amt - cost), "", "pos"));
+    var byd = {};
+    rows.forEach(function(x){ if(!byd[x.date]) byd[x.date] = []; byd[x.date].push(x); });
+    var ds = Object.keys(byd).sort().reverse();
+    if(!ds.length){ list.innerHTML = emptyRow(_t("No sales in this period.")); return; }
+    ds.forEach(function(d){
+      var q2 = 0, a2 = 0, p2 = 0;
+      byd[d].forEach(function(x){ var q = num(x.qty); q2 += q; a2 += num(x.sell) * q; p2 += (num(x.sell) - num(x.buy)) * q; });
+      var head = rowEl(pretty(d), q2 + " " + _t("pcs") + " · " + money(a2), money(p2), _t("profit"), "pos");
+      head.style.background = "var(--soft)";
+      list.appendChild(head);
+      byd[d].forEach(function(x){
+        var q = num(x.qty), p = (num(x.sell) - num(x.buy)) * q;
+        var sub = money(num(x.buy)) + " → " + money(num(x.sell));
+        if(x.customer) sub += " · " + escapeHtml(x.customer);
+        if(x.pay === "Due") sub += " · " + _t("Due (not paid)");
+        list.appendChild(rowEl("· " + (((x.item || "") + "").trim() || _t("Item")) + " × " + q, sub, money(num(x.sell) * q), "+" + money(p), "pos"));
+      });
+    });
+    return;
+  }
+
+  if(src === "bank"){
+    var accs = (pick === "All") ? ACCOUNTS : [pick];
+    var tin = 0, tout = 0, tcm = 0;
+    accs.forEach(function(a){
+      var s = bankStats(a, from, to);
+      tin += s.inSim; tout += s.outSim; tcm += s.comm;
+      var sub = _t("Came into SIM") + " " + money(s.inSim) + " · " + _t("Left SIM") + " " + money(s.outSim) + "<br>" + _t("Cash In") + " " + money(s.cin) + " · " + _t("Cash Out") + " " + money(s.cout);
+      if(s.b2bIn || s.b2bOut) sub += "<br>B2B · " + money(s.b2bIn) + " / " + money(s.b2bOut);
+      sub += "<br>" + _t("Balance right now") + " " + money(bal[a] === undefined ? 0 : bal[a]);
+      sum.appendChild(rowEl(a, sub, money(s.comm), _t("commission") + " · " + s.n, "pos"));
+    });
+    if(accs.length > 1) sum.appendChild(rowEl(_t("Total"), _t("Came into SIM") + " " + money(tin) + " · " + _t("Left SIM") + " " + money(tout), money(tcm), _t("commission"), "pos"));
+    var rows2 = db.bank.filter(function(x){ return inRange(x.date, from, to) && (pick === "All" || mapAcc(x.service) === pick); });
+    rows2.sort(function(a, b){ return a.date < b.date ? 1 : (a.date > b.date ? -1 : 0); });
+    if(!rows2.length){ list.innerHTML = emptyRow(_t("No transactions in this period.")); return; }
+    rows2.forEach(function(x){
+      var sub2 = pretty(x.date);
+      if(x.note) sub2 += " · " + escapeHtml(x.note);
+      list.appendChild(rowEl(bankLabel(x.type) + " · " + mapAcc(x.service), sub2, money(num(x.amount)), num(x.comm) ? "+" + money(num(x.comm)) + " " + _t("comm") : "", "pos"));
+    });
+    return;
+  }
+
+  if(src === "flexi"){
+    var ops = (pick === "All") ? OPERATORS : [pick];
+    var tp = 0;
+    ops.forEach(function(o){
+      var s = flexiStats(o, from, to);
+      tp += s.profit;
+      var sub = _t("Load taken") + " " + money(s.loadBal) + " (" + _t("cash") + " " + money(s.loadCash) + ")";
+      sub += "<br>" + _t("Sent to customer") + " " + money(s.sent) + " · " + _t("Taken from customer") + " " + money(s.taken);
+      sub += "<br>" + _t("Offer commission") + " " + money(s.comm) + " · " + _t("Balance right now") + " " + money(fb[o] === undefined ? 0 : fb[o]);
+      sum.appendChild(rowEl(o, sub, money(s.profit), _t("profit") + " · " + s.n, "pos"));
+    });
+    if(ops.length > 1) sum.appendChild(rowEl(_t("Total"), _t("Flexiload profit"), money(tp), _t("profit"), "pos"));
+    var rows3 = db.flexi.filter(function(x){ return inRange(x.date, from, to) && (pick === "All" || x.op === pick); });
+    rows3.sort(function(a, b){ return a.date < b.date ? 1 : (a.date > b.date ? -1 : 0); });
+    if(!rows3.length){ list.innerHTML = emptyRow(_t("Nothing recorded in this period.")); return; }
+    rows3.forEach(function(x){
+      var sub3 = pretty(x.date);
+      if(x.note) sub3 += " · " + escapeHtml(x.note);
+      list.appendChild(rowEl(flexiLabel(x) + " · " + x.op, sub3, money(x.type === "comm" ? num(x.b) : num(x.a)), "+" + money(flexiProfit(x)), "pos"));
+    });
+    return;
+  }
+
+  var mv = walletMoves(pick, from, to), inS = 0, outS = 0;
+  mv.forEach(function(m){ if(m.amt > 0) inS += m.amt; else outS += -m.amt; });
+  var wname = (pick === "Cash") ? _t("Cash in hand") : pick;
+  sum.appendChild(rowEl(wname, _t("Money that came in"), money(inS), "", "pos"));
+  sum.appendChild(rowEl(_t("Money that went out"), "", money(outS), "", "neg"));
+  sum.appendChild(rowEl(_t("Change in this period"), "", money(inS - outS), "", (inS - outS) >= 0 ? "pos" : "neg"));
+  sum.appendChild(rowEl(_t("Balance right now"), _t("Live, all dates included"), money(bal[pick] === undefined ? 0 : bal[pick]), "", ""));
+  if(!mv.length){ list.innerHTML = emptyRow(_t("Nothing recorded in this period.")); return; }
+  mv.forEach(function(m){
+    var subm = pretty(m.date);
+    if(m.sub) subm += " · " + escapeHtml(m.sub);
+    list.appendChild(rowEl(m.title, subm, (m.amt > 0 ? "+" : "−") + money(Math.abs(m.amt)), "", m.amt > 0 ? "pos" : "neg"));
+  });
 }
 function drawSpark(hd){
   var line = document.getElementById("sparkLine");
@@ -2001,14 +2202,14 @@ function renderAlerts(){
     OPERATORS.forEach(function(o){ if(f[o] < low) out.push(["warn", o + " · " + money(f[o]) + " — " + _t("flexiload balance is low")]); });
     if(b.Cash < 0) out.push(["bad", _t("Cash in hand is below zero — check today's entries.")]);
   }
-  var days = null;
-  try { days = daysSince(backupCfg().last); } catch(e){}
-  if(days === null || days === undefined || days >= 3) out.push(["bad", _t("Backup is old — take one today from Profile.")]);
-  var td = todayStr(), any = false;
-  ["sales","bank","expenses","flexi"].forEach(function(k){
-    (db[k] || []).forEach(function(x){ if(x.date === td) any = true; });
-  });
-  if(!any) out.push(["warn", _t("Nothing written today yet.")]);
+  var days = null, bLast = "";
+  try { var bc = backupCfg(); bLast = (bc.last || "") + ""; days = daysSince(bLast); } catch(e){}
+  var bToday = bLast.slice(0, 10) === todayStr();
+  if(!bToday && new Date().getHours() >= 22){
+    out.unshift(["bad", _t("You have not backed up today's data. Please take a backup from Profile.")]);
+  } else if(days === null || days === undefined || days >= 3){
+    out.push(["bad", _t("Backup is old — take one today from Profile.")]);
+  }
   out.slice(0, 4).forEach(function(a){
     var d = document.createElement("div");
     d.className = "alert " + a[0];
@@ -2130,6 +2331,7 @@ function flexiPreview(){
   $("fEffect").textContent = txt + "  ·  " + _t("profit") + " " + money(profit);
 }
 function clearFlexi(){ $("fA").value = ""; $("fB").value = ""; $("fNote").value = ""; fBEdited = false; flexiPreview(); }
+function resetFlexiType(){ var e = $("fType"); if(e) e.value = "sell"; flexiPreview(); }
 $("fSave").addEventListener("click", function(){
   var ty = $("fType").value, a = num($("fA").value), b = num($("fB").value);
   if(ty === "comm") a = 0;
@@ -2384,7 +2586,7 @@ function adjPreview(){
   else if(t === "cash_take"){ txt = "Cash in hand  \u2212" + m; lab.textContent = "Wallet (not used)"; }
   else if(t === "buy_float"){ txt = "Cash \u2212" + m + "   \u00b7   " + w + " +" + m; lab.textContent = "Wallet"; }
   else { txt = "Cash +" + m + "   \u00b7   " + w + " \u2212" + m; lab.textContent = "Wallet"; }
-  if((t === "buy_float" || t === "sell_float") && w === "Cash") txt = "Pick a bKash / Nagad / Rocket wallet for this action.";
+  if((t === "buy_float" || t === "sell_float") && w === "Cash") txt = "Pick a bKash / Nagad wallet for this action.";
   el.textContent = txt;
 }
 ["aType","aWallet","aAmount"].forEach(function(id){
@@ -2898,6 +3100,36 @@ $("btnWipe").addEventListener("click", function(){
 /* ---------- language ---------- */
 var LANG = "en";
 var DICT = { bn: {
+  "You have not backed up today's data. Please take a backup from Profile.": "আজকের ডাটা ব্যাকআপ করা হয়নি। প্রোফাইল থেকে ব্যাকআপ নিন।",
+  "Detailed report": "বিস্তারিত রিপোর্ট",
+  "Show details of": "কিসের বিস্তারিত দেখবেন",
+  "Products — what I sold": "পণ্য — কি কি বিকিরি করলাম",
+  "bKash / Nagad — SIM by SIM": "বিকাশ / নগদ — সিম অনুযায়ী",
+  "Flexiload — company by company": "ফ্লেক্সিলোড — কোম্পানি অনুযায়ী",
+  "Money in / out of one SIM or cash": "এক সিম বা নগদে টাকা আসা-যাওয়া",
+  "Which product": "কোন পণ্য",
+  "Which company": "কোন কোম্পানি",
+  "Which SIM / wallet": "কোন সিম / ওয়ালেট",
+  "Uses the date range picked at the top of this page.": "এই পাতার উপরে বাছা তারিখ অনুসারে দেখাবে।",
+  "Products sold": "বিকিরি হওয়া পণ্য",
+  "entries": "এন্ট্রি",
+  "Buying cost": "কেনার খরচ",
+  "Product profit": "পণ্যের লাভ",
+  "Sell price − buy price": "বিক্রির দাম − কেনার দাম",
+  "Came into SIM": "সিমে ঢুকলো",
+  "Left SIM": "সিম থেকে গেলো",
+  "Total": "মোট",
+  "cash": "নগদ",
+  "Load taken": "লোড নিলাম",
+  "Offer commission": "অফার কমিশন",
+  "Money that came in": "যত টাকা ঢুকলো",
+  "Money that went out": "যত টাকা গেলো",
+  "Change in this period": "এই সময়ে পরিবর্তন",
+  "Sale": "বিক্রি",
+  "Item": "পণ্য",
+  "Agent + Personal": "এজেন্ট + পার্সোনাল",
+  "Pick a bKash / Nagad wallet for this action.": "এই কাজের জন্য বিকাশ / নগদ ওয়ালেট বাছুন।",
+
   "bKash / Nagad Agent profit": "বিকাশ / নগদ এজেন্টের লাভ",
   "Commission earned on Agent SIM": "এজেন্ট সিমে পাওয়া কমিশন",
   "Personal / Merchant profit": "পার্সনাল / মার্চেন্টের লাভ",
@@ -3054,6 +3286,8 @@ if(document.getElementById("btnGoProfile")) document.getElementById("btnGoProfil
 /* ---------- init ---------- */
 ["homeDate","sDate","bDate","eDate","aDate","fDate"].forEach(function(id){ $(id).value = todayStr(); });
 $("homeDate").addEventListener("change", render);
+$("dSource").addEventListener("change", function(){ detail.src = this.value; fillDetailPick(); render(); });
+$("dPick").addEventListener("change", function(){ detail.pick[detail.src] = this.value; render(); });
 $("repFrom").addEventListener("change", render);
 $("repTo").addEventListener("change", render);
 buildChips("salesRange","sales");
@@ -3074,6 +3308,7 @@ LANG = (db.settings.lang === "bn") ? "bn" : "en";
 setTimeout(function(){ if(LANG === "bn" && !window.__bnForce && !bnFontOk()){ LANG = "en"; db.settings.lang = "en"; } applyLang(); }, 0);
 fillSettings(); fillBackup(); fillLock(); salePreview(); adjPreview(); refreshComm(); flexiPreview(); render();
 if(lockCfg().on && lockCfg().pin) showLock();
+setInterval(function(){ try { renderAlerts(); } catch(e){} }, 60000);
 
 /* offline service worker (only works when opened from http/https, not file://) */
 if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
