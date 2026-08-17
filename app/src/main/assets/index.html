@@ -461,6 +461,93 @@ body.dark .stat.hero .pill{background:#232948;color:#B9BFDA}
 .del.ed{color:var(--primary);font-size:16px}
 .del.ed:active{background:var(--primary-soft)}
 input[type=search]{margin-bottom:10px}
+
+/* =============== v14 — modern clean design =============== */
+body{background:#F5F6FB;padding-bottom:124px}
+header.app{border-radius:0 0 30px 30px;padding:16px 18px 24px;background:linear-gradient(155deg,#5B4BF6 0%,#8B5CF6 52%,#C026D3 100%)}
+.brandmark{border-radius:16px}
+main{padding:16px 16px 6px}
+h2.sec{font-size:12.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:#6E7492;margin:20px 4px 10px}
+body.dark h2.sec{color:#98A0C4}
+.card{border-radius:22px;box-shadow:0 6px 18px rgba(24,26,54,.055)}
+.stat{border-radius:22px;box-shadow:0 6px 18px rgba(24,26,54,.055)}
+
+/* hero cards */
+.stat.hero{background:linear-gradient(150deg,#6D5AF8 0%,#A855F7 55%,#C026D3 100%);border:0;padding:19px;box-shadow:0 16px 34px -12px rgba(109,90,248,.6)}
+.stat.hero .lbl{color:rgba(255,255,255,.84);text-transform:uppercase;letter-spacing:.7px;font-weight:750;font-size:11.5px}
+.stat.hero .val{color:#fff;font-size:33px;letter-spacing:-1.1px}
+.stat.hero .pill{background:rgba(255,255,255,.2);color:#fff;border:0;font-weight:700}
+#homeSpark stop:first-child{stop-color:#ffffff;stop-opacity:.42}
+#homeSpark stop:last-child{stop-color:#ffffff;stop-opacity:0}
+#sparkLine{stroke:#ffffff}
+.stat.hero.cash{background:linear-gradient(150deg,#26305C,#0F1430);box-shadow:0 16px 32px -14px rgba(15,20,48,.75)}
+.stat.hero.cash .val{color:#fff}
+body.dark .stat.hero{background:linear-gradient(150deg,#4B3BC9,#7E22A8)}
+body.dark .stat.hero.cash{background:linear-gradient(150deg,#26305C,#0F1430)}
+body.dark .stat.hero .val,body.dark .stat.hero.cash .val{color:#fff}
+
+/* wallet cards */
+.card.bk,.card.ng,.card.fl{border:0;position:relative;overflow:hidden}
+.card.bk{background:linear-gradient(140deg,#F43F86,#BE185D)}
+.card.ng{background:linear-gradient(140deg,#FB9700,#C2410C)}
+.card.fl{background:linear-gradient(140deg,#06B6D4,#0E7490)}
+.card.bk:after,.card.ng:after,.card.fl:after{content:"";position:absolute;right:-30px;top:-34px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.13)}
+.card.bk .t,.card.ng .t,.card.fl .t,.card.bk .amt,.card.ng .amt,.card.fl .amt{color:#fff}
+.card.bk .s,.card.ng .s,.card.fl .s{color:rgba(255,255,255,.86)}
+.card.bk .item,.card.ng .item,.card.fl .item{border-bottom-color:rgba(255,255,255,.2)}
+.card.bk .item:last-child,.card.ng .item:last-child,.card.fl .item:last-child{border-bottom:0}
+.card.bk .brand,.card.ng .brand,.card.fl .brand{background:rgba(255,255,255,.24);color:#fff;border:1px solid rgba(255,255,255,.34)}
+
+/* quick actions */
+.qacts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.qa{background:#fff;border:1px solid #EDEEF6;border-radius:20px;padding:12px 4px 11px;text-align:center;box-shadow:0 6px 16px rgba(24,26,54,.05);font-family:inherit;cursor:pointer}
+.qa i{width:44px;height:44px;border-radius:15px;margin:0 auto 7px;display:flex;align-items:center;justify-content:center}
+.qa i svg{width:21px;height:21px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.qa span{display:block;font-size:11.5px;font-weight:750;color:#101223;line-height:1.25}
+.qa i.a{background:linear-gradient(140deg,#6D5AF8,#A855F7)}
+.qa i.b{background:linear-gradient(140deg,#F43F86,#BE185D)}
+.qa i.c{background:linear-gradient(140deg,#06B6D4,#0E7490)}
+.qa i.d{background:linear-gradient(140deg,#FB9700,#D97706)}
+body.dark .qa{background:#161A31;border-color:#232948}
+body.dark .qa span{color:#E7E9F5}
+
+/* fields, chips, buttons */
+input,select,textarea{border-radius:16px;background:#F2F3FA;border:1px solid #EDEEF6;font-weight:650}
+body.dark input,body.dark select,body.dark textarea{background:#1E2340;border-color:#2C3358}
+label{font-size:11.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#6E7492;margin:15px 0 7px}
+.chip{border-radius:999px;font-weight:750}
+.chip.on{background:linear-gradient(135deg,#6D5AF8,#A855F7);border-color:transparent;color:#fff}
+.segrow{border-radius:16px;padding:4px}
+.segrow button{border-radius:12px;font-weight:750}
+.btn{border-radius:19px;min-height:56px;font-weight:800;background:linear-gradient(135deg,#6D5AF8,#C026D3);box-shadow:0 14px 28px -10px rgba(109,90,248,.6)}
+.btn.secondary{background:#F2F3FA;color:#101223;box-shadow:none;border:1px solid #EDEEF6}
+body.dark .btn.secondary{background:#1E2340;color:#E7E9F5;border-color:#2C3358}
+
+/* list rows */
+.item .t{font-weight:700}
+.list .item:first-child{border-top:0}
+
+/* floating pill nav + add button */
+nav.tabs{left:12px;right:12px;bottom:12px;max-width:736px;margin:0 auto;border-radius:26px;background:rgba(255,255,255,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid #EDEEF6;box-shadow:0 16px 36px rgba(24,26,54,.18);padding:8px 4px calc(8px + env(safe-area-inset-bottom))}
+body.dark nav.tabs{background:rgba(21,25,50,.92);border-color:#232948}
+nav.tabs button{min-height:50px;font-size:9.5px;font-weight:750}
+nav.tabs button.on .nb{background:linear-gradient(135deg,#6D5AF8,#C026D3);box-shadow:0 8px 18px -7px rgba(109,90,248,.9)}
+.fab{position:fixed;right:18px;bottom:104px;width:58px;height:58px;border-radius:20px;border:0;padding:0;background:linear-gradient(140deg,#6D5AF8,#C026D3);box-shadow:0 16px 30px rgba(109,90,248,.45);z-index:29;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.fab svg{width:26px;height:26px;fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round}
+.fab.hide{display:none}
+.toast{bottom:120px}
+
+/* detail segment chips */
+#dSource{display:none}
+#dSegs{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0 4px}
+#dSegs button{font-family:inherit;font-size:12px;font-weight:750;padding:9px 13px;border-radius:999px;background:#F2F3FA;border:1px solid #EDEEF6;color:#101223;cursor:pointer}
+#dSegs button.on{background:linear-gradient(135deg,#6D5AF8,#A855F7);border-color:transparent;color:#fff}
+body.dark #dSegs button{background:#1E2340;border-color:#2C3358;color:#B9BFDA}
+body.dark #dSegs button.on{color:#fff}
+#dSum .item:first-child,#dList .item:first-child{border-top:0}
+#dList .item.gh{background:#F2F3FA}
+body.dark #dList .item.gh{background:#1B2040}
+#dList .item.gh .t{font-weight:800}
 </style>
 </head>
 <body>
@@ -482,6 +569,13 @@ input[type=search]{margin-bottom:10px}
     <input type="date" id="homeDate">
     <div class="chipbar" id="homeRange"></div>
     <div id="homeAlerts"></div>
+
+    <div class="qacts" id="qActs">
+      <button type="button" class="qa" data-go="sales"><i class="a"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18l-1.6 11a2 2 0 0 1-2 1.7H6.6a2 2 0 0 1-2-1.7L3 6z"/><path d="M8 3l1 3M16 3l-1 3"/></svg></i><span>New sale</span></button>
+      <button type="button" class="qa" data-go="bank"><i class="b"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="13" rx="3"/><path d="M2 11h20M6 15h3"/></svg></i><span>bKash Nagad</span></button>
+      <button type="button" class="qa" data-go="flexi"><i class="c"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></i><span>Flexiload</span></button>
+      <button type="button" class="qa" data-go="expense"><i class="d"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h13l3 4v14H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg></i><span>Expense</span></button>
+    </div>
 
     <h2 class="sec" id="homeProfitLbl">Profit this day</h2>
     <div class="stat hero">
@@ -836,6 +930,7 @@ input[type=search]{margin-bottom:10px}
         <option value="flexi">Flexiload — company by company</option>
         <option value="wallet">Money in / out of one SIM or cash</option>
       </select>
+      <div id="dSegs"></div>
       <label for="dPick" id="dPickLabel">Which product</label>
       <select id="dPick"></select>
       <div class="hint">Uses the date range picked at the top of this page.</div>
@@ -1169,6 +1264,7 @@ input[type=search]{margin-bottom:10px}
   </div>
 </div>
 
+<button type="button" class="fab" id="fabAdd" aria-label="New sale"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
 <nav class="tabs" id="tabs">
   <button data-view="home" class="on"><span class="nb"><svg viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg></span>Home</button>
   <button data-view="sales"><span class="nb"><svg viewBox="0 0 24 24"><path d="M4 7h16l-1.5 12H5.5z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg></span>Sales</button>
@@ -1194,7 +1290,7 @@ input[type=search]{margin-bottom:10px}
 (function(){
 "use strict";
 var KEY = "shopHisab.v1";
-var APP_VERSION = "v13";
+var APP_VERSION = "v14";
 var ACCOUNTS = ["bKash Agent","bKash Personal","bKash Merchant","Nagad Agent","Nagad Personal"];
 var DEFAULT_RATES = {
   "bKash Agent":{ cin:4, cout:3.75 },
@@ -1862,6 +1958,7 @@ function renderDetails(from, to){
   var sum = $("dSum"), list = $("dList");
   if(!sum || !list) return;
   fillDetailPick();
+  try { buildDetailSegs(); } catch(e){}
   sum.innerHTML = ""; list.innerHTML = "";
   var src = detail.src, pick = detail.pick[src], bal = balances(), fb = flexiBalances();
 
@@ -3100,6 +3197,12 @@ $("btnWipe").addEventListener("click", function(){
 /* ---------- language ---------- */
 var LANG = "en";
 var DICT = { bn: {
+  "Products": "পণ্য",
+  "bKash / Nagad": "বিকাশ / নগদ",
+  "Money in / out": "টাকা আসা-যাওয়া",
+  "New sale": "নতুন বিক্রি",
+  "bKash Nagad": "বিকাশ নগদ",
+
   "You have not backed up today's data. Please take a backup from Profile.": "আজকের ডাটা ব্যাকআপ করা হয়নি। প্রোফাইল থেকে ব্যাকআপ নিন।",
   "Detailed report": "বিস্তারিত রিপোর্ট",
   "Show details of": "কিসের বিস্তারিত দেখবেন",
@@ -3286,6 +3389,49 @@ if(document.getElementById("btnGoProfile")) document.getElementById("btnGoProfil
 /* ---------- init ---------- */
 ["homeDate","sDate","bDate","eDate","aDate","fDate"].forEach(function(id){ $(id).value = todayStr(); });
 $("homeDate").addEventListener("change", render);
+function buildDetailSegs(){
+  var box = $("dSegs");
+  if(!box) return;
+  var opts = [["product", _t("Products")], ["bank", _t("bKash / Nagad")], ["flexi", _t("Flexiload")], ["wallet", _t("Money in / out")]];
+  box.innerHTML = "";
+  opts.forEach(function(o){
+    var b = document.createElement("button");
+    b.type = "button";
+    b.textContent = o[1];
+    if(detail.src === o[0]) b.className = "on";
+    b.addEventListener("click", function(){
+      detail.src = o[0];
+      var s = $("dSource");
+      if(s) s.value = o[0];
+      fillDetailPick();
+      render();
+    });
+    box.appendChild(b);
+  });
+}
+function syncFab(){
+  var f = $("fabAdd");
+  if(!f) return;
+  var v = document.getElementById("view-sales");
+  f.classList.toggle("hide", !!(v && v.classList.contains("active")));
+}
+$("fabAdd").addEventListener("click", function(){
+  go("sales");
+  setTimeout(function(){ try { $("sItem").focus(); } catch(e){} syncFab(); }, 60);
+});
+$("tabs").addEventListener("click", function(){ setTimeout(syncFab, 40); });
+Array.prototype.slice.call(document.querySelectorAll("#qActs .qa")).forEach(function(b){
+  b.addEventListener("click", function(){
+    var w = b.getAttribute("data-go");
+    if(w === "flexi"){
+      go("bank");
+      setTimeout(function(){ try { $("segFL").click(); } catch(e){} syncFab(); }, 40);
+      return;
+    }
+    go(w);
+    setTimeout(syncFab, 40);
+  });
+});
 $("dSource").addEventListener("change", function(){ detail.src = this.value; fillDetailPick(); render(); });
 $("dPick").addEventListener("change", function(){ detail.pick[detail.src] = this.value; render(); });
 $("repFrom").addEventListener("change", render);
@@ -3307,6 +3453,7 @@ snapLang();
 LANG = (db.settings.lang === "bn") ? "bn" : "en";
 setTimeout(function(){ if(LANG === "bn" && !window.__bnForce && !bnFontOk()){ LANG = "en"; db.settings.lang = "en"; } applyLang(); }, 0);
 fillSettings(); fillBackup(); fillLock(); salePreview(); adjPreview(); refreshComm(); flexiPreview(); render();
+try { syncFab(); } catch(e){}
 if(lockCfg().on && lockCfg().pin) showLock();
 setInterval(function(){ try { renderAlerts(); } catch(e){} }, 60000);
 
