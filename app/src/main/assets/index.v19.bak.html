@@ -565,182 +565,6 @@ body.dark #dList .item.gh{background:#1B2040}
 .track i.c{background:linear-gradient(90deg,#06B6D4,#0E7490)}
 .track i.r{background:linear-gradient(90deg,#FB7185,#EF4444)}
 #ccResult,#scResult{font-weight:700}
-
-/* =============== v22 - NEON DASHBOARD =============== */
-/* Base */
-body{background:#080D1A;color:#EDF1F7;padding-bottom:120px}
-body.dark{background:#080D1A;color:#EDF1F7}
-
-/* Header: slim neon strip */
-header.app{background:#0C1220;border-radius:0 0 0 0;padding:15px 16px 16px;border-bottom:1px solid #1A2340;box-shadow:none}
-header.app:before,header.app:after{display:none}
-.brandmark{background:#C7F94B;border:0;color:#080D1A;border-radius:13px;font-size:14px;box-shadow:0 0 18px rgba(199,249,75,.5);width:40px;height:40px}
-.app-title{font-size:17px;font-weight:800;letter-spacing:-.3px;color:#EDF1F7}
-.app-sub{font-size:9.5px;color:#5B6580;text-transform:uppercase;letter-spacing:1.8px;font-weight:800;margin-top:4px}
-#btnProfile{background:#141E33;border:1px solid #1E2D4A;border-radius:13px;width:40px;height:40px;color:#C7F94B}
-
-/* Section labels */
-h2.sec{font-size:9.5px;letter-spacing:2px;color:#5B6580;margin:22px 4px 10px;font-weight:800}
-main{padding:13px 13px 6px}
-
-/* Cards: dark navy */
-.card,.stat{background:#101827;border:1px solid #1A2745;border-radius:22px;box-shadow:none}
-.card{padding:16px}
-.stat{padding:14px}
-
-/* list items */
-.item{border-bottom-color:#1A2745}
-.item .t{color:#EDF1F7}
-.item .s{color:#5B6580}
-
-/* Hero profit card: neon glow */
-.stat.hero{background:linear-gradient(155deg,#131E36,#0E1728);border:1px solid #1E2F50;border-radius:22px;box-shadow:0 0 40px -20px rgba(199,249,75,.22);padding:18px}
-.stat.hero .lbl{color:#5B6580;letter-spacing:2px;font-size:9.5px;font-weight:800}
-.stat.hero .val{color:#C7F94B;font-size:34px;font-weight:800;letter-spacing:-1.5px}
-.stat.hero .pill{background:rgba(199,249,75,.12);border:1px solid rgba(199,249,75,.28);color:#C7F94B;border-radius:9px;font-weight:800;font-size:11px}
-
-/* Cash in hand hero: bright lime slab */
-.stat.hero.cash{background:#C7F94B;border:0;box-shadow:0 16px 40px -20px rgba(199,249,75,.7)}
-.stat.hero.cash .val{color:#080D1A;font-size:32px}
-.stat.hero.cash .lbl{color:rgba(8,13,26,.6)}
-.stat.hero.cash .pill{background:rgba(8,13,26,.12);border-color:rgba(8,13,26,.2);color:#080D1A}
-#sparkLine{stroke:#C7F94B}
-#homeSpark stop:first-child{stop-color:#C7F94B;stop-opacity:.3}
-
-/* wallet cards: dark with a neon left rail */
-.card.bk,.card.ng,.card.fl{background:#101827;border:1px solid #1A2745;padding-left:18px;position:relative;overflow:hidden}
-.card.bk:after,.card.ng:after,.card.fl:after{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:0;background:#FF74A8}
-.card.ng:after{background:#FFB443}
-.card.fl:after{background:#7DD3FC}
-.card.bk .t,.card.ng .t,.card.fl .t{color:#EDF1F7}
-.card.bk .s,.card.ng .s,.card.fl .s{color:#5B6580}
-.card.bk .amt,.card.ng .amt,.card.fl .amt{color:#EDF1F7}
-.card.bk .item,.card.ng .item,.card.fl .item{border-bottom-color:#1A2745}
-.brand{border-radius:11px;font-size:11.5px;width:36px;height:36px;border:0;color:#080D1A}
-.brand.bk{background:#FF74A8}
-.brand.ng{background:#FFB443}
-.brand.fl{background:#7DD3FC}
-
-/* mini stats */
-.stat.tp,.stat.tg,.stat.to,.stat.tr,.stat.tb{background:#101827;border:1px solid #1A2745;border-radius:16px}
-.stat.tp .val,.stat.tg .val,.stat.to .val,.stat.tr .val,.stat.tb .val{font-size:19px;color:#EDF1F7}
-.stat.tp .lbl,.stat.tg .lbl,.stat.to .lbl,.stat.tr .lbl,.stat.tb .lbl{color:#5B6580}
-.ico{border-radius:11px;width:36px;height:36px}
-.ico.p,.ico.g{background:#1B2C18;color:#C7F94B}
-.ico.b{background:#1A223A;color:#7DD3FC}
-.ico.o,.ico.r{background:#2A1E14;color:#FFB443}
-.pos{color:#C7F94B}
-
-/* Buttons: lime primary */
-.btn{background:#C7F94B;color:#080D1A;border-radius:14px;box-shadow:0 10px 24px -12px rgba(199,249,75,.65);min-height:52px;font-weight:800;border:0}
-.btn:active{background:#B8EA3A}
-.btn.green{background:#C7F94B;color:#080D1A}
-.btn.secondary{background:#101827;border:1px solid #1A2745;color:#EDF1F7;box-shadow:none}
-.btn.danger{background:#101827;border:1px solid #3A1C24;color:#FF7A85;box-shadow:none}
-
-/* Inputs: dark fields */
-input,select,textarea{background:#0E1525;border:1px solid #1A2745;border-radius:13px;min-height:50px;color:#EDF1F7;font-weight:600}
-input:focus,select:focus,textarea:focus{background:#111D30;border-color:#C7F94B;box-shadow:0 0 0 3px rgba(199,249,75,.18);color:#EDF1F7}
-input::placeholder{color:#3E4D6A}
-label{font-size:9.5px;letter-spacing:1.8px;color:#5B6580;font-weight:800;margin:14px 0 6px}
-
-/* Chips, segments */
-.chip{background:#101827;border:1px solid #1A2745;color:#7B8FAD;border-radius:12px;font-weight:750}
-.chip.on{background:#C7F94B;border-color:#C7F94B;color:#080D1A}
-.qrow button{border-radius:11px;border:1px solid #1A2745;color:#EDF1F7;background:#101827;font-weight:800}
-.qrow button:active{background:#1B2C18;border-color:#C7F94B;color:#C7F94B}
-.segrow{background:#0C1220;border-radius:14px}
-.segrow button{border-radius:11px;color:#5B6580}
-.segrow button.on{background:#C7F94B;color:#080D1A;box-shadow:none}
-#dSegs button{border-radius:11px;background:#101827;border:1px solid #1A2745;color:#7B8FAD}
-#dSegs button.on{background:#C7F94B;border-color:#C7F94B;color:#080D1A}
-#chartRange button{border-radius:11px;background:#101827;border:1px solid #1A2745;color:#5B6580}
-#chartRange button.on{background:#C7F94B;color:#080D1A;border-color:#C7F94B}
-#chartBars .b i{background:#1E2F50;border-radius:6px}
-#chartBars .b.best i{background:#C7F94B}
-#chartBars .b.neg i{background:#FF7A85}
-.track{background:#0C1220}
-.track i,.track i.g,.track i.o,.track i.c{background:#C7F94B}
-.track i.r{background:#FF7A85}
-.bar{background:#0C1220}
-.bar span{background:#C7F94B}
-
-/* Quick action tiles */
-.qacts{gap:9px}
-.qa{background:#101827;border:1px solid #1A2745;border-radius:16px;box-shadow:none;padding:11px 3px 10px}
-.qa i{border-radius:12px;width:38px;height:38px;color:#080D1A}
-.qa i.a{background:#C7F94B;box-shadow:0 6px 16px -8px rgba(199,249,75,.7)}
-.qa i.b{background:#FF74A8}
-.qa i.c{background:#7DD3FC}
-.qa i.d{background:#FFB443}
-.qa span{font-size:10.5px;font-weight:800;color:#9AAEC4}
-
-/* Quick add sheet */
-.qsheet button{border-radius:16px;border:1px solid #1A2745;background:#101827;color:#EDF1F7}
-.qsheet button i{border-radius:12px;width:38px;height:38px;color:#080D1A}
-.qsheet button i.a{background:#C7F94B}
-.qsheet button i.b{background:#FF74A8}
-.qsheet button i.c{background:#7DD3FC}
-.qsheet button i.d{background:#FFB443}
-.qsheet button i.e{background:#63F2C4}
-.qsheet button i.f{background:#94A3B8}
-.qsheet button span{font-size:11px;font-weight:800;color:#EDF1F7}
-.modal .box{background:#0E1525;border-radius:24px 24px 0 0;border-top:1px solid #1A2745}
-
-/* Global search */
-#gsCard{background:#101827;border:1px solid #1A2745;border-radius:18px;top:8px}
-#gSearch{background:#0E1525 !important;border-color:#1A2745 !important;color:#EDF1F7 !important}
-#gResults .item{color:#EDF1F7}
-.gtag{border-radius:6px;background:#1A2745;color:#9AAEC4;font-weight:800}
-.gtag.s{background:#1B2C18;color:#C7F94B}
-.gtag.b{background:#2A1530;color:#FF74A8}
-.gtag.f{background:#102030;color:#7DD3FC}
-.gtag.e{background:#2A1E14;color:#FFB443}
-.gtag.p{background:#1E1E30;color:#A78BFA}
-
-/* Tags, previews */
-.tag{border-radius:7px;background:#1A2745;color:#9AAEC4;font-weight:800}
-.tag.in{background:#1B2C18;color:#C7F94B}
-.tag.out{background:#2A1E14;color:#FFB443}
-.avatar{border-radius:12px;background:#C7F94B;color:#080D1A}
-.iconbtn{border-radius:12px;background:#101827;border:1px solid #1A2745}
-#sPreviewTotal,#sPreviewProfit,#bEffect,#aEffect,#emEffect{background:#111E0F;border:1px dashed #2A4020;color:#C7F94B;border-radius:13px}
-.alert{border-radius:13px}
-.alert.ok{background:#111E0F;color:#C7F94B}
-
-/* Navigation dock: dark floating pill */
-nav.tabs{left:12px;right:12px;bottom:12px;max-width:none;margin:0;border-radius:22px;background:#0C1220;border:1px solid #1A2745;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:0 -2px 0 0 rgba(199,249,75,.06),0 24px 40px -20px rgba(8,13,26,.95);padding:8px 2px calc(8px + env(safe-area-inset-bottom))}
-nav.tabs button{color:#3E4D6A;font-size:9px;font-weight:800}
-nav.tabs button .nb{border-radius:13px;width:40px;height:30px}
-nav.tabs button.on{color:#C7F94B}
-nav.tabs button.on .nb{background:rgba(199,249,75,.14);color:#C7F94B}
-
-/* FAB + toast */
-.fab{background:#C7F94B;border-radius:18px;box-shadow:0 12px 28px -12px rgba(199,249,75,.8);bottom:90px;right:14px;width:56px;height:56px}
-.fab svg{stroke:#080D1A}
-.toast{background:#C7F94B;color:#080D1A;border-radius:12px;bottom:114px;font-weight:800}
-
-/* Profile / settings */
-.langbtn{border-radius:13px;background:#101827;border:1px solid #1A2745;color:#9AAEC4}
-.langbtn.on{border-color:#C7F94B;background:rgba(199,249,75,.12);color:#C7F94B}
-.prof-av{border-radius:14px;background:#C7F94B;color:#080D1A}
-details.help{border:1px solid #1A2745;border-radius:18px;background:#101827}
-details.help summary{color:#9AAEC4}
-
-/* Lock screen */
-.lock{background:#080D1A}
-.lock-mark{background:#C7F94B;border:0;color:#080D1A;border-radius:16px;box-shadow:0 12px 24px -12px rgba(199,249,75,.6)}
-.keys button{border-radius:14px;background:#101827;border:1px solid #1A2745;color:#EDF1F7}
-.dots i{border-color:#1A2745}
-.dots i.f{background:#C7F94B;border-color:#C7F94B;box-shadow:0 0 10px rgba(199,249,75,.6)}
-
-/* Baki / due page */
-.card.due-total{background:#101827;border-color:#1A2745}
-#duePartyList .item .t{color:#EDF1F7}
-#duePartyList .item .s{color:#5B6580}
-
-/* Press feedback */
-.item.tap:active,.qa:active,.chip:active,.qrow button:active,.iconbtn:active{opacity:.8;transform:scale(.98)}
 </style>
 </head>
 <body>
@@ -897,6 +721,7 @@ details.help summary{color:#9AAEC4}
       </div>
     </div>
 
+    <button class="btn secondary" type="button" id="sRepeat" style="margin-top:10px">Repeat last sale</button>
     <button class="btn secondary" type="button" id="sClear" style="margin-top:10px">Clear the form</button>
 
     <h2 class="sec">Sales list</h2>
@@ -1534,7 +1359,7 @@ details.help summary{color:#9AAEC4}
 (function(){
 "use strict";
 var KEY = "shopHisab.v1";
-var APP_VERSION = "v22";
+var APP_VERSION = "v19";
 var ACCOUNTS = ["bKash Agent","bKash Personal","bKash Merchant","Nagad Agent","Nagad Personal"];
 var DEFAULT_RATES = {
   "bKash Agent":{ cin:4, cout:3.75 },
