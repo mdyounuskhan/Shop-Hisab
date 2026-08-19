@@ -565,182 +565,61 @@ body.dark #dList .item.gh{background:#1B2040}
 .track i.c{background:linear-gradient(90deg,#06B6D4,#0E7490)}
 .track i.r{background:linear-gradient(90deg,#FB7185,#EF4444)}
 #ccResult,#scResult{font-weight:700}
-
-/* =============== v22 - NEON DASHBOARD =============== */
-/* Base */
-body{background:#080D1A;color:#EDF1F7;padding-bottom:120px}
-body.dark{background:#080D1A;color:#EDF1F7}
-
-/* Header: slim neon strip */
-header.app{background:#0C1220;border-radius:0 0 0 0;padding:15px 16px 16px;border-bottom:1px solid #1A2340;box-shadow:none}
-header.app:before,header.app:after{display:none}
-.brandmark{background:#C7F94B;border:0;color:#080D1A;border-radius:13px;font-size:14px;box-shadow:0 0 18px rgba(199,249,75,.5);width:40px;height:40px}
-.app-title{font-size:17px;font-weight:800;letter-spacing:-.3px;color:#EDF1F7}
-.app-sub{font-size:9.5px;color:#5B6580;text-transform:uppercase;letter-spacing:1.8px;font-weight:800;margin-top:4px}
-#btnProfile{background:#141E33;border:1px solid #1E2D4A;border-radius:13px;width:40px;height:40px;color:#C7F94B}
-
-/* Section labels */
-h2.sec{font-size:9.5px;letter-spacing:2px;color:#5B6580;margin:22px 4px 10px;font-weight:800}
-main{padding:13px 13px 6px}
-
-/* Cards: dark navy */
-.card,.stat{background:#101827;border:1px solid #1A2745;border-radius:22px;box-shadow:none}
-.card{padding:16px}
-.stat{padding:14px}
-
-/* list items */
-.item{border-bottom-color:#1A2745}
-.item .t{color:#EDF1F7}
-.item .s{color:#5B6580}
-
-/* Hero profit card: neon glow */
-.stat.hero{background:linear-gradient(155deg,#131E36,#0E1728);border:1px solid #1E2F50;border-radius:22px;box-shadow:0 0 40px -20px rgba(199,249,75,.22);padding:18px}
-.stat.hero .lbl{color:#5B6580;letter-spacing:2px;font-size:9.5px;font-weight:800}
-.stat.hero .val{color:#C7F94B;font-size:34px;font-weight:800;letter-spacing:-1.5px}
-.stat.hero .pill{background:rgba(199,249,75,.12);border:1px solid rgba(199,249,75,.28);color:#C7F94B;border-radius:9px;font-weight:800;font-size:11px}
-
-/* Cash in hand hero: bright lime slab */
-.stat.hero.cash{background:#C7F94B;border:0;box-shadow:0 16px 40px -20px rgba(199,249,75,.7)}
-.stat.hero.cash .val{color:#080D1A;font-size:32px}
-.stat.hero.cash .lbl{color:rgba(8,13,26,.6)}
-.stat.hero.cash .pill{background:rgba(8,13,26,.12);border-color:rgba(8,13,26,.2);color:#080D1A}
-#sparkLine{stroke:#C7F94B}
-#homeSpark stop:first-child{stop-color:#C7F94B;stop-opacity:.3}
-
-/* wallet cards: dark with a neon left rail */
-.card.bk,.card.ng,.card.fl{background:#101827;border:1px solid #1A2745;padding-left:18px;position:relative;overflow:hidden}
-.card.bk:after,.card.ng:after,.card.fl:after{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:0;background:#FF74A8}
-.card.ng:after{background:#FFB443}
-.card.fl:after{background:#7DD3FC}
-.card.bk .t,.card.ng .t,.card.fl .t{color:#EDF1F7}
-.card.bk .s,.card.ng .s,.card.fl .s{color:#5B6580}
-.card.bk .amt,.card.ng .amt,.card.fl .amt{color:#EDF1F7}
-.card.bk .item,.card.ng .item,.card.fl .item{border-bottom-color:#1A2745}
-.brand{border-radius:11px;font-size:11.5px;width:36px;height:36px;border:0;color:#080D1A}
-.brand.bk{background:#FF74A8}
-.brand.ng{background:#FFB443}
-.brand.fl{background:#7DD3FC}
-
-/* mini stats */
-.stat.tp,.stat.tg,.stat.to,.stat.tr,.stat.tb{background:#101827;border:1px solid #1A2745;border-radius:16px}
-.stat.tp .val,.stat.tg .val,.stat.to .val,.stat.tr .val,.stat.tb .val{font-size:19px;color:#EDF1F7}
-.stat.tp .lbl,.stat.tg .lbl,.stat.to .lbl,.stat.tr .lbl,.stat.tb .lbl{color:#5B6580}
-.ico{border-radius:11px;width:36px;height:36px}
-.ico.p,.ico.g{background:#1B2C18;color:#C7F94B}
-.ico.b{background:#1A223A;color:#7DD3FC}
-.ico.o,.ico.r{background:#2A1E14;color:#FFB443}
-.pos{color:#C7F94B}
-
-/* Buttons: lime primary */
-.btn{background:#C7F94B;color:#080D1A;border-radius:14px;box-shadow:0 10px 24px -12px rgba(199,249,75,.65);min-height:52px;font-weight:800;border:0}
-.btn:active{background:#B8EA3A}
-.btn.green{background:#C7F94B;color:#080D1A}
-.btn.secondary{background:#101827;border:1px solid #1A2745;color:#EDF1F7;box-shadow:none}
-.btn.danger{background:#101827;border:1px solid #3A1C24;color:#FF7A85;box-shadow:none}
-
-/* Inputs: dark fields */
-input,select,textarea{background:#0E1525;border:1px solid #1A2745;border-radius:13px;min-height:50px;color:#EDF1F7;font-weight:600}
-input:focus,select:focus,textarea:focus{background:#111D30;border-color:#C7F94B;box-shadow:0 0 0 3px rgba(199,249,75,.18);color:#EDF1F7}
-input::placeholder{color:#3E4D6A}
-label{font-size:9.5px;letter-spacing:1.8px;color:#5B6580;font-weight:800;margin:14px 0 6px}
-
-/* Chips, segments */
-.chip{background:#101827;border:1px solid #1A2745;color:#7B8FAD;border-radius:12px;font-weight:750}
-.chip.on{background:#C7F94B;border-color:#C7F94B;color:#080D1A}
-.qrow button{border-radius:11px;border:1px solid #1A2745;color:#EDF1F7;background:#101827;font-weight:800}
-.qrow button:active{background:#1B2C18;border-color:#C7F94B;color:#C7F94B}
-.segrow{background:#0C1220;border-radius:14px}
-.segrow button{border-radius:11px;color:#5B6580}
-.segrow button.on{background:#C7F94B;color:#080D1A;box-shadow:none}
-#dSegs button{border-radius:11px;background:#101827;border:1px solid #1A2745;color:#7B8FAD}
-#dSegs button.on{background:#C7F94B;border-color:#C7F94B;color:#080D1A}
-#chartRange button{border-radius:11px;background:#101827;border:1px solid #1A2745;color:#5B6580}
-#chartRange button.on{background:#C7F94B;color:#080D1A;border-color:#C7F94B}
-#chartBars .b i{background:#1E2F50;border-radius:6px}
-#chartBars .b.best i{background:#C7F94B}
-#chartBars .b.neg i{background:#FF7A85}
-.track{background:#0C1220}
-.track i,.track i.g,.track i.o,.track i.c{background:#C7F94B}
-.track i.r{background:#FF7A85}
-.bar{background:#0C1220}
-.bar span{background:#C7F94B}
-
-/* Quick action tiles */
-.qacts{gap:9px}
-.qa{background:#101827;border:1px solid #1A2745;border-radius:16px;box-shadow:none;padding:11px 3px 10px}
-.qa i{border-radius:12px;width:38px;height:38px;color:#080D1A}
-.qa i.a{background:#C7F94B;box-shadow:0 6px 16px -8px rgba(199,249,75,.7)}
-.qa i.b{background:#FF74A8}
-.qa i.c{background:#7DD3FC}
-.qa i.d{background:#FFB443}
-.qa span{font-size:10.5px;font-weight:800;color:#9AAEC4}
-
-/* Quick add sheet */
-.qsheet button{border-radius:16px;border:1px solid #1A2745;background:#101827;color:#EDF1F7}
-.qsheet button i{border-radius:12px;width:38px;height:38px;color:#080D1A}
-.qsheet button i.a{background:#C7F94B}
-.qsheet button i.b{background:#FF74A8}
-.qsheet button i.c{background:#7DD3FC}
-.qsheet button i.d{background:#FFB443}
-.qsheet button i.e{background:#63F2C4}
-.qsheet button i.f{background:#94A3B8}
-.qsheet button span{font-size:11px;font-weight:800;color:#EDF1F7}
-.modal .box{background:#0E1525;border-radius:24px 24px 0 0;border-top:1px solid #1A2745}
-
-/* Global search */
-#gsCard{background:#101827;border:1px solid #1A2745;border-radius:18px;top:8px}
-#gSearch{background:#0E1525 !important;border-color:#1A2745 !important;color:#EDF1F7 !important}
-#gResults .item{color:#EDF1F7}
-.gtag{border-radius:6px;background:#1A2745;color:#9AAEC4;font-weight:800}
-.gtag.s{background:#1B2C18;color:#C7F94B}
-.gtag.b{background:#2A1530;color:#FF74A8}
-.gtag.f{background:#102030;color:#7DD3FC}
-.gtag.e{background:#2A1E14;color:#FFB443}
-.gtag.p{background:#1E1E30;color:#A78BFA}
-
-/* Tags, previews */
-.tag{border-radius:7px;background:#1A2745;color:#9AAEC4;font-weight:800}
-.tag.in{background:#1B2C18;color:#C7F94B}
-.tag.out{background:#2A1E14;color:#FFB443}
-.avatar{border-radius:12px;background:#C7F94B;color:#080D1A}
-.iconbtn{border-radius:12px;background:#101827;border:1px solid #1A2745}
-#sPreviewTotal,#sPreviewProfit,#bEffect,#aEffect,#emEffect{background:#111E0F;border:1px dashed #2A4020;color:#C7F94B;border-radius:13px}
-.alert{border-radius:13px}
-.alert.ok{background:#111E0F;color:#C7F94B}
-
-/* Navigation dock: dark floating pill */
-nav.tabs{left:12px;right:12px;bottom:12px;max-width:none;margin:0;border-radius:22px;background:#0C1220;border:1px solid #1A2745;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:0 -2px 0 0 rgba(199,249,75,.06),0 24px 40px -20px rgba(8,13,26,.95);padding:8px 2px calc(8px + env(safe-area-inset-bottom))}
-nav.tabs button{color:#3E4D6A;font-size:9px;font-weight:800}
-nav.tabs button .nb{border-radius:13px;width:40px;height:30px}
-nav.tabs button.on{color:#C7F94B}
-nav.tabs button.on .nb{background:rgba(199,249,75,.14);color:#C7F94B}
-
-/* FAB + toast */
-.fab{background:#C7F94B;border-radius:18px;box-shadow:0 12px 28px -12px rgba(199,249,75,.8);bottom:90px;right:14px;width:56px;height:56px}
-.fab svg{stroke:#080D1A}
-.toast{background:#C7F94B;color:#080D1A;border-radius:12px;bottom:114px;font-weight:800}
-
-/* Profile / settings */
-.langbtn{border-radius:13px;background:#101827;border:1px solid #1A2745;color:#9AAEC4}
-.langbtn.on{border-color:#C7F94B;background:rgba(199,249,75,.12);color:#C7F94B}
-.prof-av{border-radius:14px;background:#C7F94B;color:#080D1A}
-details.help{border:1px solid #1A2745;border-radius:18px;background:#101827}
-details.help summary{color:#9AAEC4}
-
-/* Lock screen */
-.lock{background:#080D1A}
-.lock-mark{background:#C7F94B;border:0;color:#080D1A;border-radius:16px;box-shadow:0 12px 24px -12px rgba(199,249,75,.6)}
-.keys button{border-radius:14px;background:#101827;border:1px solid #1A2745;color:#EDF1F7}
-.dots i{border-color:#1A2745}
-.dots i.f{background:#C7F94B;border-color:#C7F94B;box-shadow:0 0 10px rgba(199,249,75,.6)}
-
-/* Baki / due page */
-.card.due-total{background:#101827;border-color:#1A2745}
-#duePartyList .item .t{color:#EDF1F7}
-#duePartyList .item .s{color:#5B6580}
-
-/* Press feedback */
-.item.tap:active,.qa:active,.chip:active,.qrow button:active,.iconbtn:active{opacity:.8;transform:scale(.98)}
+/* =============== v20 - smart modern UI =============== */
+body{background:#F2F4FB;padding-bottom:120px}
+body.dark{background:#080B18}
+header.app{padding:14px 16px 20px;border-radius:0 0 28px 28px;background:linear-gradient(150deg,#5A46F0 0%,#7C3AED 46%,#C026D3 100%)}
+header.app:before{right:-62px;top:-92px;width:214px;height:214px}
+.app-title{font-size:18px;letter-spacing:-.3px}
+.app-sub{font-size:11.5px}
+.brandmark{width:42px;height:42px;border-radius:15px;font-size:14px}
+main{padding:14px 14px 6px}
+h2.sec{font-size:11px;letter-spacing:1px;margin:18px 4px 9px;color:#767CA0}
+.card{border-radius:24px;border:1px solid #EEF0F9;box-shadow:0 12px 28px -20px rgba(20,24,60,.55);padding:16px}
+.stat{border-radius:22px;border:1px solid #EEF0F9;box-shadow:0 12px 28px -20px rgba(20,24,60,.55)}
+body.dark .card,body.dark .stat{border-color:#242A4B}
+.card.bk,.card.ng,.card.fl,.stat.hero,.stat.tp,.stat.tg,.stat.to,.stat.tr,.stat.tb{border:0}
+.item.tap:active,.qa:active,.chip:active,.qrow button:active,.iconbtn:active{transform:scale(.98)}
+input,select,textarea{min-height:52px;border-radius:16px}
+.btn{border-radius:18px;min-height:54px}
+.qa{border-radius:22px;padding:11px 4px 10px}
+.qa i{width:42px;height:42px;border-radius:14px}
+.qa span{font-size:11px}
+/* ---- v20 global search ---- */
+#gsCard{padding:12px 13px;border-radius:22px;position:sticky;top:10px;z-index:14;box-shadow:0 16px 34px -22px rgba(20,24,60,.7)}
+#gSearch{margin:0;min-height:48px;border-radius:15px}
+#gResults{margin-top:4px}
+#gResults .item{padding:11px 0}
+#gResults .item .t{font-size:14px}
+#gsCard .hint{margin-top:8px}
+.gtag{display:inline-block;font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px;background:#EEEBFF;color:#4A2FD6;margin-right:6px;vertical-align:1px}
+.gtag.s{background:#E4F8EF;color:#0B7A46}
+.gtag.b{background:#FFECF4;color:#BE185D}
+.gtag.f{background:#E3F7FB;color:#0E7490}
+.gtag.e{background:#FFF2E3;color:#B45E0B}
+.gtag.p{background:#FEF3C7;color:#92400E}
+body.dark .gtag{background:#252A4D;color:#C4B5FD}
+/* ---- v20 quick add sheet ---- */
+.qsheet{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.qsheet button{font-family:inherit;border:1px solid #EDEEF6;background:#fff;border-radius:20px;padding:13px 4px 11px;text-align:center;cursor:pointer}
+.qsheet button:active{transform:scale(.97)}
+.qsheet button i{width:42px;height:42px;border-radius:14px;margin:0 auto 7px;display:flex;align-items:center;justify-content:center}
+.qsheet button i svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.qsheet button span{display:block;font-size:11.5px;font-weight:750;color:#101223;line-height:1.25}
+.qsheet button i.a{background:linear-gradient(140deg,#6D5AF8,#A855F7)}
+.qsheet button i.b{background:linear-gradient(140deg,#F43F86,#BE185D)}
+.qsheet button i.c{background:linear-gradient(140deg,#06B6D4,#0E7490)}
+.qsheet button i.d{background:linear-gradient(140deg,#FB9700,#D97706)}
+.qsheet button i.e{background:linear-gradient(140deg,#12B76A,#0B7A46)}
+.qsheet button i.f{background:linear-gradient(140deg,#64748B,#334155)}
+body.dark .qsheet button{background:#161A31;border-color:#242A4B}
+body.dark .qsheet button span{color:#E7E9F5}
+/* ---- v20 nav dock + fab ---- */
+nav.tabs{border-radius:28px;padding:7px 4px calc(7px + env(safe-area-inset-bottom));box-shadow:0 18px 40px -18px rgba(20,24,60,.6)}
+nav.tabs button{min-height:48px;font-size:9px}
+nav.tabs button .nb{width:40px;height:29px;border-radius:13px}
+.fab{bottom:94px;width:56px;height:56px;border-radius:19px;box-shadow:0 18px 32px -12px rgba(109,90,248,.75)}
+.toast{bottom:116px}
 </style>
 </head>
 <body>
@@ -758,6 +637,10 @@ details.help summary{color:#9AAEC4}
 <main>
   <!-- ================= HOME ================= -->
   <section class="view active" id="view-home">
+    <div class="card" id="gsCard">
+      <input type="search" id="gSearch" placeholder="Search everything - item, name, note, amount">
+      <div class="list" id="gResults"></div>
+    </div>
     <label for="homeDate">Date</label>
     <input type="date" id="homeDate">
     <div class="chipbar" id="homeRange"></div>
@@ -897,6 +780,7 @@ details.help summary{color:#9AAEC4}
       </div>
     </div>
 
+    <button class="btn secondary" type="button" id="sRepeat" style="margin-top:10px">Repeat last sale</button>
     <button class="btn secondary" type="button" id="sClear" style="margin-top:10px">Clear the form</button>
 
     <h2 class="sec">Sales list</h2>
@@ -1021,6 +905,8 @@ details.help summary{color:#9AAEC4}
         </div>
         <div><label for="eAmount">Amount</label><input type="number" id="eAmount" placeholder="0" inputmode="decimal"></div>
       </div>
+      <label>Quick amount - tap to add</label>
+      <div class="qrow" id="eQuick"></div>
       <label for="ePaidFrom">Paid from</label>
       <select id="ePaidFrom"><option value="Cash">Cash</option><option value="bKash Agent">bKash Agent SIM</option><option value="bKash Personal">bKash Personal SIM</option><option value="bKash Merchant">bKash Merchant SIM</option><option value="Nagad Agent">Nagad Agent SIM</option><option value="Nagad Personal">Nagad Personal SIM</option></select>
       <label for="eNote">Note (optional)</label>
@@ -1508,6 +1394,21 @@ details.help summary{color:#9AAEC4}
   </div>
 </div>
 
+<div class="modal" id="quickSheet">
+  <div class="box">
+    <p style="font-weight:800">Quick add</p>
+    <div class="qsheet" id="qsGrid">
+      <button type="button" data-q="sale"><i class="a"><svg viewBox="0 0 24 24"><path d="M3 6h18l-1.6 11a2 2 0 0 1-2 1.7H6.6a2 2 0 0 1-2-1.7L3 6z"/><path d="M8 3l1 3M16 3l-1 3"/></svg></i><span>Sale</span></button>
+      <button type="button" data-q="cashin"><i class="b"><svg viewBox="0 0 24 24"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg></i><span>Cash in</span></button>
+      <button type="button" data-q="cashout"><i class="b"><svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M6 13l6 6 6-6"/></svg></i><span>Cash out</span></button>
+      <button type="button" data-q="flexi"><i class="c"><svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></i><span>Flexiload</span></button>
+      <button type="button" data-q="expense"><i class="d"><svg viewBox="0 0 24 24"><path d="M4 3h13l3 4v14H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg></i><span>Expense</span></button>
+      <button type="button" data-q="due"><i class="e"><svg viewBox="0 0 24 24"><path d="M5 4h11l3 3v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M8 10h8M8 14h5"/></svg></i><span>Baki khata</span></button>
+    </div>
+    <button class="btn secondary" type="button" id="qsClose">Close</button>
+  </div>
+</div>
+
 <button type="button" class="fab" id="fabAdd" aria-label="New sale"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
 <nav class="tabs" id="tabs">
   <button data-view="home" class="on"><span class="nb"><svg viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></svg></span>Home</button>
@@ -1534,7 +1435,7 @@ details.help summary{color:#9AAEC4}
 (function(){
 "use strict";
 var KEY = "shopHisab.v1";
-var APP_VERSION = "v22";
+var APP_VERSION = "v20";
 var ACCOUNTS = ["bKash Agent","bKash Personal","bKash Merchant","Nagad Agent","Nagad Personal"];
 var DEFAULT_RATES = {
   "bKash Agent":{ cin:4, cout:3.75 },
@@ -2008,6 +1909,7 @@ function restoreTrash(tid){
 
 /* ---------- render ---------- */
 function render(){
+  try { renderGlobalSearch(); } catch(e){}
   try { renderTrash(); } catch(e){}
   try { renderOwner(); } catch(e){}
   try { fillItemList(); } catch(e){}
@@ -4049,6 +3951,16 @@ var DICT = { bn: {
   "No expense in this period.":"কোনো খরচ নেই।",
   "Which category":"কোন খাত",
   "expense":"খরচ",
+  "Quick add":"দ্রুত এন্ট্রি",
+  "Sale":"বিক্রি",
+  "Cash in":"ক্যাশ ইন",
+  "Cash out":"ক্যাশ আউট",
+  "Baki khata":"বাকি খাতা",
+  "Baki":"বাকি",
+  "Nothing found":"কিছু পাওয়া যায়নি",
+  "More results":"আরও ফলাফল",
+  "Quick amount - tap to add":"দ্রুত টাকা",
+  "Search everything - item, name, note, amount":"সব খুঁজুন",
   "Repeat last sale":"শেষ বিক্রি আবার","Repeat last entry":"শেষ এন্ট্রি আবার","Repeat last flexiload":"শেষ ফ্লেক্সিলোড আবার","Repeat last expense":"শেষ খরচ আবার","Old price filled in":"আগের দাম বসানো হলো","Last sale copied - change what you need":"শেষ বিক্রি কপি হলো - দরকার মতো বদলান","Last entry copied - change what you need":"শেষ এন্ট্রি কপি হলো - দরকার মতো বদলান","Last flexiload copied - change what you need":"শেষ ফ্লেক্সিলোড কপি হলো - দরকার মতো বদলান","Last expense copied - change what you need":"শেষ খরচ কপি হলো - দরকার মতো বদলান","No sale saved yet":"এখনো কোনো বিক্রি সেভ হয়নি","No entry saved yet":"এখনো কোনো এন্ট্রি সেভ হয়নি","No flexiload saved yet":"এখনো কোনো ফ্লেক্সিলোড সেভ হয়নি","No expense saved yet":"এখনো কোনো খরচ সেভ হয়নি","Pick a wallet, not Cash":"ওয়ালেট বাছুন, নগদ নয়"} };
 var SNAP = null;
 function _t(s){
@@ -4158,13 +4070,9 @@ function buildDetailSegs(){
 function syncFab(){
   var f = $("fabAdd");
   if(!f) return;
-  var v = document.getElementById("view-sales");
-  f.classList.toggle("hide", !!(v && v.classList.contains("active")));
+  f.classList.remove("hide");
 }
-$("fabAdd").addEventListener("click", function(){
-  go("sales");
-  setTimeout(function(){ try { $("sItem").focus(); } catch(e){} syncFab(); }, 60);
-});
+$("fabAdd").addEventListener("click", function(){ try { openQuickSheet(); } catch(e){} });
 $("tabs").addEventListener("click", function(){ setTimeout(syncFab, 40); });
 Array.prototype.slice.call(document.querySelectorAll("#qActs .qa")).forEach(function(b){
   b.addEventListener("click", function(){
@@ -4202,6 +4110,145 @@ fillSettings(); fillBackup(); fillLock(); salePreview(); adjPreview(); refreshCo
 try { syncFab(); } catch(e){}
 if(lockCfg().on && lockCfg().pin) showLock();
 setInterval(function(){ try { renderAlerts(); } catch(e){} }, 60000);
+
+/* ---------- smart shortcuts + global search (v20) ---------- */
+var QUICK_EXP = [20,50,100,200,500];
+try { fillQuickRow("eQuick", QUICK_EXP, "eAmount", function(){}); } catch(e){}
+var CHIP_HOLDER = { sales:"salesRange", bank:"bankRange", exp:"expRange", flexi:"flexiRange" };
+function openQuickSheet(){ var m = $("quickSheet"); if(m) m.classList.add("show"); }
+function closeQuickSheet(){ var m = $("quickSheet"); if(m) m.classList.remove("show"); }
+function focusSoon(id){ setTimeout(function(){ try { $(id).focus(); } catch(e){} }, 110); }
+function quickJump(kind){
+  closeQuickSheet();
+  if(kind === "sale"){ go("sales"); focusSoon("sItem"); }
+  else if(kind === "cashin" || kind === "cashout"){
+    go("bank");
+    setTimeout(function(){
+      try { $("segMB").click(); } catch(e){}
+      try { $("bType").value = (kind === "cashin") ? "cashin" : "cashout"; commEdited = false; refreshComm(); bankPreview(); } catch(e){}
+      try { $("bAmount").focus(); } catch(e){}
+    }, 70);
+  }
+  else if(kind === "flexi"){ go("bank"); setTimeout(function(){ try { $("segFL").click(); } catch(e){} try { $("fA").focus(); } catch(e){} }, 70); }
+  else if(kind === "expense"){ go("expense"); focusSoon("eAmount"); }
+  else if(kind === "due"){ go("due"); }
+  try { syncFab(); } catch(e){}
+}
+Array.prototype.slice.call(document.querySelectorAll("#qsGrid button")).forEach(function(b){
+  b.addEventListener("click", function(){ quickJump(b.getAttribute("data-q")); });
+});
+if($("qsClose")) $("qsClose").addEventListener("click", closeQuickSheet);
+if($("quickSheet")) $("quickSheet").addEventListener("click", function(e){ if(e.target === this) closeQuickSheet(); });
+
+function jumpList(view, searchId, q, key, seg){
+  go(view);
+  setTimeout(function(){
+    if(seg){ try { $(seg).click(); } catch(e){} }
+    if(key){ ranges[key] = "all"; try { buildChips(CHIP_HOLDER[key], key); } catch(e){} }
+    var s = $(searchId);
+    if(s) s.value = q;
+    render();
+    try { syncFab(); } catch(e){}
+    try { if(s) s.scrollIntoView({ block:"center" }); } catch(e){}
+  }, 70);
+}
+function gsHit(parts, ql){
+  for(var i = 0; i < parts.length; i++){
+    if(String(parts[i] === undefined || parts[i] === null ? "" : parts[i]).toLowerCase().indexOf(ql) >= 0) return true;
+  }
+  return false;
+}
+function gsRows(q){
+  var ql = q.toLowerCase(), out = [];
+  db.parties.forEach(function(p){
+    if(!gsHit([p.name, p.phone], ql)) return;
+    var bal = partyBalance(p.id);
+    out.push({ kind:"p", rank:0, tag:_t("Baki"), title:p.name || "-",
+      sub:(p.phone ? p.phone + "  " : "") + (bal > 0.004 ? _t("I will get") : (bal < -0.004 ? _t("I will pay") : _t("Clear"))),
+      amt:Math.abs(bal), date:partyLast(p.id) || "",
+      go:function(){ go("due"); setTimeout(function(){ try { openPartyView(p.id); } catch(e){} try { syncFab(); } catch(e){} }, 70); } });
+  });
+  db.sales.forEach(function(x){
+    if(!gsHit([x.item, x.note, x.customer, x.pay, x.sell, x.qty], ql)) return;
+    var qty = num(x.qty) || 1;
+    out.push({ kind:"s", rank:1, tag:_t("Sale"), title:(x.item || _t("Sale")) + (qty > 1 ? " x" + qty : ""),
+      sub:pretty(x.date) + (x.customer ? "  " + x.customer : "") + (x.note ? "  " + x.note : ""),
+      amt:num(x.sell) * qty, date:x.date,
+      go:function(){ jumpList("sales", "sSearch", q, "sales"); } });
+  });
+  db.bank.forEach(function(x){
+    if(!gsHit([x.service, bankLabel(x.type), x.note, x.amount], ql)) return;
+    out.push({ kind:"b", rank:2, tag:x.service || _t("Banking"), title:bankLabel(x.type),
+      sub:pretty(x.date) + (x.note ? "  " + x.note : ""), amt:num(x.amount), date:x.date,
+      go:function(){ jumpList("bank", "bSearch", q, "bank", "segMB"); } });
+  });
+  db.flexi.forEach(function(x){
+    if(!gsHit([x.op, flexiLabel(x.type), x.note, x.a, x.b], ql)) return;
+    out.push({ kind:"f", rank:3, tag:x.op || _t("Flexiload"), title:flexiLabel(x.type),
+      sub:pretty(x.date) + (x.note ? "  " + x.note : ""), amt:num(x.a), date:x.date,
+      go:function(){ jumpList("bank", "fSearch", q, "flexi", "segFL"); } });
+  });
+  db.expenses.forEach(function(x){
+    if(!gsHit([x.cat, x.note, x.from, x.amount], ql)) return;
+    out.push({ kind:"e", rank:4, tag:_t("Expense"), title:x.cat || _t("Expense"),
+      sub:pretty(x.date) + "  " + (x.from || "Cash") + (x.note ? "  " + x.note : ""),
+      amt:num(x.amount), date:x.date,
+      go:function(){ jumpList("expense", "eSearch", q, "exp"); } });
+  });
+  db.adjust.forEach(function(x){
+    if(!gsHit([adjLabel(x), x.note, x.wallet, x.amount], ql)) return;
+    out.push({ kind:"e", rank:5, tag:_t("Move"), title:adjLabel(x),
+      sub:pretty(x.date) + (x.wallet ? "  " + x.wallet : "") + (x.note ? "  " + x.note : ""),
+      amt:num(x.amount), date:x.date,
+      go:function(){ jumpList("expense", "eSearch", q, "exp"); } });
+  });
+  out.sort(function(a, z){
+    if(a.rank !== z.rank && (a.rank === 0 || z.rank === 0)) return a.rank - z.rank;
+    if(a.date !== z.date) return a.date < z.date ? 1 : -1;
+    return a.rank - z.rank;
+  });
+  return out;
+}
+function renderGlobalSearch(){
+  var box = $("gResults");
+  if(!box) return;
+  var q = ($("gSearch").value || "").trim();
+  box.innerHTML = "";
+  if(q.length < 2) return;
+  var rows = gsRows(q);
+  if(!rows.length){
+    var e0 = document.createElement("div");
+    e0.className = "empty"; e0.textContent = _t("Nothing found");
+    box.appendChild(e0);
+    return;
+  }
+  rows.slice(0, 12).forEach(function(r){
+    var d = document.createElement("div");
+    d.className = "item tap";
+    d.innerHTML = "<div class='main'><div class='t'><span class='gtag " + r.kind + "'>" + escapeHtml(r.tag) + "</span>" + escapeHtml(r.title) + "</div><div class='s'>" + escapeHtml(r.sub) + "</div></div><div class='amt'>" + money(r.amt) + "</div>";
+    d.addEventListener("click", r.go);
+    box.appendChild(d);
+  });
+  if(rows.length > 12){
+    var m = document.createElement("div");
+    m.className = "hint"; m.textContent = _t("More results") + ": " + (rows.length - 12);
+    box.appendChild(m);
+  }
+}
+if($("gSearch")) $("gSearch").addEventListener("input", renderGlobalSearch);
+
+function tapJump(sel, fn){
+  var el = document.querySelector(sel);
+  if(!el) return;
+  el.style.cursor = "pointer";
+  el.addEventListener("click", function(){ fn(); try { syncFab(); } catch(e){} });
+}
+tapJump("#view-home .card.bk", function(){ go("bank"); setTimeout(function(){ try { $("segMB").click(); } catch(e){} }, 60); });
+tapJump("#view-home .card.ng", function(){ go("bank"); setTimeout(function(){ try { $("segMB").click(); } catch(e){} }, 60); });
+tapJump("#view-home .card.fl", function(){ go("bank"); setTimeout(function(){ try { $("segFL").click(); } catch(e){} }, 60); });
+tapJump("#view-home .stat.hero.cash", function(){ go("report"); });
+tapJump("#view-home .stat.tr", function(){ go("due"); });
+tapJump("#view-home .stat.tg", function(){ go("due"); });
 
 /* offline service worker (only works when opened from http/https, not file://) */
 if("serviceWorker" in navigator && location.protocol.indexOf("http") === 0){
